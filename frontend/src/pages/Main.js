@@ -33,7 +33,10 @@ const Main = () => {
   const [isCollection, setIsCollection] = useState(false);
 
   // Web3
-  const web3 = new Web3(new Web3.providers.HttpProvider(process.env.REACT_APP_ETHEREUM_RPC_URL));
+  // const web3 = new Web3(new Web3.providers.HttpProvider(process.env.REACT_APP_ETHEREUM_RPC_URL));
+  const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+  web3.eth.getBalance("0xBc2e750F9Cdbd61f880F0879acd3539AF762439C")
+    .then(console.log);
 
   /**
    * [초기 데이터 설정]
