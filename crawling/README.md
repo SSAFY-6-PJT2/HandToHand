@@ -15,7 +15,13 @@ sudo python setup.py install
 
 - 실행 파일 google.py 은 google-images-download 밑에 위치 
 
+- chromedriver.exe 폴더 밑에 위치
+
+  https://chromedriver.chromium.org/home
+
 - google.py 실행
+
+  
 
 ### 3. downloads 폴더에 저장
 
@@ -26,5 +32,6 @@ sudo python setup.py install
  ┣ 📂google_images_download
  ┣ 📜crawl.py // 크롤링 연습 파일
  ┣ 📜google.py // 크롤링 파일
+ ┣ 📜chromedriver.exe // 대용량을 위해 크롬 드라이버 설치
  ┗ 📜setup.py // install 파일 
 ```
