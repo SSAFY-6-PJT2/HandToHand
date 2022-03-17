@@ -21,17 +21,17 @@ app.use('/items', itemsRouter);
 app.use('/sales', salesRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res) {
-	res.status(404);
-	res.send(createError(404));
+app.use(function (req, res) {
+  res.status(404);
+  res.send(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res) {
-	res.locals.message = err.message;
-	res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use(function (err, req, res) {
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-	res.status(err.status || 500);
+  res.status(err.status || 500);
 });
 
 module.exports = app;
