@@ -5,9 +5,8 @@
 const connection = require('../../config/connection').promise();
 
 class ItemsRepository {
-
-	async getItems() {
-		const sql = `
+  async getItems() {
+    const sql = `
 			SELECT 		author_name,
 						item_description,
 						item_hash,
@@ -20,47 +19,86 @@ class ItemsRepository {
 			WHERE 		on_sale_yn = TRUE
 			ORDER BY    created_at DESC
 		`;
-		console.debug(sql);
+    console.debug(sql);
 
-		return await connection.query(sql)
-			.then(data => data[0])
-			.catch((e) => {
-				console.error(e);
-				throw e;
-			});
-	}
+    return await connection
+      .query(sql)
+      .then((data) => data[0])
+      .catch((e) => {
+        console.error(e);
+        throw e;
+      });
+  }
 
-	async getItemsByOwnerAddress(address) {
-		return null;
-	}
+  async getItemsByOwnerAddress(address) {
+    return null;
+  }
 
-	async getRecentRegisteredItem() {
-		return null;
-	}
+  async getRecentRegisteredItem() {
+    return null;
+  }
 
-	async getRecentItemsOnSale() {
-		return null;
-	}
+  async getRecentItemsOnSale() {
+    return null;
+  }
 
-	async getItemByTokenId(tokenId) {
-		return null;
-	}
+  async getItemByTokenId(tokenId) {
+    return null;
+  }
 
-	async updateItemOwnerAddress(tokenId, ownerAddress) {
-		return null;
-	}
+  async updateItemOwnerAddress(tokenId, ownerAddress) {
+    return null;
+  }
 
-	async updateItemTokenIdAndOwnerAddress(itemId, tokenId, ownerAddress) {
-		return null;
-	}
+  async updateItemTokenIdAndOwnerAddress(itemId, tokenId, ownerAddress) {
+    const sql =
+      'UPDATE ' +
+      'items ' +
+      `SET token_id =` +
+      connection.escape(tokenId) +
+      `, owner_address = ` +
+      connection.escape(ownerAddress) +
+      ` WHERE id = ` +
+      connection.escape(parseInt(itemId));
+    console.debug(sql);
 
-	async validateItemDuplicated(hashCode) {
-		return null;
-	}
+    return await connection
+      .query(sql)
+      .then((data) => data[0])
+      .catch((e) => {
+        console.error(e);
+        throw e;
+      });
+  }
 
-	async createItems(data) {
-		return null;
-	}
+  async validateItemDuplicated(hashCode) {
+    return null;
+  }
+
+  async createItems(data) {
+    console.log(`author  ` + data.author_name);
+    const sql =
+      'INSERT INTO ' +
+      'items (author_name,item_description,item_title,created_at) ' +
+      `VALUES (` +
+      connection.escape(data.author_name) +
+      `,` +
+      connection.escape(data.item_description) +
+      `,` +
+      connection.escape(data.item_title) +
+      `, current_date()` +
+      // connection.escape(new Date().getTime()) +
+      `)`;
+    console.debug(sql);
+
+    return await connection
+      .query(sql)
+      .then((data) => data[0])
+      .catch((e) => {
+        console.error(e);
+        throw e;
+      });
+  }
 }
 
 module.exports = ItemsRepository;
