@@ -15,9 +15,9 @@ contract("NftCreator", (accounts) => {
 
         // TODO
         // 다음이 반드시 테스트되어야 합니다.
-        // assert.equal(sender, owner, "NFT Mint Failed");
-        // assert.equal(receiver, owner, "NFT Transfer Failed.");
-        // assert.equal(tokenURI, tokenURIFetched, "Wrong Token Id or URI.")
+        assert.equal(sender, owner, "NFT Mint Failed");
+        assert.equal(receiver, owner, "NFT Transfer Failed.");
+        assert.equal(tokenURI, tokenURIFetched, "Wrong Token Id or URI.")
     });
 
 });
