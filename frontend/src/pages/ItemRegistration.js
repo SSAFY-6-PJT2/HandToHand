@@ -11,7 +11,7 @@ import {
   Modal,
   Stack,
   TextField,
-  Typography
+  Typography,
 } from '@mui/material';
 import { Form, FormikProvider, useFormik } from 'formik';
 import { useState, useRef } from 'react';
@@ -45,12 +45,14 @@ const ItemRegistration = () => {
   const [isComplete, setIsComplete] = useState(false);
 
   // Web3
-  const web3 = new Web3(new Web3.providers.HttpProvider(process.env.REACT_APP_ETHEREUM_RPC_URL));
+  const web3 = new Web3(
+    new Web3.providers.HttpProvider(process.env.REACT_APP_ETHEREUM_RPC_URL),
+  );
 
   // 타이핑 헬퍼
   const typeSchema = Yup.object().shape({
     author: Yup.string().required('작가명을 입력해주세요.'),
-    title: Yup.string().required('제목을 입력해주세요.')
+    title: Yup.string().required('제목을 입력해주세요.'),
   });
 
   // 입력 데이터 처리
@@ -58,14 +60,14 @@ const ItemRegistration = () => {
     initialValues: {
       author: '',
       title: '',
-      description: ''
+      description: '',
     },
     validationSchema: typeSchema,
     onSubmit: (value) => {
       setAuthor(value.author);
       setTitle(value.title);
       setDescription(value.description);
-    }
+    },
   });
   const { errors, touched, handleSubmit, handleReset, getFieldProps } = formik;
 
@@ -93,9 +95,9 @@ const ItemRegistration = () => {
   };
 
   /**
-   * PJT Ⅱ - 과제 1: 작품 등록 및 NFT 생성 
-   * Req.1-F1 작품 등록 화면 및 등록 요청 
-   * 
+   * PJT Ⅱ - 과제 1: 작품 등록 및 NFT 생성
+   * Req.1-F1 작품 등록 화면 및 등록 요청
+   *
    * 구현 예)
    * 1. 아이템 업로드 및 모든 정보가 입력되면 등록 승인을 위한 모달창이 열립니다.
    * 2. 해당 모달 창에서 개인키를 입력하면 getAddressFrom() 함수를 통해 공개키가 반환되며, 공개키가 유효한 경우 작가명, 제목,
@@ -103,10 +105,28 @@ const ItemRegistration = () => {
    * 3. 만들어진 formData는 아이템 등록 API를 통해 전달되고, 정상적으로 반영된 경우 이미지의 링크와 item ID를 반환 받습니다.
    * 4. 이후 공개키와 생성된 item ID, 이미지 링크를 이용해 NFT 생성을 위한 함수를 호출합니다.
    * 정상적으로 트랜잭션이 완결된 후 token Id가 반환됩니다.
-   * 5. 정상 동작 시 token Id와 owner_address를 백엔드에 업데이트 요청합니다.  
+   * 5. 정상 동작 시 token Id와 owner_address를 백엔드에 업데이트 요청합니다.
    */
   const addItem = async () => {
     // TODO
+    const data = new formData();
+    data.append('author_name', author);
+    data.append('item_description', description);
+    data.append('item_title', title);
+    await axios({
+      method: 'post',
+      url: 'http://localhost:5000/items',
+      data: data,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -118,7 +138,12 @@ const ItemRegistration = () => {
           </Typography>
 
           <FormikProvider value={formik}>
-            <Form autoComplete="off" noValidate onSubmit={handleSubmit} onReset={handleReset}>
+            <Form
+              autoComplete="off"
+              noValidate
+              onSubmit={handleSubmit}
+              onReset={handleReset}
+            >
               <Stack spacing={3}>
                 <Stack direction="row" alignItems="center">
                   <input
@@ -126,7 +151,9 @@ const ItemRegistration = () => {
                     accept="image/png, image/jpeg, image/jpg, image/gif"
                     ref={itemSelect}
                     onChange={(e) =>
-                      e.target.files.length !== 0 ? handleItem(e.target.files[0]) : handleItem('')
+                      e.target.files.length !== 0
+                        ? handleItem(e.target.files[0])
+                        : handleItem('')
                     }
                     style={{ display: 'none' }}
                   />
@@ -183,7 +210,9 @@ const ItemRegistration = () => {
                   type="submit"
                   variant="contained"
                   onClick={
-                    Object.keys(touched).length && !Object.keys(errors).length && item.length !== 0
+                    Object.keys(touched).length &&
+                    !Object.keys(errors).length &&
+                    item.length !== 0
                       ? toggleApprove
                       : null
                   }
@@ -200,7 +229,7 @@ const ItemRegistration = () => {
                       borderColor: 'grey.main',
                       backgroundColor: '#ffffff',
                       top: '25%',
-                      left: '30%'
+                      left: '30%',
                     }}
                   >
                     <Box>
@@ -227,7 +256,11 @@ const ItemRegistration = () => {
                             />
                           </Stack>
                           <Divider sx={{ mt: 4 }} />
-                          <Stack direction="row" sx={{ mt: 3, mb: 3 }} justifyContent="center">
+                          <Stack
+                            direction="row"
+                            sx={{ mt: 3, mb: 3 }}
+                            justifyContent="center"
+                          >
                             {loading === false ? (
                               <Button
                                 size="large"
@@ -278,7 +311,11 @@ const ItemRegistration = () => {
                 />
               </motion.div>
 
-              <Stack direction="row" justifyContent="space-between" sx={{ ml: 5, mr: 5 }}>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                sx={{ ml: 5, mr: 5 }}
+              >
                 <Button
                   to="/"
                   size="large"
