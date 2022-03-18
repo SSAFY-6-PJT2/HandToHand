@@ -102,6 +102,7 @@ const ItemRegistration = () => {
    * 1. 아이템 업로드 및 모든 정보가 입력되면 등록 승인을 위한 모달창이 열립니다.
    * 2. 해당 모달 창에서 개인키를 입력하면 getAddressFrom() 함수를 통해 공개키가 반환되며, 공개키가 유효한 경우 작가명, 제목,
    * 아이템 소개 정보를 인코딩하여 formData에 아이템의 이미지와 함께 append 합니다.
+   * @개인키 0x122226fb09f7d1c3d313f02e79f134aa36f0981602c438543fe9bb1105e1104a
    * 3. 만들어진 formData는 아이템 등록 API를 통해 전달되고, 정상적으로 반영된 경우 이미지의 링크와 item ID를 반환 받습니다.
    * 4. 이후 공개키와 생성된 item ID, 이미지 링크를 이용해 NFT 생성을 위한 함수를 호출합니다.
    * 정상적으로 트랜잭션이 완결된 후 token Id가 반환됩니다.
@@ -109,7 +110,8 @@ const ItemRegistration = () => {
    */
   const addItem = async () => {
     // TODO
-    const data = new formData();
+    const data = new FormData();
+    data.append('image', item);
     data.append('author_name', author);
     data.append('item_description', description);
     data.append('item_title', title);
