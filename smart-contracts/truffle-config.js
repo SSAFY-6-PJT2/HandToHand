@@ -23,6 +23,12 @@
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
 
+const PrivateKeyProvider = require('@truffle/hdwallet-provider');
+const privateKey = [
+  '0xe20c61798cad4c6edb27c902e3592d9c0f92983239fef77f334a3701e7bad767',
+];
+const privateKeyProvider = new PrivateKeyProvider(privateKey, 'http://20.196.209.2:8545');
+
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -40,12 +46,21 @@ module.exports = {
     // You should run a client (like ganache-cli, geth or parity) in a separate terminal
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
+
     // e.g., 가나슈 환경 
-     development: {
-      host: "127.0.0.1",     // Localhost (default: none)
-      port: 8545,            // Standard Ethereum port (default: none)
-      network_id: "*",       // Any network (default: none)
-     },
+    development: {
+    host: "127.0.0.1",     // Localhost (default: none)
+    port: 8545,            // Standard Ethereum port (default: none)
+    network_id: "*",       // Any network (default: none)
+    },
+
+    // Hyperledger Besu
+    ssafy: {
+      provider: privateKeyProvider,
+      network_id: "*",
+      chainId: 31221
+    },
+
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port
