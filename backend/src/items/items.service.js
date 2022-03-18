@@ -2,8 +2,8 @@
  * Services Logics related to Digital Assets(item)
  * Service/Repository 레이어의 함수를 호출해야합니다.
  */
-const ItemsRepository = require('./items.repository');
-const { getS3List, deleteS3Object } = require('../../config/s3-config');
+const ItemsRepository = require("./items.repository");
+const { getS3List, deleteS3Object } = require("../../config/s3-config");
 const itemRepository = new ItemsRepository();
 
 class ItemsService {
@@ -16,16 +16,16 @@ class ItemsService {
    */
   async createItems(req) {
     const image = req.file.location;
-    console.log('req  ' + req.author_name);
+    console.log("req  " + req.author_name);
     // console.log(await getS3List());
     const response = await itemRepository.createItems(req.body);
-    console.log('response' + response);
+    console.log("response" + response);
     console.log(response);
     console.log(await itemRepository.getItems());
     return {
       statusCode: 201,
       responseBody: {
-        result: 'success',
+        result: "success",
         itemId: response.insertId,
       },
     };
@@ -43,7 +43,7 @@ class ItemsService {
     return {
       statusCode: 200,
       responseBody: {
-        result: 'success',
+        result: "success",
       },
     };
   }
@@ -58,11 +58,18 @@ class ItemsService {
    * Req.4-B2 주소가 보유한 작품 목록 조회
    */
   async getItems(address) {
+    var response;
+    if (!address) {
+      response = await itemRepository.getItems();
+    } else {
+      response = await itemRepository.getItemsByOwnerAddress(address);
+    }
+    console.log(response);
     return {
       statusCode: 200,
       responseBody: {
-        result: 'success',
-        data: [],
+        result: "success",
+        data: response,
       },
     };
   }
@@ -75,7 +82,7 @@ class ItemsService {
     return {
       statusCode: 200,
       responseBody: {
-        result: 'success',
+        result: "success",
         data: [],
       },
     };
@@ -86,11 +93,12 @@ class ItemsService {
    * Req.2-B3 작품 상세 조회
    */
   async getItemByTokenId(tokenId) {
+    const response = await itemRepository.getItemByTokenId(tokenId);
     return {
       statusCode: 200,
       responseBody: {
-        result: 'success',
-        data: [],
+        result: "success",
+        data: response,
       },
     };
   }
@@ -100,7 +108,7 @@ class ItemsService {
       return {
         statusCode: 200,
         responseBody: {
-          result: 'success',
+          result: "success",
         },
       };
     }
