@@ -2,7 +2,7 @@
  * items table Manipulations
  * items 테이블에 접근합니다.
  */
-const connection = require('../../config/connection').promise();
+const connection = require("../../config/connection").promise();
 
 class ItemsRepository {
   async getItems() {
@@ -16,7 +16,7 @@ class ItemsRepository {
 						token_id,
 						created_at as items_create_at
 			FROM    	items
-			WHERE 		on_sale_yn = TRUE
+			WHERE 		on_sale_yn = 0
 			ORDER BY    created_at DESC
 		`;
     console.debug(sql);
@@ -31,7 +31,31 @@ class ItemsRepository {
   }
 
   async getItemsByOwnerAddress(address) {
-    return null;
+    const sql =
+      `
+			SELECT 		author_name,
+						item_description,
+						item_hash,
+						item_title,
+						on_sale_yn,
+						owner_address,
+						token_id,
+						created_at as items_create_at
+			FROM    	items
+			WHERE 		owner_address = ` +
+      connection.escape(address) +
+      `
+			ORDER BY    created_at DESC
+		`;
+    console.debug(sql);
+
+    return await connection
+      .query(sql)
+      .then((data) => data[0])
+      .catch((e) => {
+        console.error(e);
+        throw e;
+      });
   }
 
   async getRecentRegisteredItem() {
@@ -43,7 +67,31 @@ class ItemsRepository {
   }
 
   async getItemByTokenId(tokenId) {
-    return null;
+    const sql =
+      `
+			SELECT 		author_name,
+						item_description,
+						item_hash,
+						item_title,
+						on_sale_yn,
+						owner_address,
+						token_id,
+						created_at as items_create_at
+			FROM    	items
+			WHERE 		token_id = ` +
+      connection.escape(tokenId) +
+      `
+			ORDER BY    created_at DESC
+		`;
+    console.debug(sql);
+
+    return await connection
+      .query(sql)
+      .then((data) => data[0])
+      .catch((e) => {
+        console.error(e);
+        throw e;
+      });
   }
 
   async updateItemOwnerAddress(tokenId, ownerAddress) {
@@ -52,8 +100,8 @@ class ItemsRepository {
 
   async updateItemTokenIdAndOwnerAddress(itemId, tokenId, ownerAddress) {
     const sql =
-      'UPDATE ' +
-      'items ' +
+      "UPDATE " +
+      "items " +
       `SET token_id =` +
       connection.escape(tokenId) +
       `, owner_address = ` +
@@ -78,8 +126,8 @@ class ItemsRepository {
   async createItems(data) {
     console.log(`author  ` + data.author_name);
     const sql =
-      'INSERT INTO ' +
-      'items (author_name,item_description,item_title,created_at) ' +
+      "INSERT INTO " +
+      "items (author_name,item_description,item_title,created_at) " +
       `VALUES (` +
       connection.escape(data.author_name) +
       `,` +
