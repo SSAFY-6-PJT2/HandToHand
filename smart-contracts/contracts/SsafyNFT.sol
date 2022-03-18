@@ -25,6 +25,10 @@ contract SsafyNFT is ERC721 {
     //     // TODO
     // }
 
+    function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
+        return tokenURIs[tokenId];
+    }
+
     function create(address to, string memory _tokenURI) public returns (uint256) {
         _tokenIds.increment();
 
