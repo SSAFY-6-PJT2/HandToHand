@@ -109,12 +109,20 @@ const ItemRegistration = () => {
    * 5. 정상 동작 시 token Id와 owner_address를 백엔드에 업데이트 요청합니다.
    */
   const addItem = async () => {
-    // TODO
+    // 지갑 주소
+    const walletAddress = getAddressFrom(privKey);
+
+    // 컨트랙트 주소
+    const contractAddress = '0xb9079874bBa443A7fF44E241d207222010196C4B';
+
+    // 백엔드에 전송할 FormData
     const data = new FormData();
     data.append('image', item);
     data.append('author_name', author);
     data.append('item_description', description);
     data.append('item_title', title);
+
+    // 백엔드에 이미지 저장 요청
     await axios({
       method: 'post',
       url: 'http://localhost:5000/items',
@@ -123,8 +131,29 @@ const ItemRegistration = () => {
         'Content-Type': 'multipart/form-data',
       },
     })
-      .then((res) => {
+      .then(async (res) => {
         console.log(res);
+        setTokenId(res.data.itemId);
+
+        // 트랜잭션 호출
+        // 컨트랙트 인스턴스
+        const contractInstance = new web3.eth.Contract(
+          COMMON_ABI.CONTRACT_ABI.NFT_ABI,
+          contractAddress,
+        );
+
+        // 컨트랙트 함수
+        const contractMethod = contractInstance.methods.create(
+          walletAddress,
+          res.data.imageUrl,
+        );
+
+        sendTransaction(
+          walletAddress,
+          privKey,
+          contractAddress,
+          contractMethod,
+        );
       })
       .catch((err) => {
         console.log(err);
