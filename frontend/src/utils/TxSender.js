@@ -17,9 +17,11 @@ const web3 = new Web3(
  * @returns 트랜잭션의 결과
  */
 export default async function sendTransaction(fromAddr, privKey, toAddr, data) {
+  const gas = await data.estimateGas({ from: fromAddr });
+
   // 트랜잭션 객체
   const tx = {
-    gas: '1000000',
+    gas: gas,
     to: toAddr,
     data: data.encodeABI(),
   };

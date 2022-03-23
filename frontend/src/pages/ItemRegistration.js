@@ -127,12 +127,12 @@ const ItemRegistration = () => {
     }).then(async (res) => {
       // 유저 주소
       const address = getAddressFrom(privKey);
-      // 컨트랙트
+      // 스마트 컨트랙트 인스턴스
       const contract = new web3.eth.Contract(
         COMMON_ABI.CONTRACT_ABI.NFT_ABI,
         process.env.REACT_APP_NFT_CA,
       );
-      // 함수 정보
+      // 스마트 컨트랙트의 함수 정보
       const sendData = contract.methods.create(address, res.data.imageUrl);
       // 트랜잭션 보내기
       const result = await sendTransaction(
