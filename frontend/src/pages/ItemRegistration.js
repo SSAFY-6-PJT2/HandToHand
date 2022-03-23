@@ -124,95 +124,26 @@ const ItemRegistration = () => {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-    })
-      .then(async (res) => {
-        console.log(res);
-        setTokenId(res.data.itemId);
-
-        // 지갑 주소
-        const walletAddress = getAddressFrom(privKey);
-        const walletAccount = web3.eth.accounts.privateKeyToAccount(privKey);
-
-        // 컨트랙트 주소
-        const contractAddress = '0xb9079874bBa443A7fF44E241d207222010196C4B';
-
-        // 컨트랙트 인스턴스
-        const myContract = new web3.eth.Contract(
-          COMMON_ABI.CONTRACT_ABI.NFT_ABI,
-          contractAddress,
-        );
-
-        myContract.methods
-          .current()
-          .call()
-          .then((res) => {
-            console.log(res);
-          });
-
-        // 실행할 메서드 정보
-        const contractMethod = myContract.methods.create(
-          walletAddress,
-          res.data.imageUrl,
-        );
-
-        const contractEncodedMethod = contractMethod.encodeABI();
-
-        (async () => {
-          const gasEstimate = await contractMethod.estimateGas({
-            from: walletAddress,
-          });
-
-          const rawTx = {
-            from: walletAddress,
-            to: contractAddress,
-            gas: gasEstimate,
-            data: contractEncodedMethod,
-          };
-
-          console.log(rawTx);
-
-          walletAccount
-            .signTransaction(rawTx)
-            .then((signedTx) => {
-              let tran = web3.eth.sendSignedTransaction(
-                signedTx.rawTransaction,
-              );
-              tran.on('confirmation', async (confirmationNumber, receipt) => {
-                try {
-                  // 3회 이상 컨펌시 더이상 Confirmation 이벤트 추적 안함
-                  if (confirmationNumber > 2) {
-                    tran.off('confirmation');
-                    throw new Error('ConfirmCompletedException');
-                  }
-                  // 여기까진 잘 나온다 = 트랜잭션은 성공
-                  console.log(receipt);
-
-                  console.log('Confirm #' + confirmationNumber);
-
-                  // current() 함수를 호출하면 에러 발생.. 왜?
-                  const id = await myContract.methods.current().call();
-                  id.on('receipt', console.log);
-
-                  console.log(Name, TokenURI);
-                } catch (err) {
-                  if (err instanceof TypeError)
-                    console.error('예외: 타입 에러', err);
-                  if (err instanceof Error) {
-                    if (err.message == 'ConfirmCompletedException')
-                      console.error('예외: 컨펌 완료');
-                    else console.error('예외: 알 수 없는 에러', err);
-                  }
-                }
-              });
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        })();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    }).then(async (res) => {
+      // 유저 주소
+      const address = getAddressFrom(privKey);
+      // 컨트랙트
+      const contract = new web3.eth.Contract(
+        COMMON_ABI.CONTRACT_ABI.NFT_ABI,
+        process.env.REACT_APP_NFT_CA,
+      );
+      // 함수 정보
+      const sendData = contract.methods.create(address, res.data.imageUrl);
+      // 트랜잭션 보내기
+      const result = await sendTransaction(
+        address,
+        privKey,
+        process.env.REACT_APP_NFT_CA,
+        sendData,
+      );
+      // 결과 확인
+      console.log(result);
+    });
   };
 
   return (

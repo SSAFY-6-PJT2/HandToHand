@@ -1,6 +1,5 @@
 import Web3 from 'web3';
 import Tx from 'ethereumjs-tx';
-import COMMON_ABI from '../common/ABI';
 import { formControlUnstyledClasses } from '@mui/base';
 
 // Web3
@@ -18,27 +17,26 @@ const web3 = new Web3(
  * @returns 트랜잭션의 결과
  */
 export default async function sendTransaction(fromAddr, privKey, toAddr, data) {
-  try {
-    console.dir(data);
-    const walletAccount = web3.eth.accounts.privateKeyToAccount(privKey);
-
-    // const gas = await data.estimateGas({ from: fromAddr });
-
-    const rawTx = {
-      from: fromAddr,
-      to: toAddr,
-      gas: '1000000',
-      data: data.encodeABI(),
-    };
-
-    await walletAccount.signTransaction(rawTx).then(async (signedTx) => {
-      await web3.eth
-        .sendSignedTransaction(signedTx.rawTransaction)
-        .once('receipt', (receipt) => {
-          console.info('receipt', receipt);
-        });
-    });
-  } catch (e) {
-    console.log(e);
-  }
+  // 트랜잭션 객체
+  const tx = {
+    gas: '1000000',
+    to: toAddr,
+    data: data.encodeABI(),
+  };
+  // 서명
+  await web3.eth.accounts.signTransaction(tx, privKey).then(async (rawTx) => {
+    // 트랜잭션 보내기
+    await web3.eth
+      .sendSignedTransaction(rawTx.rawTransaction)
+      .once('receipt', (receipt) => {
+        // 트랜잭션 결과 확인
+        console.log(receipt);
+      });
+  });
+  // 함수 반환 값을 result에 저장
+  let result = null;
+  await data.call().then((res) => {
+    result = res;
+  });
+  return result;
 }
