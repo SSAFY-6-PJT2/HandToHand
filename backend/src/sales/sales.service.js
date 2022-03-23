@@ -13,6 +13,7 @@ class SalesService {
    * Req.2-B1 판매 정보 등록
    */
   async createSales(data) {
+    const response = await salesRepository.createSales(data);
     return {
       statusCode: 201,
       responseBody: {
@@ -26,11 +27,13 @@ class SalesService {
    * Req.2-B2 판매 정보 상세 조회
    */
   async getSales(tokenId) {
+    const response = await salesRepository.getSalesByTokenId(tokenId);
+
     return {
       statusCode: 200,
       responseBody: {
         result: "success",
-        data: [],
+        data: [response],
       },
     };
   }

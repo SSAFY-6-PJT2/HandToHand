@@ -16,12 +16,12 @@ class ItemsService {
    */
   async createItems(req) {
     const image = req.file.location;
-    console.log("req  " + req.author_name);
+    // console.log("req  " + req.author_name);
     // console.log(await getS3List());
     const response = await itemRepository.createItems(req.body);
-    console.log("response" + response);
-    console.log(response);
-    console.log(await itemRepository.getItems());
+    // console.log("response" + response);
+    // console.log(response);
+    // console.log(await itemRepository.getItems());
     return {
       statusCode: 201,
       responseBody: {
