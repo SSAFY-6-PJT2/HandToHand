@@ -79,6 +79,7 @@ class ItemsService {
    * Req.4-B3 최근 등록 작품 조회
    */
   async getRecentItems() {
+    const response = await itemRepository.getRecentRegisteredItem();
     return {
       statusCode: 200,
       responseBody: {
