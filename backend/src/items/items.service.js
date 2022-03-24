@@ -84,7 +84,7 @@ class ItemsService {
       statusCode: 200,
       responseBody: {
         result: 'success',
-        data: [],
+        data: response,
       },
     };
   }

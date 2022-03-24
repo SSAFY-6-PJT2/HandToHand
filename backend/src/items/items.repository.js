@@ -95,17 +95,18 @@ class ItemsRepository {
 
   async getRecentRegisteredItem() {
     const sql = `
-			SELECT 		author_name,
-						item_description,
-						item_hash,
-						item_title,
-						on_sale_yn,
-						owner_address,
-						token_id,
-						created_at as items_create_at
-			FROM    	items,(SELECT token_id,created_at FROM sales ORDER BY creaed_at DESC limit 1) as S
-			WHERE 		on_sale_yn = 1 and items.token_id = S.token_id
-		`;
+    	SELECT 		author_name,
+    				item_description,
+    				item_hash,
+    				item_title,
+    				on_sale_yn,
+    				owner_address,
+    				items.token_id,
+    				created_at as items_create_at
+    	FROM    	items,(SELECT token_id FROM sales ORDER BY created_at DESC limit 1) as S
+    	WHERE 		on_sale_yn = 1 and items.token_id = S.token_id
+    `;
+    // const sql = 'SELECT token_id,created_at FROM sales ORDER BY created_at DESC limit 1';
     console.debug(sql);
     return await connection
       .query(sql)

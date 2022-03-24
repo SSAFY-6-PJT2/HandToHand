@@ -2,33 +2,83 @@
  * sales table Manipulations
  * sales 테이블에 접근합니다.
  */
-const connection = require('../../config/connection').promise();
+const connection = require("../../config/connection").promise();
 
 class SalesRepository {
+  async createSales(data) {
+    const sql =
+      `
+      INSERT INTO 
+      sales (token_id, seller_address, sale_contract_address, cash_contract_address)
+      VALUES(
+        ` +
+      connection.escape(data.token_id) +
+      `
+        , ` +
+      connection.escape(data.seller_address) +
+      `
+        , ` +
+      connection.escape(data.sale_contract_address) +
+      `
+        , ` +
+      connection.escape(data.cash_contract_address) +
+      `
+      );
+      UPDATE
+      items
+      SET on_sale_yn = 1
+      WHERE token_id = ` +
+      connection.escape(data.token_id) +
+      ";";
+    return await connection
+      .query(sql)
+      .then((data) => data[0])
+      .catch((e) => {
+        console.error(e);
+        // throw e;
+      });
+  }
 
-	async createSales(data) {
-		return true;
-	}
+  async getSalesByTokenId(tokenId) {
+    const sql =
+      `
+			SELECT 		buyer_address,
+						cash_contract_address,
+						completed_at,
+						created_at,
+						sale_contract_address,
+						sale_id,
+						sale_yn,
+            seller_address,
+            token_id
+			FROM    	sales
+			WHERE 		token_id = ` +
+      connection.escape(tokenId) +
+      `
+			ORDER BY    created_at DESC
+		`;
+    console.log(sql);
 
-	async getSalesByTokenId(tokenId) {
-		return null;
-	}
+    return await connection
+      .query(sql)
+      .then((data) => data[0])
+      .catch((e) => {
+        console.error(e);
+        throw e;
+      });
+  }
 
-	async getSales() {
-		return null;
-	}
+  async getSales() {
+    return null;
+  }
 
-	async deleteSales(saleId) {
-		return null;
-	}
+  async deleteSales(saleId) {
+    return null;
+  }
 
-	async completeSales(tokenId, data) {
-		return null;
-	}
+  async completeSales(tokenId, data) {
+    return null;
+  }
 }
 
 module.exports = SalesRepository;
-
-
-
-
