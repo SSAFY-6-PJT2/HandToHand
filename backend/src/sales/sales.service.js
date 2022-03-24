@@ -44,6 +44,7 @@ class SalesService {
    * Req.3-B3 판매 완료
    */
   async completeSales(tokenId, data) {
+    const response = await salesRepository.completeSales(tokenId, data);
     return {
       statusCode: 200,
       responseBody: {
@@ -56,7 +57,8 @@ class SalesService {
    * PJT Ⅲ 과제 3:
    * Req.3-B2 판매 취소
    */
-  async deleteSales(saleId) {
+  async deleteSales(saleId, data) {
+    const response = await salesRepository.deleteSales(saleId, data);
     return {
       statusCode: 201,
       responseBody: {

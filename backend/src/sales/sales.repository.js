@@ -72,12 +72,50 @@ class SalesRepository {
     return null;
   }
 
-  async deleteSales(saleId) {
-    return null;
+  async deleteSales(saleId, data) {
+    // UPDATE
+    //   FROM
+    //   items
+    //   WHERE
+    //   token_id = ` +
+    //   connection.escape(data.token_id) +
+    //   `;
+    const sql =
+      `
+    DELETE
+    FROM
+    sales
+    WHERE sale_id = ` +
+      connection.escape(saleId) +
+      ";";
+
+    return await connection
+      .query(sql)
+      .then((data) => data[0])
+      .catch((e) => {
+        console.error(e);
+        throw e;
+      });
   }
 
   async completeSales(tokenId, data) {
-    return null;
+    const sql =
+      `
+      UPDATE
+      sales
+      SET buyer_address = ` +
+      connection.escape(data.buyer_address) +
+      `
+      WHERE token_id = ` +
+      connection.escape(tokenId) +
+      ";";
+    return await connection
+      .query(sql)
+      .then((data) => data[0])
+      .catch((e) => {
+        console.error(e);
+        throw e;
+      });
   }
 }
 
