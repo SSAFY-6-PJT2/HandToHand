@@ -33,9 +33,9 @@ const Main = () => {
   const [isCollection, setIsCollection] = useState(false);
 
   // Web3
-  // const web3 = new Web3(new Web3.providers.HttpProvider(process.env.REACT_APP_ETHEREUM_RPC_URL));
-  const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
-  web3.eth.getBalance("0xBc2e750F9Cdbd61f880F0879acd3539AF762439C")
+  const web3 = new Web3(new Web3.providers.HttpProvider(process.env.REACT_APP_ETHEREUM_RPC_URL));
+  // const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+  web3.eth.getBalance("0x4135f8fD42c98cAb53883863b6b80A7AA806e0E9")
     .then(console.log);
 
   /**

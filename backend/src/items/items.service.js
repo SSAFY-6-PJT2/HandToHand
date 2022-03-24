@@ -15,7 +15,7 @@ class ItemsService {
    *
    */
   async createItems(req) {
-    const image = req.file.location;
+    // const image = req.file.location;
     console.log('req  ' + req.author_name);
     // console.log(await getS3List());
     const response = await itemRepository.createItems(req.body);
@@ -58,11 +58,18 @@ class ItemsService {
    * Req.4-B2 주소가 보유한 작품 목록 조회
    */
   async getItems(address) {
+    var response;
+    if (!address) {
+      response = await itemRepository.getItems();
+    } else {
+      response = await itemRepository.getItemsByOwnerAddress(address);
+    }
+    console.log(response);
     return {
       statusCode: 200,
       responseBody: {
         result: 'success',
-        data: [],
+        data: response,
       },
     };
   }
@@ -72,11 +79,12 @@ class ItemsService {
    * Req.4-B3 최근 등록 작품 조회
    */
   async getRecentItems() {
+    const response = await itemRepository.getRecentRegisteredItem();
     return {
       statusCode: 200,
       responseBody: {
         result: 'success',
-        data: [],
+        data: response,
       },
     };
   }
@@ -86,11 +94,12 @@ class ItemsService {
    * Req.2-B3 작품 상세 조회
    */
   async getItemByTokenId(tokenId) {
+    const response = await itemRepository.getItemByTokenId(tokenId);
     return {
       statusCode: 200,
       responseBody: {
         result: 'success',
-        data: [],
+        data: response,
       },
     };
   }

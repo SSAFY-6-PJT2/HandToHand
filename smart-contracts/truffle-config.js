@@ -44,6 +44,7 @@ module.exports = {
     // You should run a client (like ganache-cli, geth or parity) in a separate terminal
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
+<<<<<<< HEAD
     // e.g., 가나슈 환경
     development: {
       host: "127.0.0.1", // Localhost (default: none)
@@ -55,6 +56,23 @@ module.exports = {
       network_id: "*",
       chainId: 31221,
     },
+=======
+
+    // e.g., 가나슈 환경 
+    development: {
+    host: "127.0.0.1",     // Localhost (default: none)
+    port: 8545,            // Standard Ethereum port (default: none)
+    network_id: "*",       // Any network (default: none)
+    },
+
+    // Hyperledger Besu
+    ssafy: {
+      provider: privateKeyProvider,
+      network_id: "*",
+      chainId: 31221
+    },
+
+>>>>>>> 97148877d7020d03e0bfda78ad0f2f4cb88a56a9
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port

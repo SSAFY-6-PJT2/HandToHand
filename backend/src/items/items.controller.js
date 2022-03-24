@@ -64,7 +64,7 @@ router.get('/', async function (req, res) {
  * Req.4-B3 최근 등록 작품 조회
  */
 router.get('/recent', async function (req, res) {
-  const { statusCode, responseBody } = await itemService.getRecentItems(res);
+  const { statusCode, responseBody } = await itemService.getRecentItems();
 
   res.statusCode = statusCode;
   res.send(responseBody);
