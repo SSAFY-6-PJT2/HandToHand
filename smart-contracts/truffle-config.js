@@ -23,6 +23,10 @@
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
 
+const PrivateKeyProvider = require("@truffle/hdwallet-provider");
+const privateKey = ["0x122226fb09f7d1c3d313f02e79f134aa36f0981602c438543fe9bb1105e1104a"];
+const privateKeyProvider = new PrivateKeyProvider(privateKey, "http://20.196.209.2:8545");
+
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -41,15 +45,15 @@ module.exports = {
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
     // e.g., 가나슈 환경
-    // development: {
-    //   host: "127.0.0.1", // Localhost (default: none)
-    //   port: 9545, // Standard Ethereum port (default: none)
-    //   network_id: "*", // Any network (default: none)
-    // },
     development: {
-      host: "20.196.209.2", // Localhost (default: none)
-      port: 8545, // Standard Ethereum port (default: none)
+      host: "127.0.0.1", // Localhost (default: none)
+      port: 9545, // Standard Ethereum port (default: none)
       network_id: "*", // Any network (default: none)
+    },
+    ssafy: {
+      provider: privateKeyProvider,
+      network_id: "*",
+      chainId: 31221,
     },
     // Another network with more advanced options...
     // advanced: {
