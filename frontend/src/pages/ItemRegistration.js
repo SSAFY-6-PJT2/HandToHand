@@ -129,7 +129,9 @@ const ItemRegistration = () => {
       const address = getAddressFrom(privKey);
       // 스마트 컨트랙트 인스턴스
       const contract = new web3.eth.Contract(
+        // ABI
         COMMON_ABI.CONTRACT_ABI.NFT_ABI,
+        // Contract Address
         process.env.REACT_APP_NFT_CA,
       );
       // 스마트 컨트랙트의 함수 정보
