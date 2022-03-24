@@ -11,7 +11,7 @@ const salesService = new SalesService();
  * Req.2-B1 판매 정보 등록
  */
 router.post("/", async function (req, res) {
-  console.log(req.body);
+  // console.log(req.body);
   const { statusCode, responseBody } = await salesService.createSales(req.body);
   res.statusCode = statusCode;
   res.send(responseBody);
@@ -47,7 +47,9 @@ router.patch("/:tokenId/purchase", async function (req, res) {
  * Req.3-B2 판매 취소
  */
 router.delete("/:saleId", async function (req, res) {
-  const { statusCode, responseBody } = await salesService.deleteSales(req.params["saleId"]);
+  const saleId = req.params["saleId"];
+  const data = req.body;
+  const { statusCode, responseBody } = await salesService.deleteSales(saleId, data);
 
   res.statusCode = statusCode;
   res.send(responseBody);

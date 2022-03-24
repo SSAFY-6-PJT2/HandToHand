@@ -102,7 +102,7 @@ class ItemsRepository {
     				on_sale_yn,
     				owner_address,
     				items.token_id,
-    				created_at as items_create_at
+    				created_at as items_created_at
     	FROM    	items,(SELECT token_id FROM sales ORDER BY created_at DESC limit 1) as S
     	WHERE 		on_sale_yn = 1 and items.token_id = S.token_id
     `;
