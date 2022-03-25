@@ -106,15 +106,17 @@ const ItemRegistration = () => {
    * 3. 만들어진 formData는 아이템 등록 API를 통해 전달되고, 정상적으로 반영된 경우 이미지의 링크와 item ID를 반환 받습니다.
    * 4. 이후 공개키와 생성된 item ID, 이미지 링크를 이용해 NFT 생성을 위한 함수를 호출합니다.
    * 정상적으로 트랜잭션이 완결된 후 token Id가 반환됩니다.
-   * 5. 정상 동작 시 token Id와 owner_address를 백엔드에 업데이트 요청합니다.
+   * 5. 정상 동작 시 token Id와 owner_address를 백엔드에 업데이트 요청합니다
    */
   const addItem = async () => {
-    // TODO
+    // 백엔드에 전송할 FormData
     const data = new FormData();
     data.append('image', item);
     data.append('author_name', author);
     data.append('item_description', description);
     data.append('item_title', title);
+
+    // 백엔드에 이미지 저장 요청
     await axios({
       method: 'post',
       url: 'http://localhost:5000/items',
@@ -122,13 +124,28 @@ const ItemRegistration = () => {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-    })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    }).then(async (res) => {
+      // 유저 주소
+      const address = getAddressFrom(privKey);
+      // 스마트 컨트랙트 인스턴스
+      const contract = new web3.eth.Contract(
+        // ABI
+        COMMON_ABI.CONTRACT_ABI.NFT_ABI,
+        // Contract Address
+        process.env.REACT_APP_NFT_CA,
+      );
+      // 스마트 컨트랙트의 함수 정보
+      const sendData = contract.methods.create(address, res.data.imageUrl);
+      // 트랜잭션 보내기
+      const result = await sendTransaction(
+        address,
+        privKey,
+        process.env.REACT_APP_NFT_CA,
+        sendData,
+      );
+      // 결과 확인
+      console.log(result);
+    });
   };
 
   return (
