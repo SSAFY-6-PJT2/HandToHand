@@ -13,5 +13,7 @@ export default function getAddressFrom(privKey) {
     const pubKey = web3.eth.accounts.privateKeyToAccount(privKey);
 
     return pubKey.address;
-  } else alert('유효한 개인키를 입력해주세요.');
+  } else {
+    throw '유효한 개인키를 입력해주세요.';
+  }
 }

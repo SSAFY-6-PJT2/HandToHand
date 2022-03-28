@@ -3,13 +3,20 @@
     <div
       class="modal fade"
       @click.self="closeModal"
-      :class="[{ 'show d-block': show }, { 'd-none': !show }, { 'modal-mini': type === 'mini' }]"
+      :class="[
+        { 'show d-block': show },
+        { 'd-none': !show },
+        { 'modal-mini': type === 'mini' },
+      ]"
       v-show="show"
       tabindex="-1"
       role="dialog"
       :aria-hidden="!show"
     >
-      <div class="modal-dialog" :class="[{ 'modal-notice': type === 'notice' }, modalClasses]">
+      <div
+        class="modal-dialog modal-dialog-centered"
+        :class="[{ 'modal-notice': type === 'notice' }, modalClasses]"
+      >
         <div class="modal-content">
           <slot name="base-content">
             <div class="modal-header" :class="headerClasses">
@@ -42,10 +49,10 @@
   </SlideYUpTransition>
 </template>
 <script>
-import { SlideYUpTransition } from "vue2-transitions";
+import { SlideYUpTransition } from 'vue2-transitions';
 
 export default {
-  name: "modal",
+  name: 'modal',
   components: {
     SlideYUpTransition,
   },
@@ -57,9 +64,9 @@ export default {
     },
     type: {
       type: String,
-      default: "",
+      default: '',
       validator(value) {
-        let acceptedValues = ["", "notice", "mini"];
+        let acceptedValues = ['', 'notice', 'mini'];
         return acceptedValues.indexOf(value) !== -1;
       },
     },
@@ -74,17 +81,17 @@ export default {
   },
   methods: {
     closeModal() {
-      this.$emit("update:show", false);
-      this.$emit("close");
+      this.$emit('update:show', false);
+      this.$emit('close');
     },
   },
   watch: {
     show(val) {
       let documentClasses = document.body.classList;
       if (val) {
-        documentClasses.add("modal-open");
+        documentClasses.add('modal-open');
       } else {
-        documentClasses.remove("modal-open");
+        documentClasses.remove('modal-open');
       }
     },
   },
