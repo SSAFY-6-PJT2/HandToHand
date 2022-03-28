@@ -12,7 +12,7 @@
       </router-link>
     </template>
     <template slot="navbar-menu">
-      <li class="nav-item pr-2">
+      <li class="nav-item">
         <a
           class="nav-link"
           href="https://www.creative-tim.com/product/vue-now-ui-kit"
@@ -23,7 +23,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <n-button v-if="isLogin" type="success" round class="my-0">
+        <n-button v-if="isLogin" type="success" round class="my-0 ml-4">
           마이페이지
         </n-button>
         <n-button
