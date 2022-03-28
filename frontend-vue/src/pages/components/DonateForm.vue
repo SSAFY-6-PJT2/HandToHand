@@ -4,13 +4,28 @@
     <card class="mr-5" color="black" :width="24" :height="22" noFooterLine>
       <template slot="header">
         <h3 class="card-title title-up">기부하기</h3>
-        <p v-if="isWalletConnected">내 지갑 잔액: {{ this.userBalance }}</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <n-button
+            v-if="isLogin"
+            type="success"
+            round
+            size="sm"
+            class="my-0 mx-4"
+            @click="getBalance"
+          >
+            잔액 조회
+          </n-button>
+          <p v-if="isLogin" class="my-0 mx-4">
+            {{ userBalance ? userBalance : '-' }} SSF
+          </p>
+        </div>
       </template>
       <template>
         <fg-input
           class="no-border"
           placeholder="보낼 금액(SSF)"
           addon-right-icon="now-ui-icons business_money-coins"
+          v-model="amount"
         >
         </fg-input>
 
@@ -23,9 +38,9 @@
         </fg-input>
       </template>
       <template slot="footer" class="text-center">
-        <n-button v-if="isLogin" type="success" round size="lg"
-          >송금하기</n-button
-        >
+        <n-button v-if="isLogin" type="success" round size="lg" @click="donate">
+          송금하기
+        </n-button>
         <n-button
           v-else
           @click="showModal = true"
@@ -41,9 +56,10 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import { Card, FormGroupInput, Button, Modal } from '@/components';
 import LoginModal from '../components/LoginModal.vue';
+import { ethGetBalance, ethTransferToAdmin } from '@/utils/eth.js';
 
 export default {
   components: {
@@ -54,14 +70,46 @@ export default {
   },
   data() {
     return {
-      userAddress: null,
       userBalance: null,
-      privKey: null,
-      isWalletConnected: false,
+      amount: null,
+      isValid: false,
       showModal: false,
     };
   },
+  methods: {
+    getBalance() {
+      ethGetBalance(this.userAddress)
+        .then((res) => {
+          this.userBalance = res;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    donate() {
+      console.log('donate!');
+      if (
+        this.privKey &&
+        this.userBalance &&
+        this.amount &&
+        this.userBalance >= this.amount
+      ) {
+        ethTransferToAdmin(this.userAddress, this.privKey, this.amount)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        if (!this.amount) {
+          console.log('보낼 토큰의 양을 입력해주세요.');
+        }
+      }
+    },
+  },
   computed: {
+    ...mapState(['privKey', 'userAddress']),
     ...mapGetters(['isLogin']),
   },
 };

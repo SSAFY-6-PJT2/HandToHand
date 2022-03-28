@@ -6,20 +6,20 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    priveKey: null,
-    address: null,
+    privKey: null,
+    userAddress: null,
   },
   getters: {
     isLogin: (state) => {
-      return state.address !== null;
+      return state.userAddress !== null;
     },
   },
   mutations: {
     SET_PRIV_KEY: (state, privKey) => {
-      state.priveKey = privKey;
+      state.privKey = privKey;
     },
     SET_ADDRESS: (state, address) => {
-      state.address = address;
+      state.userAddress = address;
     },
   },
   actions: {
