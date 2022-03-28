@@ -23,9 +23,15 @@
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
 
-const PrivateKeyProvider = require("@truffle/hdwallet-provider");
-const privateKey = ["0x122226fb09f7d1c3d313f02e79f134aa36f0981602c438543fe9bb1105e1104a"];
-const privateKeyProvider = new PrivateKeyProvider(privateKey, "http://20.196.209.2:8545");
+// SSAFY 네트워크
+const PrivateKeyProvider = require('@truffle/hdwallet-provider');
+const privateKeys = [
+  '0xe20c61798cad4c6edb27c902e3592d9c0f92983239fef77f334a3701e7bad767', // Admin account
+  '0x1d63aeacd6f38c0c01f3f9f44ff452049063f1e554fafaaa25a1b2299e16a95d', // Ukraine account
+  '0x122226fb09f7d1c3d313f02e79f134aa36f0981602c438543fe9bb1105e1104a',
+  '0x983324020f912178ee564c53848db7d07a03109e3ed8ba2e32eeac95e26596b9',
+];
+const privateKeyProvider = new PrivateKeyProvider(privateKeys, 'http://20.196.209.2:8545');
 
 module.exports = {
   /**
@@ -44,19 +50,25 @@ module.exports = {
     // You should run a client (like ganache-cli, geth or parity) in a separate terminal
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
-    // e.g., 가나슈 환경
+
+    // e.g., 가나슈 환경 
     development: {
-      host: "127.0.0.1", // Localhost (default: none)
-      port: 8545, // Standard Ethereum port (default: none)
-      network_id: "*", // Any network (default: none)
+      // host: "127.0.0.1",     // Localhost (default: none)
+      // port: 8545,            // Standard Ethereum port (default: none)
+      // network_id: "*",       // Any network (default: none)
+      networkCheckTimeout: 999999,
+      provider: privateKeyProvider,
+      network_id: "*",
+      chainId: 31221
     },
 
     // Hyperledger Besu
-    ssafy: {
-      provider: privateKeyProvider,
-      network_id: "*",
-      chainId: 31221,
-    },
+    // ssafy: {
+    //   provider: privateKeyProvider,
+    //   network_id: "*",
+    //   chainId: 31221
+    // },
+
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port
@@ -92,7 +104,7 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      version: "0.8.10", // Fetch exact version from solc-bin (default: truffle's version)
+      version: "0.8.10",    // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       // settings: {          // See the solidity docs for advice about optimization and evmVersion
       //  optimizer: {
@@ -101,7 +113,7 @@ module.exports = {
       //  },
       //  evmVersion: "byzantium"
       // }
-    },
+    }
   },
 
   // Truffle DB is currently disabled by default; to enable it, change enabled:
@@ -111,17 +123,17 @@ module.exports = {
   // NOTE: It is not possible to migrate your contracts to truffle DB and you should
   // make a backup of your artifacts to a safe location before enabling this feature.
   //
-  // After you backed up your artifacts you can utilize db by running migrate as follows:
+  // After you backed up your artifacts you can utilize db by running migrate as follows: 
   // $ truffle migrate --reset --compile-all
   //
   // db: {
-  // enabled: false,
-  // host: "127.0.0.1",
-  // adapter: {
-  //   name: "sqlite",
-  //   settings: {
-  //     directory: ".db"
-  //   }
-  // }
+    // enabled: false,
+    // host: "127.0.0.1",
+    // adapter: {
+    //   name: "sqlite",
+    //   settings: {
+    //     directory: ".db"
+    //   }
+    // }
   // }
 };
