@@ -37,15 +37,20 @@ contract("Sale Contract Testing", async accounts => {
         let nftAddress;
         let newSaleContract;
 
+        let currentId;
+
         const SsafyTokenContract = await SsafyToken.deployed();
         const SsafyNFTContract = await SsafyNFT.deployed();
         const SaleFactoryContract = await SaleFactory.deployed();
 
-        newNFTId = await SsafyNFTContract.create.call(seller, uri);
+        newNFTId = await SsafyNFTContract.create(seller, uri);
         newNFTId = newNFTId.words[0];
+        currentId = await SsafyNFTContract.current();
         const NFTURI = await SsafyNFTContract.tokenURI.call(newNFTId);
-        console.log(seller, newNFTId);
-        console.log(NFTURI);
+        console.log(newNFTId, currentId);
+        // console.log(NFTURI);
+        const addr = await SsafyNFTContract.ownerOf.call(newNFTId);
+        console.log(addr);
         tokenURI = await SsafyNFTContract.tokenURI.call(newNFTId);
         currencyAddress = await SsafyTokenContract.addressOfContract.call()
         nftAddress = await SsafyNFTContract.addressOfContract.call()
@@ -65,7 +70,7 @@ contract("Sale Contract Testing", async accounts => {
             endTime,
             currencyAddress,
             nftAddress,
-            {from: seller}
+            { from: seller }
             )
         console.log(newSaleContract);
         

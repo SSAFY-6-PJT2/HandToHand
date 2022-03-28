@@ -17,8 +17,7 @@ contract SsafyNFT is ERC721, Ownable {
     Counters.Counter private _tokenIds;
     mapping(uint256 => string) tokenURIs;
 
-    constructor() ERC721("SsafyNFT", "SNFT") {
-        // TODO
+    constructor() ERC721("HandToHand", "B209") {
     }
 
     function addressOfContract() public view returns (address) {

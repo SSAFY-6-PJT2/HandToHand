@@ -23,6 +23,17 @@ contract SaleFactory is Ownable {
     IERC20 public erc20Contract;
     IERC721 public erc721Contract;
 
+    event NewSaleCreated(
+        address saleContractAddress,
+        uint256 tokenId,
+        address seller,
+        uint256 saleStartTime,
+        uint256 saleEndTime,
+        address currencyAddress,
+        uint256 minPrice,
+        uint256 purchasePrice
+    );
+
     event NewSale(
         address indexed _saleContract,
         address indexed _owner,
@@ -66,6 +77,9 @@ contract SaleFactory is Ownable {
         erc721Contract.transferFrom(seller, address(newSaleContract), itemId);
 
         sales.push(address(newSaleContract));
+
+        emit NewSaleCreated(address(newSaleContract), itemId, seller, startTime, endTime, currencyAddress, minPrice, purchasePrice);
+
         return newSaleContract;
     }
 
@@ -98,8 +112,30 @@ contract Sale {
     IERC20 public erc20Contract;
     IERC721 public erc721Contract;
 
-    event HighestBidIncereased(address bidder, uint256 amount);
-    event SaleEnded(address winner, uint256 amount);
+    /*╔═════════════════════════════╗
+      ║           EVENTS            ║
+      ╚═════════════════════════════╝*/
+
+    event BidMade(
+        address saleContractAddress,
+        uint256 tokenId,
+        address bidder,
+        uint256 amount,
+        address currencyAddress
+    );
+    event SaleEnded(
+        address saleContractAddress,
+        uint256 tokenId,
+        address winner,
+        uint256 amount
+    );
+
+    /**********************************/
+    /*╔═════════════════════════════╗
+      ║             END             ║
+      ║            EVENTS           ║
+      ╚═════════════════════════════╝*/
+    /**********************************/
 
     constructor(
         address _admin,
@@ -146,6 +182,8 @@ contract Sale {
         highestBid = bid_amount;
         highestBidder = _bidder;
         erc20Contract.transferFrom(_bidder, address(this), bid_amount);
+
+        emit BidMade(address(this), tokenId, _bidder, bid_amount, currencyAddress);
     }
 
     function purchase()
@@ -169,6 +207,8 @@ contract Sale {
             // 컨트랙트의 거래 상태 Update
             _end();
             // Todo : 구매자 정보 업데이트
+
+            emit SaleEnded(address(this), tokenId, _purchaser, purchasePrice);
         }
 
     }
@@ -189,6 +229,8 @@ contract Sale {
         // 컨트랙트 거래상태 Update
         _end();
         // 구매자 정보 Update
+
+        emit SaleEnded(address(this), tokenId, confirmer, highestBid);
 
     }
     
@@ -216,15 +258,15 @@ contract Sale {
         public
         view
         returns (
-            uint256,
-            uint256,
-            uint256,
-            uint256,
-            uint256,
-            address,
-            uint256,
-            address,
-            address
+            uint256 StartTime,
+            uint256 EndTime,
+            uint256 MinPrice,
+            uint256 BuyNowPrice,
+            uint256 TokenId,
+            address HighestBidder,
+            uint256 HighestBid,
+            address CurrencyAddress,
+            address NftAddress
         )
     {
         return (
@@ -240,8 +282,11 @@ contract Sale {
         );
     }
 
-    function getHighestBid() public view returns(uint256){
-        return highestBid;
+    function getHighestBid() public view returns(address, uint256){
+        return (
+            highestBidder,
+            highestBid
+        );
     }
 
     // internal 혹은 private 함수 선언시 아래와 같이 _로 시작하도록 네이밍합니다.
