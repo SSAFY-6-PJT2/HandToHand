@@ -8,18 +8,10 @@
       </parallax>
       <div class="content-center">
         <div class="container">
-          <h1 class="title">This is our great company.</h1>
-          <div class="text-center">
-            <a href="#pablo" class="btn btn-primary btn-icon btn-round">
-              <i class="fab fa-facebook-square"></i>
-            </a>
-            <a href="#pablo" class="btn btn-primary btn-icon btn-round">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#pablo" class="btn btn-primary btn-icon btn-round">
-              <i class="fab fa-google-plus"></i>
-            </a>
-          </div>
+          <h1 class="title">NFT Gallery</h1>
+          <p style="font-weight: 700">
+            기부자들의 NFT를 감상하고, 거래해보세요
+          </p>
         </div>
       </div>
     </div>
@@ -233,17 +225,17 @@ export default {
   bodyClass: 'landing-page',
   components: {
     [Button.name]: Button,
-    [FormGroupInput.name]: FormGroupInput
+    [FormGroupInput.name]: FormGroupInput,
   },
   data() {
     return {
       form: {
         firstName: '',
         email: '',
-        message: ''
-      }
+        message: '',
+      },
     };
-  }
+  },
 };
 </script>
 <style></style>
