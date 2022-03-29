@@ -6,6 +6,8 @@ import Login from './pages/Login.vue';
 import Profile from './pages/Profile.vue';
 import MainNavbar from './layout/MainNavbar.vue';
 import MainFooter from './layout/MainFooter.vue';
+import MyNft from './pages/components/MyNft.vue';
+import DonationHistory from './pages/components/DonationHistory.vue';
 
 Vue.use(Router);
 
@@ -18,8 +20,8 @@ export default new Router({
       components: { default: Index, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
-        footer: { backgroundColor: 'black' }
-      }
+        footer: { backgroundColor: 'black' },
+      },
     },
     {
       path: '/landing',
@@ -27,16 +29,16 @@ export default new Router({
       components: { default: Landing, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
-        footer: { backgroundColor: 'black' }
-      }
+        footer: { backgroundColor: 'black' },
+      },
     },
     {
       path: '/login',
       name: 'login',
       components: { default: Login, header: MainNavbar },
       props: {
-        header: { colorOnScroll: 400 }
-      }
+        header: { colorOnScroll: 400 },
+      },
     },
     {
       path: '/profile',
@@ -44,15 +46,19 @@ export default new Router({
       components: { default: Profile, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
-        footer: { backgroundColor: 'black' }
-      }
-    }
+        footer: { backgroundColor: 'black' },
+      },
+      children: [
+        { path: 'my-nft', component: MyNft },
+        { path: 'donation-history', component: DonationHistory },
+      ],
+    },
   ],
-  scrollBehavior: to => {
+  scrollBehavior: (to) => {
     if (to.hash) {
       return { selector: to.hash };
     } else {
       return { x: 0, y: 0 };
     }
-  }
+  },
 });
