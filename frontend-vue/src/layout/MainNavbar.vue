@@ -13,7 +13,7 @@
     </template>
     <template slot="navbar-menu">
       <li class="nav-item">
-        <router-link to="/landing" class="nav-link">
+        <router-link to="/nft-gallery" class="nav-link">
           <i class="now-ui-icons media-1_album"></i>
           <p>NFT 갤러리</p>
         </router-link>
