@@ -1,10 +1,10 @@
-package com.ssafy.demo;
+package com.ssafy.handtohand;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoApplicationTests {
+class HandtohandApplicationTests {
 
     @Test
     void contextLoads() {
