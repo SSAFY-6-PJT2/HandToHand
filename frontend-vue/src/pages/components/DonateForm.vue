@@ -92,7 +92,7 @@ export default {
           console.log(err);
         });
     },
-    donate() {
+    async donate() {
       console.log('donate!');
       this.isLoading = true
       if (
@@ -101,14 +101,10 @@ export default {
         this.amount &&
         this.userBalance >= this.amount
       ) {
-        ethTransferToAdmin(this.userAddress, this.privKey, this.amount)
-          .then((res) => {
-            console.log(res);
-            this.isLoading = false
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        const sendResult = await ethTransferToAdmin(this.userAddress, this.privKey, this.amount)
+        this.isLoading = false
+        console.log(sendResult.data)
+        console.log(sendResult.receipt)
       } else {
         if (!this.amount) {
           console.log('보낼 토큰의 양을 입력해주세요.');
