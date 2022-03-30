@@ -19,12 +19,16 @@
         <donate-form></donate-form>
       </div>
     </div>
+    <about-service />
+    <about-team />
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
 import { Alert, Parallax } from '@/components';
 import DonateForm from './components/DonateForm.vue';
+import AboutService from './components/AboutService.vue';
+import AboutTeam from './components/AboutTeam.vue';
 
 export default {
   name: 'index',
@@ -33,6 +37,8 @@ export default {
     Alert,
     Parallax,
     DonateForm,
+    AboutService,
+    AboutTeam,
   },
   data() {
     return {

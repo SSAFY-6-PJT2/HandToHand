@@ -10,6 +10,9 @@
         지갑 연결이 필요합니다.
       </h5>
       <template>
+        <!-- 
+          @유현수 개인키: 0x122226fb09f7d1c3d313f02e79f134aa36f0981602c438543fe9bb1105e1104a
+        -->
         <p class="text-left text-black" style="line-height: 2.4">
           지갑 연결을 위해 개인키를 입력해주세요.
         </p>
@@ -55,11 +58,12 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['vuexSetAddress']),
+    ...mapActions(['vuexSetPrivKey', 'vuexSetAddress']),
     eableWallet() {
       try {
         const address = getAddressFrom(this.privKey);
         this.vuexSetAddress(address);
+        this.vuexSetPrivKey(this.privKey);
         this.modals.notice = false;
       } catch (error) {
         console.log(error);
