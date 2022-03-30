@@ -33,16 +33,17 @@ export default async function sendTransaction(fromAddr, privKey, toAddr, data) {
   }
 
   // 서명
-  await web3.eth.accounts.signTransaction(tx, privKey).then(async (rawTx) => {
-    // 트랜잭션 보내기
-    await web3.eth
-      .sendSignedTransaction(rawTx.rawTransaction)
-      .once('receipt', (receipt) => {
-        // 트랜잭션 결과 저장
-        console.log(receipt);
-        result.receipt = receipt
-      });
-  });
+  await web3.eth.accounts.signTransaction(tx, privKey)
+    .then(async (rawTx) => {
+      // 트랜잭션 보내기
+      await web3.eth
+        .sendSignedTransaction(rawTx.rawTransaction)
+        .once('receipt', (receipt) => {
+          // 트랜잭션 결과 저장
+          console.log(receipt);
+          result.receipt = receipt
+        });
+    });
   // 함수 실행 결과를 반환할 객체에 저장
   result.data = await data.call()
 
