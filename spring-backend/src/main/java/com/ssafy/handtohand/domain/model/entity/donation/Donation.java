@@ -35,6 +35,7 @@ public class Donation {
     @Column(name = "donation_created_at")
     private Date createdDate;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "donation_status_type")
     private DonationStatusType type;

@@ -1,8 +1,10 @@
 package com.ssafy.handtohand.domain.service.donation;
 
 import com.ssafy.handtohand.domain.model.dto.donation.RequestDonationInfo;
+import com.ssafy.handtohand.domain.model.dto.donation.RequestDonationStatus;
 import com.ssafy.handtohand.domain.model.dto.donation.ResponseDonation;
 import com.ssafy.handtohand.domain.model.entity.donation.Donation;
+import com.ssafy.handtohand.domain.model.entity.donation.DonationStatusType;
 import com.ssafy.handtohand.domain.model.entity.user.User;
 import com.ssafy.handtohand.domain.repository.UserRepository;
 import com.ssafy.handtohand.domain.repository.donation.DonationRepository;
@@ -51,5 +53,17 @@ public class DonationService {
             responseDonationList.add(ResponseDonation.convertToDto(d));
         }
         return responseDonationList;
+    }
+
+    public String updateDonations(RequestDonationStatus request){
+        try{
+            Donation donation = donationRepository.findDonationByTransactionHash(request.getTransactionHash());
+            donation.setType(DonationStatusType.values()[request.getType()]);
+            donationRepository.save(donation);
+
+            return "success";
+        }catch (Exception e){
+            return "error";
+        }
     }
 }
