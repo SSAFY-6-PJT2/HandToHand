@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class DonationService {
     private final DonationRepository donationRepository;
     private final UserRepository userRepository;
