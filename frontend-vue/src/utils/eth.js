@@ -49,4 +49,35 @@ const ethTransferToAdmin = async (fromAddr, privKey, amount) => {
   return result;
 };
 
-export { ethGetBalance, ethTransferToAdmin };
+/**
+ * 
+ * @param {String} txHash // 트랜잭션 해시
+ * @returns {String} // 트랜잭션 상태
+ */
+const ethGetTxStatus = async (txHash) => {
+  console.log('run!')
+  await web3.eth.getTransactionReceipt(txHash)
+    .then(async res => {
+      console.log(res)
+      if (res.status) {
+        console.log('success')
+        return 'success'
+      } else {
+        await web3.eth.getPendingTransactions()
+          .then(res => {
+            for (let tx of res) {
+              if (tx.hash === txHash) {
+                console.log('pending')
+                return 'pending'
+              }
+            }
+            console.log('fail')
+            return 'fail'
+          })
+          .catch(console.log)
+      }
+    })
+    .catch(console.log)
+}
+
+export { ethGetBalance, ethTransferToAdmin, ethGetTxStatus };

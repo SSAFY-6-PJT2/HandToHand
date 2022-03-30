@@ -61,10 +61,10 @@
   </div>
 </template>
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState, mapGetters, mapActions } from 'vuex';
 import { Card, FormGroupInput, Button, Modal } from '@/components';
 import LoginModal from '../components/LoginModal.vue';
-import { ethGetBalance, ethTransferToAdmin } from '@/utils/eth.js';
+import { ethGetBalance, ethTransferToAdmin, ethGetTxStatus } from '@/utils/eth.js';
 
 export default {
   components: {
@@ -83,6 +83,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['vuexAddDonationHistory']),
     getBalance() {
       ethGetBalance(this.userAddress)
         .then((res) => {
@@ -105,6 +106,11 @@ export default {
         this.isLoading = false
         console.log(sendResult.data)
         console.log(sendResult.receipt)
+        this.vuexAddDonationHistory(sendResult.receipt)
+        await ethGetTxStatus(sendResult.receipt.transactionHash)
+          .then(res => {
+            console.log(res)
+          })
       } else {
         if (!this.amount) {
           console.log('보낼 토큰의 양을 입력해주세요.');
