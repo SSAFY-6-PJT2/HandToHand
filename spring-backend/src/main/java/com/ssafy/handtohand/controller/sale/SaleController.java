@@ -1,14 +1,13 @@
 package com.ssafy.handtohand.controller.sale;
 
 
+import com.ssafy.handtohand.domain.model.dto.sale.request.SaleRequest;
 import com.ssafy.handtohand.domain.service.sale.SaleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 판매 컨트롤러
@@ -29,9 +28,10 @@ public class SaleController {
      *
      * @param
      */
+    @PostMapping("sale")
     @ApiOperation(value = "판매 정보 등록")
-    public void saleRegistration(){
-
+    public void registrationSale(@ApiParam(value ="판매 정보",required = true) @RequestBody SaleRequest request){
+        saleService.insertSale(request);
     }
 
     /**

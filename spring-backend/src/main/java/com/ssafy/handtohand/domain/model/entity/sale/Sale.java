@@ -1,6 +1,7 @@
 package com.ssafy.handtohand.domain.model.entity.sale;
 
 import com.ssafy.handtohand.domain.model.entity.item.Item;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -23,7 +24,7 @@ public class Sale {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="sale_id")
+    @Column(name="sale_seq")
     private Long seq;
 
     @Column(name="sale_contract_address")
@@ -54,5 +55,18 @@ public class Sale {
     @JoinColumn(name="fk_item_seq")
     @ManyToOne(fetch = FetchType.LAZY)
     private Item item;
+
+    @Builder
+    public Sale(String contract_address,int yn,String cash_contract_address,String seller_address,String buyer_address,Date created_at,Date completed_at,Item item){
+        this.contract_address = contract_address;
+        this.yn = yn;
+        this.cash_contract_address = cash_contract_address;
+        this.seller_address = seller_address;
+        this.buyer_address = buyer_address;
+        this.created_at = created_at;
+        this.completed_at = completed_at;
+
+    }
+
 
 }
