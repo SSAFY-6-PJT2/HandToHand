@@ -38,11 +38,16 @@
         </fg-input>
       </template>
       <template slot="footer" class="text-center">
-        <n-button v-if="isLogin" type="success" round size="lg" @click="donate">
+        <n-button v-if="isLogin && !isLoading" type="success" round size="lg" @click="donate">
           송금하기
         </n-button>
+        <n-button v-if="isLogin && isLoading" type="success" round size="lg" @click="donate">
+          <div class="spinner-border spinner-border-sm text-light" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </n-button>
         <n-button
-          v-else
+          v-if="!isLogin"
           @click="showModal = true"
           type="warning"
           round
@@ -74,6 +79,7 @@ export default {
       amount: null,
       isValid: false,
       showModal: false,
+      isLoading: false
     };
   },
   methods: {
@@ -88,6 +94,7 @@ export default {
     },
     donate() {
       console.log('donate!');
+      this.isLoading = true
       if (
         this.privKey &&
         this.userBalance &&
@@ -97,6 +104,7 @@ export default {
         ethTransferToAdmin(this.userAddress, this.privKey, this.amount)
           .then((res) => {
             console.log(res);
+            this.isLoading = false
           })
           .catch((err) => {
             console.log(err);

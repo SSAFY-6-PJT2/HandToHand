@@ -10,11 +10,11 @@ const web3 = new Web3(
 /**
  * 트랜잭션 전송을 위한 공통 로직
  * 전달받은 개인키로 서명한 트랜잭션을 전송합니다.
- * @param {*} fromAddr 보내는 주소
- * @param {*} privKey 보내는 주소의 개인키
- * @param {*} toAddr 받는 주소
- * @param {*} data 입력 데이터
- * @returns 트랜잭션의 결과
+ * @param {String} fromAddr 보내는 주소
+ * @param {String} privKey 보내는 주소의 개인키
+ * @param {String} toAddr 받는 주소
+ * @param {String} data 입력 데이터
+ * @returns {Promise} 함수 실행 결과
  */
 export default async function sendTransaction(fromAddr, privKey, toAddr, data) {
   const gas = await data.estimateGas({ from: fromAddr });
@@ -35,10 +35,6 @@ export default async function sendTransaction(fromAddr, privKey, toAddr, data) {
         console.log(receipt);
       });
   });
-  // 함수 반환 값을 result에 저장
-  let result = null;
-  await data.call().then((res) => {
-    result = res;
-  });
-  return result;
+  // 함수 실행 결과인 Promise 객체를 리턴
+  return await data.call()
 }
