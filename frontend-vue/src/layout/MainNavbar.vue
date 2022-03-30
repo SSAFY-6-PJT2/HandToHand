@@ -12,18 +12,20 @@
       </router-link>
     </template>
     <template slot="navbar-menu">
-      <li class="nav-item pr-2">
-        <a
-          class="nav-link"
-          href="https://www.creative-tim.com/product/vue-now-ui-kit"
-          target="_blank"
-        >
+      <li class="nav-item">
+        <router-link to="/nft-gallery" class="nav-link">
           <i class="now-ui-icons media-1_album"></i>
           <p>NFT 갤러리</p>
-        </a>
+        </router-link>
       </li>
       <li class="nav-item">
-        <n-button v-if="isLogin" type="success" round class="my-0">
+        <n-button
+          v-if="isLogin"
+          type="success"
+          round
+          class="my-0 ml-4"
+          @click="$router.push('/profile')"
+        >
           마이페이지
         </n-button>
         <n-button
