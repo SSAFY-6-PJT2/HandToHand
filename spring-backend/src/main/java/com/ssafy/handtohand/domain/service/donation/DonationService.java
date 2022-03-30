@@ -1,6 +1,7 @@
 package com.ssafy.handtohand.domain.service.donation;
 
 import com.ssafy.handtohand.domain.model.dto.donation.RequestDonationInfo;
+import com.ssafy.handtohand.domain.model.dto.donation.ResponseDonation;
 import com.ssafy.handtohand.domain.model.entity.donation.Donation;
 import com.ssafy.handtohand.domain.model.entity.user.User;
 import com.ssafy.handtohand.domain.repository.UserRepository;
@@ -9,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional
@@ -38,5 +41,15 @@ public class DonationService {
 
             return 0;
         }
+    }
+
+    public List<ResponseDonation> getDonations(String address){
+        User user = userRepository.findUserByWalletAddress(address);
+        List<Donation> donationList = donationRepository.findDonationsByUser(user);
+        List<ResponseDonation> responseDonationList =new ArrayList<>();
+        for(Donation d : donationList){
+            responseDonationList.add(ResponseDonation.convertToDto(d));
+        }
+        return responseDonationList;
     }
 }
