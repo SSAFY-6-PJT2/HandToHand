@@ -3,7 +3,10 @@ package com.ssafy.handtohand.controller.sale;
 
 import com.ssafy.handtohand.domain.service.sale.SaleService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,33 +29,49 @@ public class SaleController {
      *
      * @param
      */
+    @ApiOperation(value = "판매 정보 등록")
+    public void saleRegistration(){
+
+    }
 
     /**
      * 판매 정보 상세 조회
      *
      * @param
      */
+    @ApiOperation(value = "판매 정보 상세 조회")
+    public void viewSaleDetail(){
 
+    }
 
     /**
      * 구매자 정보 업데이트
      *
      * @param
      */
+    @ApiOperation(value = "구매자 정보 업데이트")
+    public void updateBuyerInfo(){
 
+    }
 
     /**
      * 판매 취소
      *
      * @param
      */
+    @ApiOperation(value = "판매 취소")
+    public void cancelSale(){
 
+    }
 
     /**
      * 판매 완료
      *
      * @param
      */
+    @ApiOperation(value = "판매 완료")
+    public void completeSale(){
 
+    }
 
 }
