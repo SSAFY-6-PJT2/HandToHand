@@ -20,6 +20,16 @@ contract SsafyNFT is ERC721, Ownable {
     constructor() ERC721("HandToHand", "B209") {
     }
 
+    event NewToken(
+        address _owner,
+        uint256 _tokenId,
+        string _tokenURI
+    );
+    
+    function caller() public view returns (address) {
+        return msg.sender;
+    }
+
     function addressOfContract() public view returns (address) {
         return address(this);
     }
@@ -39,10 +49,14 @@ contract SsafyNFT is ERC721, Ownable {
         _mint(to, newNFTId);
         _setTokenURI(newNFTId, _tokenURI);
 
+        emit NewToken(to, newNFTId, _tokenURI);
+
         return newNFTId;
     }
 
-    function transferFrom(address from, address to, uint256 tokenId) public override onlyOwner{
+    function transferFrom(address from, address to, uint256 tokenId) public override {
+        require(ERC721.ownerOf(tokenId) == from, "ERC721: transfer from incorrect owner");
+        require(ERC721.ownerOf(tokenId) == msg.sender, "Your not a owner of this NFT");
         _transfer(from, to, tokenId);
     }
 }

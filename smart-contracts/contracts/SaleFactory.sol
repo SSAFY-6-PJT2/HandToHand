@@ -52,6 +52,7 @@ contract SaleFactory is Ownable {
 
     // emit 필요성 확인
     function createSale(
+        address seller,
         uint256 itemId,
         uint256 minPrice,
         uint256 purchasePrice,
@@ -59,8 +60,17 @@ contract SaleFactory is Ownable {
         uint256 endTime,
         address currencyAddress,
         address nftAddress
-    ) public returns (Sale newSaleContract) {
-        address seller = msg.sender;
+        )
+        public
+        returns (Sale newSaleContract)
+    {
+        erc20Contract = IERC20(currencyAddress);
+        erc721Contract = IERC721(nftAddress);
+
+        // seller 유효성 검사
+        require(seller != address(0), "Not valid address");
+        require(seller == erc721Contract.ownerOf(itemId), "Your not owner of this NFT");
+
         newSaleContract = new Sale(
             admin,
             seller,
@@ -72,9 +82,6 @@ contract SaleFactory is Ownable {
             currencyAddress,
             nftAddress
         );
-
-        // Seller 가 NFT 소유권을 Contract 에 이전
-        erc721Contract.transferFrom(seller, address(newSaleContract), itemId);
 
         sales.push(address(newSaleContract));
 
@@ -159,6 +166,8 @@ contract Sale {
         currencyAddress = _currencyAddress;
         nftAddress = _nftAddress;
         ended = false;
+        highestBid = 0;
+        highestBidder = address(0);
         erc20Contract = IERC20(_currencyAddress);
         erc721Contract = IERC721(_nftAddress);
     }
@@ -170,22 +179,27 @@ contract Sale {
     {
         // bid 함수 조건
         address _bidder = msg.sender;
+        require(erc20Contract.balanceOf(_bidder) >= bid_amount, "Bidder have not enough Token");
         require(erc20Contract.approve(_bidder, bid_amount), "Not approved for ERC20");
         require(bid_amount >= minPrice, "Your bid is lower than MinPrice");
         require(bid_amount > highestBid, "Your bid is lower than HighestBid");
         require(bid_amount < purchasePrice, "Your bid have to lower than Purchase Price");
 
         // 새로운 Highet bidder 등장에 따른 기존의 Highet bidder 환불
-        erc20Contract.transferFrom(address(this), highestBidder, highestBid);
+        if (highestBidder != address(0)) {
+            erc20Contract.approve(address(this), highestBid);
+            erc20Contract.transferFrom(address(this), highestBidder, highestBid);
+        }
 
         // 새로운 Highet bidder 정보 update 및 bidder contract 로 송금
+        erc20Contract.transferFrom(_bidder, address(this), bid_amount);
         highestBid = bid_amount;
         highestBidder = _bidder;
-        erc20Contract.transferFrom(_bidder, address(this), bid_amount);
 
         emit BidMade(address(this), tokenId, _bidder, bid_amount, currencyAddress);
     }
 
+    // Todo : 수정
     function purchase()
         public
         notASeller
@@ -195,21 +209,23 @@ contract Sale {
         require(erc20Contract.approve(_purchaser, purchasePrice), "Not approved for ERC20");
 
         // Purchaser 등장에 따른 기존의 Highet bidder 환불
-        erc20Contract.transferFrom(address(this), highestBidder, highestBid);
-
-        // Seller 의 NFT 소유권 재확인
-        if (erc721Contract.ownerOf(tokenId) == seller) {
-            // 구매자의 송금
-            erc20Contract.transferFrom(_purchaser, seller, purchasePrice);
-            // NFT 소유권 이전
-            erc721Contract.transferFrom(seller, _purchaser, tokenId);
-
-            // 컨트랙트의 거래 상태 Update
-            _end();
-            // Todo : 구매자 정보 업데이트
-
-            emit SaleEnded(address(this), tokenId, _purchaser, purchasePrice);
+        if (highestBidder != address(0)) {
+            erc20Contract.approve(address(this), highestBid);
+            erc20Contract.transferFrom(address(this), highestBidder, highestBid);
         }
+
+        // 구매자의 송금 (구매자 -> Contract -> 판매자)
+        erc20Contract.transferFrom(_purchaser, address(this), purchasePrice);
+        erc20Contract.approve(address(this), purchasePrice);
+        erc20Contract.transferFrom(address(this), seller, purchasePrice);
+        // NFT 소유권 이전
+        erc721Contract.transferFrom(address(this), _purchaser, tokenId);
+
+        // 컨트랙트의 거래 상태 Update
+        _end();
+        // Todo : 구매자 정보 업데이트
+
+        emit SaleEnded(address(this), tokenId, _purchaser, purchasePrice);
 
     }
 
@@ -219,9 +235,11 @@ contract Sale {
         isSaleOver
     {
         address confirmer = msg.sender;
+        require(confirmer != address(0), "address(0) is not allowed");
         require(confirmer == highestBidder, "Your not a Highest Bidder");
 
         // 최종 제안가 Seller 에게 송금
+        erc20Contract.approve(address(this), highestBid);
         erc20Contract.transferFrom(address(this), seller, highestBid);
         // NFT 소유권 Highest Bidder 에게 이전
         erc721Contract.transferFrom(address(this), highestBidder, tokenId);
@@ -242,12 +260,17 @@ contract Sale {
         require(requestor == admin || requestor == seller, "You do not have permission");
 
         // Sale cancel 에 따른 기존의 Highet bidder 환불
-        erc20Contract.transferFrom(address(this), highestBidder, highestBid);
+        if (highestBidder != address(0)) {
+            erc20Contract.approve(address(this), highestBid);
+            erc20Contract.transferFrom(address(this), highestBidder, highestBid);
+        }
 
         // NFT 소유권 Seller 에게 재 이전
         erc721Contract.transferFrom(address(this), seller, tokenId);
         // Contract 거래상태 Update
         _end();
+
+        emit SaleEnded(address(this), tokenId, address(0), 0);
     }
 
     function getTimeLeft() public view returns (int256) {
