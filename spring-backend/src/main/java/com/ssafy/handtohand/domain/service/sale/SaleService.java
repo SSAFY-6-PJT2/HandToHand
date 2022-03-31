@@ -1,7 +1,10 @@
 package com.ssafy.handtohand.domain.service.sale;
 
 import com.ssafy.handtohand.domain.model.dto.sale.request.SaleRequest;
+import com.ssafy.handtohand.domain.model.dto.sale.response.SaleInfoResponse;
+import com.ssafy.handtohand.domain.model.entity.item.Item;
 import com.ssafy.handtohand.domain.model.entity.sale.Sale;
+import com.ssafy.handtohand.domain.repository.item.ItemRepository;
 import com.ssafy.handtohand.domain.repository.sale.SaleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +16,9 @@ import javax.persistence.EntityManager;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class SaleService {
+
     private SaleRepository saleRepository;
+    private ItemRepository itemRepository;
     private EntityManager em;
 
     /**
@@ -24,15 +29,36 @@ public class SaleService {
     @Transactional(rollbackFor = Exception.class)
     public void insertSale(SaleRequest request) {
         Sale sale = Sale.builder()
-                .contract_address(request.getSaleContractAddress())
+                .contractAddress(request.getSaleContractAddress())
                 .yn(request.getSaleYN())
-                .cash_contract_address(request.getCashContractAddress())
-                .seller_address(request.getSellerAddress())
-                .buyer_address(request.getBuyerAddress())
-                .created_at(request.getCreatedAt())
-                .completed_at(request.getCompletedAt())
+                .cashContractAddress(request.getCashContractAddress())
+                .sellerAddress(request.getSellerAddress())
+                .buyerAddress(request.getBuyerAddress())
+                .createdAt(request.getCreatedAt())
+                .completedAt(request.getCompletedAt())
                 .build();
         saleRepository.save(sale);
         em.refresh(em.merge(sale));
+    }
+
+    /**
+     * 판매 정보 상세 조회
+     *
+     * @param tokenId
+     * @return
+     */
+
+    public SaleInfoResponse getSaleDetail(String tokenId) {
+        Item item = itemRepository.findByTokenId(tokenId);
+        Sale sale = saleRepository.findByItem(item);
+        return SaleInfoResponse.builder()
+                .contractAddress(sale.getContractAddress())
+                .yn(sale.getYn())
+                .cashContractAddress(sale.getCashContractAddress())
+                .sellerAddress(sale.getSellerAddress())
+                .buyerAddress(sale.getBuyerAddress())
+                .createdAt(sale.getCreatedAt())
+                .completedAt(sale.getCompletedAt())
+                .build();
     }
 }

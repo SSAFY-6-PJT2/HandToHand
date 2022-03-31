@@ -1,6 +1,7 @@
 package com.ssafy.handtohand.domain.model.entity.sale;
 
 import com.ssafy.handtohand.domain.model.entity.item.Item;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,54 +20,51 @@ import java.util.Date;
 @Entity
 @Table(name="sales")
 @Getter
-@NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class Sale {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="sale_seq")
+    /* 판매 키 */
     private Long seq;
 
     @Column(name="sale_contract_address")
-    private String contract_address;
+    /* 판매 거래주소 */
+    private String contractAddress;
 
     @Column(name="sale_yn")
+    /* 판매 여부 */
     private int yn;
 
     @Column(name="sale_cash_contract_address")
-    private String cash_contract_address;
+    /* 판매완료 거래주소 */
+    private String cashContractAddress;
 
     @Column(name="sale_seller_address")
-    private String seller_address;
+    /* 판매자 지갑주소 */
+    private String sellerAddress;
 
     @Column(name="sale_buyer_address")
-    private String buyer_address;
+    /* 구매자 지갑주소 */
+    private String buyerAddress;
 
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="sale_created_at")
-    private Date created_at;
+    /* 판매 생성일자 */
+    private Date createdAt;
 
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="sale_completed_at")
-    private Date completed_at;
+    /* 판매 종료일자 */
+    private Date completedAt;
 
     @JoinColumn(name="fk_item_seq")
     @ManyToOne(fetch = FetchType.LAZY)
+    /* 작품 키 */
     private Item item;
-
-    @Builder
-    public Sale(String contract_address,int yn,String cash_contract_address,String seller_address,String buyer_address,Date created_at,Date completed_at,Item item){
-        this.contract_address = contract_address;
-        this.yn = yn;
-        this.cash_contract_address = cash_contract_address;
-        this.seller_address = seller_address;
-        this.buyer_address = buyer_address;
-        this.created_at = created_at;
-        this.completed_at = completed_at;
-
-    }
-
 
 }
