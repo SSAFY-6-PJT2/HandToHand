@@ -1,3 +1,7 @@
+<!--
+@author Hyeonsooryu
+-->
+
 <template>
   <footer
     class="footer"
@@ -14,6 +18,7 @@
     </div>
   </footer>
 </template>
+
 <script>
 export default {
   props: {
@@ -27,4 +32,5 @@ export default {
   },
 };
 </script>
+
 <style></style>

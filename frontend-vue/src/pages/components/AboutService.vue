@@ -1,3 +1,7 @@
+<!--
+@author Hyeonsooryu
+-->
+
 <template>
   <div class="section section-about-us">
     <div class="container">
