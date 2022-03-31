@@ -6,7 +6,7 @@ import com.ssafy.handtohand.domain.model.dto.donation.ResponseDonation;
 import com.ssafy.handtohand.domain.model.entity.donation.Donation;
 import com.ssafy.handtohand.domain.model.entity.donation.DonationStatusType;
 import com.ssafy.handtohand.domain.model.entity.user.User;
-import com.ssafy.handtohand.domain.repository.UserRepository;
+import com.ssafy.handtohand.domain.repository.user.UserRepository;
 import com.ssafy.handtohand.domain.repository.donation.DonationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

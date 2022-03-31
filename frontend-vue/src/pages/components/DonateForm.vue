@@ -38,11 +38,26 @@
         </fg-input>
       </template>
       <template slot="footer" class="text-center">
-        <n-button v-if="isLogin && !isLoading" type="success" round size="lg" @click="donate">
+        <n-button
+          v-if="isLogin && !isLoading"
+          type="success"
+          round
+          size="lg"
+          @click="donate"
+        >
           송금하기
         </n-button>
-        <n-button v-if="isLogin && isLoading" type="success" round size="lg" @click="donate">
-          <div class="spinner-border spinner-border-sm text-light" role="status">
+        <n-button
+          v-if="isLogin && isLoading"
+          type="success"
+          round
+          size="lg"
+          @click="donate"
+        >
+          <div
+            class="spinner-border spinner-border-sm text-light"
+            role="status"
+          >
             <span class="sr-only">Loading...</span>
           </div>
         </n-button>
@@ -64,7 +79,11 @@
 import { mapState, mapGetters, mapActions } from 'vuex';
 import { Card, FormGroupInput, Button, Modal } from '@/components';
 import LoginModal from '../components/LoginModal.vue';
-import { ethGetBalance, ethTransferToAdmin, ethGetTxStatus } from '@/utils/eth.js';
+import {
+  ethGetBalance,
+  ethTransferToAdmin,
+  ethGetTxStatus,
+} from '@/utils/eth.js';
 
 export default {
   components: {
@@ -79,7 +98,7 @@ export default {
       amount: null,
       isValid: false,
       showModal: false,
-      isLoading: false
+      isLoading: false,
     };
   },
   methods: {
@@ -95,22 +114,25 @@ export default {
     },
     async donate() {
       console.log('donate!');
-      this.isLoading = true
+      this.isLoading = true;
       if (
         this.privKey &&
         this.userBalance &&
         this.amount &&
         this.userBalance >= this.amount
       ) {
-        const sendResult = await ethTransferToAdmin(this.userAddress, this.privKey, this.amount)
-        this.isLoading = false
-        console.log(sendResult.data)
-        console.log(sendResult.receipt)
-        this.vuexAddDonationHistory(sendResult.receipt)
-        await ethGetTxStatus(sendResult.receipt.transactionHash)
-          .then(res => {
-            console.log(res)
-          })
+        const sendResult = await ethTransferToAdmin(
+          this.userAddress,
+          this.privKey,
+          this.amount,
+        );
+        this.isLoading = false;
+        // console.log(sendResult.data)
+        // console.log(sendResult.receipt)
+        this.vuexAddDonationHistory(sendResult.receipt);
+        await ethGetTxStatus(sendResult.receipt.transactionHash).then((res) => {
+          console.log(res);
+        });
       } else {
         if (!this.amount) {
           console.log('보낼 토큰의 양을 입력해주세요.');

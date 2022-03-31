@@ -1,7 +1,9 @@
 package com.ssafy.handtohand.domain.model.entity.user;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
@@ -23,9 +25,16 @@ public class User {
     @Column(name = "user_seq")
     private Long seq;
 
+    @Setter
     @Column(name = "user_nickname")
     private String nickname;
 
     @Column(name = "user_wallet_address")
     private String walletAddress;
+
+    @Builder
+    public User(String address){
+        this.walletAddress=address;
+        this.nickname="unnamed";
+    }
 }
