@@ -7,6 +7,24 @@ const web3 = new Web3(
 );
 
 /**
+ * 개인키로부터 주소를 추출합니다.
+ * @param {String} privKey 개인키
+ * @returns 주소
+ */
+export default function ethGetAddressFrom(privKey) {
+  if (privKey.length === 66 && privKey.startsWith('0x')) {
+    const web3 = new Web3(
+      new Web3.providers.HttpProvider(process.env.VUE_APP_ETHEREUM_RPC_URL),
+    );
+    const pubKey = web3.eth.accounts.privateKeyToAccount(privKey);
+
+    return pubKey.address;
+  } else {
+    throw '유효한 개인키를 입력해주세요.';
+  }
+}
+
+/**
  * 해당 주소의 지갑 잔액을 반환합니다.
  * @param {String} address 조회할 지갑 주소
  * @returns {Promise}      resolve 시 잔액을 Number로 반환
@@ -50,34 +68,37 @@ const ethTransferToAdmin = async (fromAddr, privKey, amount) => {
 };
 
 /**
- * 
- * @param {String} txHash // 트랜잭션 해시
- * @returns {String} // 트랜잭션 상태
+ * 트랜잭션의 상태를 반환합니다.
+ * @param {String} txHash    트랜잭션 해시
+ * @returns {String}         트랜잭션 상태
  */
 const ethGetTxStatus = async (txHash) => {
-  console.log('run!')
-  await web3.eth.getTransactionReceipt(txHash)
-    .then(async res => {
-      console.log(res)
+  let result = null;
+  await web3.eth
+    .getTransactionReceipt(txHash)
+    .then(async (res) => {
       if (res.status) {
-        console.log('success')
-        return 'success'
+        console.log('success');
+        result = 'success';
       } else {
-        await web3.eth.getPendingTransactions()
-          .then(res => {
+        await web3.eth
+          .getPendingTransactions()
+          .then((res) => {
             for (let tx of res) {
               if (tx.hash === txHash) {
-                console.log('pending')
-                return 'pending'
+                console.log('pending');
+                result = 'pending';
               }
             }
-            console.log('fail')
-            return 'fail'
+            console.log('fail');
+            result = 'fail';
           })
-          .catch(console.log)
+          .catch((err) => console.log(err));
       }
     })
-    .catch(console.log)
-}
+    .catch((err) => console.log(err));
 
-export { ethGetBalance, ethTransferToAdmin, ethGetTxStatus };
+  return result ? result : new Error('예외: 알 수 없는 오류');
+};
+
+export { ethGetAddressFrom, ethGetBalance, ethTransferToAdmin, ethGetTxStatus };
