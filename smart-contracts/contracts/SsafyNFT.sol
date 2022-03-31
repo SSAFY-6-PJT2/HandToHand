@@ -55,8 +55,11 @@ contract SsafyNFT is ERC721, Ownable {
     }
 
     function transferFrom(address from, address to, uint256 tokenId) public override {
-        require(ERC721.ownerOf(tokenId) == from, "ERC721: transfer from incorrect owner");
-        require(ERC721.ownerOf(tokenId) == msg.sender, "Your not a owner of this NFT");
+        // require(ERC721.ownerOf(tokenId) == from, "ERC721: transfer from incorrect owner");
+        // require(ERC721.ownerOf(tokenId) == msg.sender, "Your not a owner of this NFT");
+        // _transfer(from, to, tokenId);
+        require(_isApprovedOrOwner(_msgSender(), tokenId), "ERC721: transfer caller is not owner nor approved");
+
         _transfer(from, to, tokenId);
     }
 }
