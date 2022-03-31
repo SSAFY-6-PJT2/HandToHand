@@ -24,14 +24,14 @@
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
 
 // SSAFY 네트워크
-// const PrivateKeyProvider = require('@truffle/hdwallet-provider');
-// const privateKeys = [
-//   '0xe20c61798cad4c6edb27c902e3592d9c0f92983239fef77f334a3701e7bad767', // Admin account
-//   '0x1d63aeacd6f38c0c01f3f9f44ff452049063f1e554fafaaa25a1b2299e16a95d', // Ukraine account
-//   '0x122226fb09f7d1c3d313f02e79f134aa36f0981602c438543fe9bb1105e1104a',
-//   '0x983324020f912178ee564c53848db7d07a03109e3ed8ba2e32eeac95e26596b9',
-// ];
-// const privateKeyProvider = new PrivateKeyProvider(privateKeys, 'http://20.196.209.2:8545');
+const PrivateKeyProvider = require("@truffle/hdwallet-provider");
+const privateKeys = [
+  "0xe20c61798cad4c6edb27c902e3592d9c0f92983239fef77f334a3701e7bad767", // Admin account
+  "0x1d63aeacd6f38c0c01f3f9f44ff452049063f1e554fafaaa25a1b2299e16a95d", // Ukraine account
+  "0x122226fb09f7d1c3d313f02e79f134aa36f0981602c438543fe9bb1105e1104a",
+  "0x983324020f912178ee564c53848db7d07a03109e3ed8ba2e32eeac95e26596b9",
+];
+const privateKeyProvider = new PrivateKeyProvider(privateKeys, "http://20.196.209.2:8545");
 
 module.exports = {
   /**
@@ -53,13 +53,13 @@ module.exports = {
 
     // e.g., 가나슈 환경
     development: {
-      host: "127.0.0.1", // Localhost (default: none)
-      port: 8545, // Standard Ethereum port (default: none)
-      network_id: "*", // Any network (default: none)
+      // host: "127.0.0.1", // Localhost (default: none)
+      // port: 8545, // Standard Ethereum port (default: none)
+      // network_id: "*", // Any network (default: none)
       networkCheckTimeout: 999999,
-      // provider: privateKeyProvider,
-      // network_id: "*",
-      // chainId: 31221
+      provider: privateKeyProvider,
+      network_id: "*",
+      chainId: 31221,
     },
 
     // Hyperledger Besu
