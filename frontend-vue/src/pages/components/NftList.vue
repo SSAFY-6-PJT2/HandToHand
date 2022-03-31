@@ -7,6 +7,12 @@
           class="cropped"
           :src="item.imageUri"
           alt="Card image cap"
+          @click="
+            $router.push({
+              name: 'nft-detail',
+              params: { NFTid: item.token_id },
+            })
+          "
         />
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h4 class="my-0">{{ item.title }}</h4>

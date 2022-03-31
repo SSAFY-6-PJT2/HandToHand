@@ -18,9 +18,9 @@
     <div class="section section-about-us">
       <div class="container">
         <div class="row">
-          <div class="col-md-8 ml-auto mr-auto text-center">
+          <div class="ml-auto mr-auto text-center">
             <h2 class="title">NFT 목록</h2>
-            <h5 class="description">목록 목록</h5>
+            <nft-list :items="items"></nft-list>
           </div>
         </div>
       </div>
@@ -29,12 +29,74 @@
 </template>
 <script>
 import { Button, FormGroupInput } from '@/components';
+import NftList from './components/NftList.vue';
 export default {
   name: 'nft-gallery',
   bodyClass: 'landing-page',
   components: {
     [Button.name]: Button,
     [FormGroupInput.name]: FormGroupInput,
+    NftList,
+  },
+  data() {
+    return {
+      items: [
+        {
+          token_id: 1,
+          imageUri: 'img/NFT/nft1.png',
+          title: 'NFT Title',
+          price: 300,
+          donator_nickname: '82surf',
+          donated_price: 300,
+          onSale: true,
+        },
+        {
+          token_id: 2,
+          imageUri: 'img/NFT/nft2.png',
+          title: 'NFT Title',
+          price: 300,
+          donator_nickname: '82surf',
+          donated_price: 300,
+          onSale: false,
+        },
+        {
+          token_id: 3,
+          imageUri: 'img/NFT/nft3.png',
+          title: 'NFT Title',
+          price: 300,
+          donator_nickname: '82surf',
+          donated_price: 300,
+          onSale: true,
+        },
+        {
+          token_id: 4,
+          imageUri: 'img/NFT/nft4.png',
+          title: 'NFT Title',
+          price: 300,
+          donator_nickname: '82surf',
+          donated_price: 300,
+          onSale: false,
+        },
+        {
+          token_id: 5,
+          imageUri: 'img/NFT/nft5.png',
+          title: 'NFT Title',
+          price: 300,
+          donator_nickname: '82surf',
+          donated_price: 300,
+          onSale: true,
+        },
+        {
+          token_id: 6,
+          imageUri: 'img/NFT/nft6.png',
+          title: 'NFT Title',
+          price: 300,
+          donator_nickname: '82surf',
+          donated_price: 300,
+          onSale: false,
+        },
+      ],
+    };
   },
 };
 </script>
