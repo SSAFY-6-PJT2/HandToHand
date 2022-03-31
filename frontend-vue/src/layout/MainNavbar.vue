@@ -24,7 +24,7 @@
           type="success"
           round
           class="my-0 ml-4"
-          @click="$router.push('/profile')"
+          @click="$router.push('/profile/donation-history')"
         >
           마이페이지
         </n-button>
