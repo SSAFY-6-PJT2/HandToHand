@@ -2,7 +2,6 @@ package com.ssafy.handtohand.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -10,6 +9,7 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+
 import java.util.function.Predicate;
 
 /**
@@ -17,10 +17,10 @@ import java.util.function.Predicate;
  *
  * @author EungChol Kim
  * created on 2022-03-29
+ * modified by Eunee Chung
  */
 @Configuration
-@EnableWebMvc
-public class SwaggerConfig {
+public class SwaggerConfig{
     private String version = "V1";
     private String title = "HandtoHand API" + version;
 
@@ -42,7 +42,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder().title(title).description("HandtoHand API Referenc for Developers")
                 .contact(new Contact("ssafy","https://edu.ssafy.com","ssafy@ssafy.com"))
                 .license("HandtoHand License")
-                .licenseUrl("ssafy@ssafy.com").version("1.0").build();
+                .licenseUrl("ssafy@ssafy.com").version(version).build();
 
     }
 
