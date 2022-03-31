@@ -25,6 +25,7 @@ public class User {
     @Column(name = "user_seq")
     private Long seq;
 
+    @Setter
     @Column(name = "user_nickname")
     private String nickname;
 
