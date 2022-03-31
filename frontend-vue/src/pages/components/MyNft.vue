@@ -1,3 +1,7 @@
+<!--
+@author Hyeonsooryu
+-->
+
 <template>
   <div>
     <h3 class="text-center">내 NFT 목록</h3>

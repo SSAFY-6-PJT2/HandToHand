@@ -1,3 +1,7 @@
+<!--
+@author Hyeonsooryu
+-->
+
 <template>
   <div class="row row-cols-sm-1 row-cols-lg-2 row-cols-xl-3">
     <div v-for="item in items" :key="item.token_id" class="col">

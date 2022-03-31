@@ -1,3 +1,7 @@
+<!--
+@author Hyeonsooryu
+-->
+
 <template>
   <div>
     <alert v-if="showLoginSuccessAlert" type="success">
