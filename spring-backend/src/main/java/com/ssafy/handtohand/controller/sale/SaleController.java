@@ -1,14 +1,17 @@
 package com.ssafy.handtohand.controller.sale;
 
 
+import com.ssafy.handtohand.domain.model.dto.sale.request.SaleRequest;
+import com.ssafy.handtohand.domain.model.dto.sale.response.SaleInfoResponse;
 import com.ssafy.handtohand.domain.service.sale.SaleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 판매 컨트롤러
@@ -29,9 +32,10 @@ public class SaleController {
      *
      * @param
      */
+    @PostMapping("sale")
     @ApiOperation(value = "판매 정보 등록")
-    public void saleRegistration(){
-
+    public void registrationSale(@ApiParam(value ="판매 정보",required = true) @RequestBody SaleRequest request){
+        saleService.insertSale(request);
     }
 
     /**
@@ -39,9 +43,10 @@ public class SaleController {
      *
      * @param
      */
+    @GetMapping("sale/{token_id}")
     @ApiOperation(value = "판매 정보 상세 조회")
-    public void viewSaleDetail(){
-
+    public ResponseEntity<SaleInfoResponse> viewSaleDetail(@ApiParam(value="판매 상세 정보",required = true) @PathVariable("token_id") String tokenId){
+        return new ResponseEntity<>(saleService.getSaleDetail(tokenId), HttpStatus.OK);
     }
 
     /**
