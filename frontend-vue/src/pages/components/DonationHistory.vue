@@ -1,3 +1,7 @@
+<!--
+@author Hyeonsooryu
+-->
+
 <template>
   <div>
     <h3 class="text-center">기부 내역</h3>
@@ -54,7 +58,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -89,7 +93,7 @@ export default {
   },
   computed: {
     ...mapGetters(['donationHashes']),
-  }
+  },
 };
 </script>
 
