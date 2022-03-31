@@ -3,7 +3,7 @@
     <div class="page-header clear-filter" filter-color="green">
       <parallax
         class="page-header-image"
-        style="background-image: url('img/bg5.jpg')"
+        style="background-image: url('img/ukrain2.jpg')"
       >
       </parallax>
       <div class="container">
