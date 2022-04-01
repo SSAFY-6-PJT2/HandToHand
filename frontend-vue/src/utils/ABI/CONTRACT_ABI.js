@@ -66,6 +66,50 @@ const CONTRACT_ABI = {
       anonymous: false,
       inputs: [
         {
+          indexed: false,
+          internalType: 'address',
+          name: '_owner',
+          type: 'address',
+        },
+        {
+          indexed: false,
+          internalType: 'uint256',
+          name: '_tokenId',
+          type: 'uint256',
+        },
+        {
+          indexed: false,
+          internalType: 'string',
+          name: '_tokenURI',
+          type: 'string',
+        },
+      ],
+      name: 'NewToken',
+      type: 'event',
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: true,
+          internalType: 'address',
+          name: 'previousOwner',
+          type: 'address',
+        },
+        {
+          indexed: true,
+          internalType: 'address',
+          name: 'newOwner',
+          type: 'address',
+        },
+      ],
+      name: 'OwnershipTransferred',
+      type: 'event',
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
           indexed: true,
           internalType: 'address',
           name: 'from',
@@ -185,6 +229,20 @@ const CONTRACT_ABI = {
       constant: true,
     },
     {
+      inputs: [],
+      name: 'owner',
+      outputs: [
+        {
+          internalType: 'address',
+          name: '',
+          type: 'address',
+        },
+      ],
+      stateMutability: 'view',
+      type: 'function',
+      constant: true,
+    },
+    {
       inputs: [
         {
           internalType: 'uint256',
@@ -203,6 +261,13 @@ const CONTRACT_ABI = {
       stateMutability: 'view',
       type: 'function',
       constant: true,
+    },
+    {
+      inputs: [],
+      name: 'renounceOwnership',
+      outputs: [],
+      stateMutability: 'nonpayable',
+      type: 'function',
     },
     {
       inputs: [
@@ -311,24 +376,42 @@ const CONTRACT_ABI = {
       inputs: [
         {
           internalType: 'address',
-          name: 'from',
+          name: 'newOwner',
           type: 'address',
-        },
-        {
-          internalType: 'address',
-          name: 'to',
-          type: 'address',
-        },
-        {
-          internalType: 'uint256',
-          name: 'tokenId',
-          type: 'uint256',
         },
       ],
-      name: 'transferFrom',
+      name: 'transferOwnership',
       outputs: [],
       stateMutability: 'nonpayable',
       type: 'function',
+    },
+    {
+      inputs: [],
+      name: 'caller',
+      outputs: [
+        {
+          internalType: 'address',
+          name: '',
+          type: 'address',
+        },
+      ],
+      stateMutability: 'view',
+      type: 'function',
+      constant: true,
+    },
+    {
+      inputs: [],
+      name: 'addressOfContract',
+      outputs: [
+        {
+          internalType: 'address',
+          name: '',
+          type: 'address',
+        },
+      ],
+      stateMutability: 'view',
+      type: 'function',
+      constant: true,
     },
     {
       inputs: [],
@@ -388,10 +471,44 @@ const CONTRACT_ABI = {
       stateMutability: 'nonpayable',
       type: 'function',
     },
+    {
+      inputs: [
+        {
+          internalType: 'address',
+          name: 'from',
+          type: 'address',
+        },
+        {
+          internalType: 'address',
+          name: 'to',
+          type: 'address',
+        },
+        {
+          internalType: 'uint256',
+          name: 'tokenId',
+          type: 'uint256',
+        },
+      ],
+      name: 'transferFrom',
+      outputs: [],
+      stateMutability: 'nonpayable',
+      type: 'function',
+    },
   ],
   SALE_FACTORY_ABI: [
     {
-      inputs: [],
+      inputs: [
+        {
+          internalType: 'address',
+          name: '_currencyAddress',
+          type: 'address',
+        },
+        {
+          internalType: 'address',
+          name: '_nftAddress',
+          type: 'address',
+        },
+      ],
       stateMutability: 'nonpayable',
       type: 'constructor',
     },
@@ -418,6 +535,61 @@ const CONTRACT_ABI = {
         },
       ],
       name: 'NewSale',
+      type: 'event',
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: false,
+          internalType: 'address',
+          name: 'saleContractAddress',
+          type: 'address',
+        },
+        {
+          indexed: false,
+          internalType: 'uint256',
+          name: 'tokenId',
+          type: 'uint256',
+        },
+        {
+          indexed: false,
+          internalType: 'address',
+          name: 'seller',
+          type: 'address',
+        },
+        {
+          indexed: false,
+          internalType: 'uint256',
+          name: 'saleStartTime',
+          type: 'uint256',
+        },
+        {
+          indexed: false,
+          internalType: 'uint256',
+          name: 'saleEndTime',
+          type: 'uint256',
+        },
+        {
+          indexed: false,
+          internalType: 'address',
+          name: 'currencyAddress',
+          type: 'address',
+        },
+        {
+          indexed: false,
+          internalType: 'uint256',
+          name: 'minPrice',
+          type: 'uint256',
+        },
+        {
+          indexed: false,
+          internalType: 'uint256',
+          name: 'purchasePrice',
+          type: 'uint256',
+        },
+      ],
+      name: 'NewSaleCreated',
       type: 'event',
     },
     {
@@ -451,6 +623,35 @@ const CONTRACT_ABI = {
       ],
       stateMutability: 'view',
       type: 'function',
+      constant: true,
+    },
+    {
+      inputs: [],
+      name: 'erc20Contract',
+      outputs: [
+        {
+          internalType: 'contract IERC20',
+          name: '',
+          type: 'address',
+        },
+      ],
+      stateMutability: 'view',
+      type: 'function',
+      constant: true,
+    },
+    {
+      inputs: [],
+      name: 'erc721Contract',
+      outputs: [
+        {
+          internalType: 'contract IERC721',
+          name: '',
+          type: 'address',
+        },
+      ],
+      stateMutability: 'view',
+      type: 'function',
+      constant: true,
     },
     {
       inputs: [],
@@ -464,6 +665,7 @@ const CONTRACT_ABI = {
       ],
       stateMutability: 'view',
       type: 'function',
+      constant: true,
     },
     {
       inputs: [],
@@ -490,6 +692,7 @@ const CONTRACT_ABI = {
       ],
       stateMutability: 'view',
       type: 'function',
+      constant: true,
     },
     {
       inputs: [
@@ -506,6 +709,11 @@ const CONTRACT_ABI = {
     },
     {
       inputs: [
+        {
+          internalType: 'address',
+          name: 'seller',
+          type: 'address',
+        },
         {
           internalType: 'uint256',
           name: 'itemId',
@@ -545,8 +753,8 @@ const CONTRACT_ABI = {
       name: 'createSale',
       outputs: [
         {
-          internalType: 'address',
-          name: '',
+          internalType: 'contract Sale',
+          name: 'newSaleContract',
           type: 'address',
         },
       ],
@@ -565,6 +773,7 @@ const CONTRACT_ABI = {
       ],
       stateMutability: 'view',
       type: 'function',
+      constant: true,
     },
   ],
   SALE_ABI: [
