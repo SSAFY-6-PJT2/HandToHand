@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SaleRepository extends JpaRepository<Sale,Long> {
     Sale findByItem(Item item);
+    Sale findBySeq(Long saleSeq);
 }

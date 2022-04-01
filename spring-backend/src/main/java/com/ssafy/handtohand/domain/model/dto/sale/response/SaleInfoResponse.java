@@ -5,10 +5,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.data.annotation.CreatedDate;
 
-import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 판매 정보 상세 조회
@@ -43,11 +41,11 @@ public class SaleInfoResponse {
 
     /* 판매 생성일자 */
     @ApiModelProperty(value = "판매 생성일자",required = true)
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     /* 판매 종료일자 */
     @ApiModelProperty(value = "판매 종료일자",required = true)
-    private Date completedAt;
+    private LocalDateTime completedAt;
 
     /* 작품키 */
     @ApiModelProperty(value = "작품 키",required = true)
