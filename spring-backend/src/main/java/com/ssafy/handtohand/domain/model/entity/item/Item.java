@@ -27,10 +27,12 @@ public class Item {
     /* 작품 NFT 주소 */
     private String tokenId;
 
+    @Setter
     @Column(name="item_title")
     /* 작품 이름 */
     private String title;
 
+    @Setter
     @Column(name="item_owner_address")
     /* 소유자 지갑주소 */
     private String ownerAddress;
@@ -50,5 +52,17 @@ public class Item {
     /* 작품 좋아요 수 */
     private int likeCount;
 
+    @Builder
+    public Item(String hash, String tokenId,String ownerAddress){
+        this.hash=hash;
+        this.tokenId=tokenId;
+        this.ownerAddress=ownerAddress;
+
+        // TODO DB DEFAULT 설정
+        this.title="";
+        this.onSaleYn=1;
+        this.price=0;
+        this.likeCount=1;
+    }
 }
 

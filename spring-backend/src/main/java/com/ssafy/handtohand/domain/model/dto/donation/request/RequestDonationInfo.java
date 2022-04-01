@@ -1,9 +1,16 @@
-package com.ssafy.handtohand.domain.model.dto.donation;
+package com.ssafy.handtohand.domain.model.dto.donation.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
+
+/**
+ * 기부 내역 추가 요청 정보 DTO
+ *
+ * @author Eunee Chung
+ * created on 2022-03-31
+ */
 
 @ApiModel("기부 내역 추가 요청 정보")
 @Getter

@@ -1,4 +1,4 @@
-package com.ssafy.handtohand.domain.model.dto.donation;
+package com.ssafy.handtohand.domain.model.dto.donation.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ssafy.handtohand.domain.model.entity.donation.Donation;
@@ -9,6 +9,12 @@ import lombok.Getter;
 
 import java.util.Date;
 
+/**
+ * 기부 내역 응답 정보 DTO
+ *
+ * @author Eunee Chung
+ * created on 2022-03-31
+ */
 @ApiModel(value = "기부 내역 응답 정보")
 @Getter
 @Builder
@@ -26,7 +32,7 @@ public class ResponseDonation {
 
     private Long seq;
 
-    static public ResponseDonation convertToDto(Donation donation){
+    static public ResponseDonation convertToDto(Donation donation) {
         return ResponseDonation.builder()
                 .amount(donation.getAmount())
                 .createdDate(donation.getCreatedDate())
