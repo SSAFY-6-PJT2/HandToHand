@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * 작품 관련 컨트롤러
  *
- * @author SeungYeon Hwang,Eunee jung
+ * @author SeungYeon Hwang,Eunee Chung
  * created on 2022-04-01
  */
 

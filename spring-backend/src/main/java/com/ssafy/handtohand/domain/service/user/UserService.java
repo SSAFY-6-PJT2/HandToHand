@@ -7,6 +7,12 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+/**
+ * 회원 관련 기능 Service
+ *
+ * @author Eunee Chung
+ * created on 2022-03-31
+ */
 @Service
 @Transactional
 public class UserService {
@@ -30,7 +36,7 @@ public class UserService {
         }
     }
 
-    public String updateNickName(String nickname,String address) {
+    public String updateNickName(String nickname, String address) {
         try {
             User user = userRepository.findUserByWalletAddress(address);
             user.setNickname(nickname);
