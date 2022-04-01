@@ -50,7 +50,6 @@ public class SaleService {
      * @param tokenId
      * @return
      */
-
     public SaleInfoResponse getSaleDetail(String tokenId) {
         Item item = itemRepository.findByTokenId(tokenId);
         Sale sale = saleRepository.findByItem(item);
