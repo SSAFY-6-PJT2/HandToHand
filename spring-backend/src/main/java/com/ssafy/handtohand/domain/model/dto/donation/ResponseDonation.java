@@ -1,7 +1,7 @@
 package com.ssafy.handtohand.domain.model.dto.donation;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ssafy.handtohand.domain.model.entity.donation.Donation;
-import com.ssafy.handtohand.domain.model.entity.donation.DonationStatusType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
@@ -16,6 +16,7 @@ public class ResponseDonation {
 
     private Double amount;
 
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm")
     private Date createdDate;
 
     @ApiModelProperty(value = "기부 상태(실패, 처리중, 송금완료, 생성완료)", required = true)
