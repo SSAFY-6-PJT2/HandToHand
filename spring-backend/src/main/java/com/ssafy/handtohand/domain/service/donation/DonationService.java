@@ -47,7 +47,7 @@ public class DonationService {
 
     public List<ResponseDonation> getDonations(String address){
         User user = userRepository.findUserByWalletAddress(address);
-        List<Donation> donationList = donationRepository.findDonationsByUser(user);
+        List<Donation> donationList = donationRepository.findDonationsByUserOrderByCreatedDateDesc(user);
         List<ResponseDonation> responseDonationList =new ArrayList<>();
         for(Donation d : donationList){
             responseDonationList.add(ResponseDonation.convertToDto(d));
