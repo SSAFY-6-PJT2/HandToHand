@@ -23,11 +23,14 @@ public class ResponseDonation {
 
     private String transactionHash;
 
+    private Long seq;
 
     static public ResponseDonation convertToDto(Donation donation){
-        return ResponseDonation.builder().amount(donation.getAmount())
+        return ResponseDonation.builder()
+                .amount(donation.getAmount())
                 .createdDate(donation.getCreatedDate())
                 .type(donation.getType().ordinal())
-                .transactionHash(donation.getTransactionHash()).build();
+                .transactionHash(donation.getTransactionHash())
+                .seq(donation.getSeq()).build();
     }
 }
