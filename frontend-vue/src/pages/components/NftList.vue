@@ -1,3 +1,7 @@
+<!--
+@author Hyeonsooryu
+-->
+
 <template>
   <div class="row row-cols-sm-1 row-cols-lg-2 row-cols-xl-3">
     <div v-for="item in items" :key="item.token_id" class="col">
@@ -7,6 +11,12 @@
           class="cropped"
           :src="item.imageUri"
           alt="Card image cap"
+          @click="
+            $router.push({
+              name: 'nft-detail',
+              params: { NFTid: item.token_id },
+            })
+          "
         />
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h4 class="my-0">{{ item.title }}</h4>

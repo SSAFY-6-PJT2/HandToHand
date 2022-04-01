@@ -1,3 +1,7 @@
+<!--
+@author Hyeonsooryu
+-->
+
 <template>
   <div>
     <!-- 기부 Form -->
@@ -84,6 +88,11 @@ import {
   ethTransferToAdmin,
   ethGetTxStatus,
 } from '@/utils/eth.js';
+import {
+  getDonationHistory,
+  addDonationHistory,
+  updateDonationStatus,
+} from '@/api/donationAPI.js';
 
 export default {
   components: {
@@ -130,9 +139,21 @@ export default {
         // console.log(sendResult.data)
         // console.log(sendResult.receipt)
         this.vuexAddDonationHistory(sendResult.receipt);
-        await ethGetTxStatus(sendResult.receipt.transactionHash).then((res) => {
-          console.log(res);
-        });
+        // await ethGetTxStatus(sendResult.receipt.transactionHash).then((res) => {
+        //   console.log(res);
+        // });
+        await addDonationHistory(
+          this.amount,
+          sendResult.receipt.transactionHash,
+          this.userAddress,
+          (res) => {
+            console.log(res);
+          },
+          (err) => {
+            console.log(err);
+          },
+        );
+        this.$router.push('/profile/donation-history');
       } else {
         if (!this.amount) {
           console.log('보낼 토큰의 양을 입력해주세요.');

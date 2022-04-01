@@ -1,3 +1,7 @@
+/**
+ * @author Hyeonsooryu
+ */
+
 import Web3 from 'web3';
 import TOKEN_ABI from '@/utils/ABI/TOKEN_ABI.js';
 import sendTransaction from './TxSender';

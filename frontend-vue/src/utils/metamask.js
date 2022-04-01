@@ -1,6 +1,5 @@
 /**
- * @author Hyeon Soo Yoo
- * @created_at 22.03.25
+ * @author Hyeonsooryu
  */
 
 const eth = window.ethereum;

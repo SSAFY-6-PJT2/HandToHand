@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-// import "./access/Ownable.sol";
-// import "./token/ERC20/ERC20.sol";
-// import "./token/ERC721/ERC721.sol";
+import "./access/Ownable.sol";
+import "./token/ERC20/IERC20.sol";
+import "./token/ERC721/IERC721.sol";
 
 // Openzeppelin 라이브러리 사용
-import "./openzeppelin/contracts/access/Ownable.sol";
-import "./openzeppelin/contracts/token/ERC721/IERC721.sol";
-import "./openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
-import "./openzeppelin/contracts/token/ERC20/IERC20.sol";
+// import "./openzeppelin/contracts/access/Ownable.sol";
+// import "./openzeppelin/contracts/token/ERC721/IERC721.sol";
+// import "./openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
+// import "./openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 
 /**
@@ -71,6 +71,9 @@ contract SaleFactory is Ownable {
         require(seller != address(0), "Not valid address");
         require(seller == erc721Contract.ownerOf(itemId), "Your not owner of this NFT");
 
+        // seller 의 NFT Contract 로 이전
+        erc721Contract.transferFrom(seller, address(this), itemId);
+
         newSaleContract = new Sale(
             admin,
             seller,
@@ -82,6 +85,9 @@ contract SaleFactory is Ownable {
             currencyAddress,
             nftAddress
         );
+
+        // Sacle Factory 의 NFT Sale Contract 로 이전
+        erc721Contract.transferFrom(address(this), address(newSaleContract), itemId);
 
         sales.push(address(newSaleContract));
 
