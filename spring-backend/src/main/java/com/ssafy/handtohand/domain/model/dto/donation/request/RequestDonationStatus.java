@@ -1,4 +1,4 @@
-package com.ssafy.handtohand.domain.model.dto.donation;
+package com.ssafy.handtohand.domain.model.dto.donation.request;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Builder;

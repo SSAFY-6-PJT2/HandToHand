@@ -1,8 +1,8 @@
 package com.ssafy.handtohand.controller.donation;
 
-import com.ssafy.handtohand.domain.model.dto.donation.RequestDonationInfo;
-import com.ssafy.handtohand.domain.model.dto.donation.RequestDonationStatus;
-import com.ssafy.handtohand.domain.model.dto.donation.ResponseDonation;
+import com.ssafy.handtohand.domain.model.dto.donation.request.RequestDonationInfo;
+import com.ssafy.handtohand.domain.model.dto.donation.request.RequestDonationStatus;
+import com.ssafy.handtohand.domain.model.dto.donation.response.ResponseDonation;
 import com.ssafy.handtohand.domain.service.donation.DonationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

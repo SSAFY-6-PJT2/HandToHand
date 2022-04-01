@@ -1,4 +1,4 @@
-package com.ssafy.handtohand.domain.model.dto.donation;
+package com.ssafy.handtohand.domain.model.dto.donation.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ssafy.handtohand.domain.model.entity.donation.Donation;
