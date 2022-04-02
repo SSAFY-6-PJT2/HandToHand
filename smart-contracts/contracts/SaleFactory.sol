@@ -18,7 +18,7 @@ import "./token/ERC721/IERC721.sol";
  */
 contract SaleFactory is Ownable {
     address public admin;
-    address[] public sales;
+    mapping(uint256 => address) public sales;
 
     IERC20 public erc20Contract;
     IERC721 public erc721Contract;
@@ -50,6 +50,9 @@ contract SaleFactory is Ownable {
         erc721Contract = IERC721(_nftAddress);
     }
 
+    function getSaleAddress(uint256 tokenId) public view returns (address) {
+        return sales[tokenId];
+    }
     // emit 필요성 확인
     function createSale(
         address seller,
@@ -89,16 +92,13 @@ contract SaleFactory is Ownable {
         // Sacle Factory 의 NFT Sale Contract 로 이전
         erc721Contract.transferFrom(address(this), address(newSaleContract), itemId);
 
-        sales.push(address(newSaleContract));
+        sales[itemId] = address(newSaleContract);
 
         emit NewSaleCreated(address(newSaleContract), itemId, seller, startTime, endTime, currencyAddress, minPrice, purchasePrice);
 
         return newSaleContract;
     }
 
-    function allSales() public view returns (address[] memory) {
-        return sales;
-    }
 }
 
 /**
@@ -258,6 +258,7 @@ contract Sale {
 
     }
     
+    // Todo : cancelSales => cancelSale 수정
     function cancelSales()
         public
         isSaleOngoing
