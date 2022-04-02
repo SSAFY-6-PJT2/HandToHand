@@ -6,14 +6,14 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Index from './pages/Index.vue';
 import NftGallery from './pages/NftGallery.vue';
-import NftDetail from './pages/components/NftDetail.vue';
+import NftDetail from './pages/NftDetail.vue';
 import Profile from './pages/Profile.vue';
 import MainNavbar from './layout/MainNavbar.vue';
 import MainFooter from './layout/MainFooter.vue';
 import MyNft from './pages/components/MyNft.vue';
 import DonationHistory from './pages/components/DonationHistory.vue';
 // 404 Page Not Found
-import PageNotFound from './pages/components/PageNotFound.vue';
+import PageNotFound from './pages/PageNotFound.vue';
 
 Vue.use(Router);
 
