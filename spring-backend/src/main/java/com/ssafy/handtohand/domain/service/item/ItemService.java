@@ -26,11 +26,48 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private EntityManager em;
 
-    public List<ItemResponse> getItemList(String address){
+    public List<ItemResponse> getItemList(){
         List<ItemResponse> list = new ArrayList<>();
+
+        List<Item> items = itemRepository.findAll();
+        for(Item item: items){
+            ItemResponse itemResponse = ItemResponse.builder()
+                    .seq(item.getSeq())
+                    .hash(item.getHash())
+                    .tokenId(item.getTokenId())
+                    .title(item.getTitle())
+                    .ownerAddress(item.getOwnerAddress())
+                    .onSaleYn(item.getOnSaleYn())
+                    .price(item.getPrice())
+                    .likeCount(item.getLikeCount())
+                    .build();
+            list.add(itemResponse);
+        }
 
         return list;
     }
+
+    public List<ItemResponse> getUserItemList(String address,long userSeq){
+        List<ItemResponse> list = new ArrayList<>();
+
+        List<Item> items = itemRepository.findByOwnerAddress(address);
+        for(Item item: items){
+            ItemResponse itemResponse = ItemResponse.builder()
+                    .seq(item.getSeq())
+                    .hash(item.getHash())
+                    .tokenId(item.getTokenId())
+                    .title(item.getTitle())
+                    .ownerAddress(item.getOwnerAddress())
+                    .onSaleYn(item.getOnSaleYn())
+                    .price(item.getPrice())
+                    .likeCount(item.getLikeCount())
+                    .build();
+            list.add(itemResponse);
+        }
+
+        return list;
+    }
+
     public String insertItem(RequestItem request){
         try{
             Item item = RequestItem.convertToEntity(request);
@@ -41,6 +78,7 @@ public class ItemService {
             return "error";
         }
     }
+
     public String updateOwner(RequestItem request){
         try{
             Item item = itemRepository.findByTokenId(request.getTokenId());

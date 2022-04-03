@@ -28,9 +28,15 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping
-    public ResponseEntity<List<ItemResponse>> viewItemList(@RequestHeader("wallet-address") String address){
+    @ApiOperation(value = "등록된 모든 작품 조회")
+    public ResponseEntity<List<ItemResponse>> viewItemList(){
+        return new ResponseEntity<>(itemService.getItemList(), HttpStatus.OK);
+    }
 
-        return new ResponseEntity<>(itemService.getItemList(address), HttpStatus.OK);
+    @GetMapping("/{user_seq}")
+    @ApiOperation(value = "특정 주소가 보유한 작품 목록 조회")
+    public ResponseEntity<List<ItemResponse>> viewUserItemList(@PathVariable("user_seq") long userSeq, @RequestHeader("wallet-address") String address){
+        return new ResponseEntity<>(itemService.getUserItemList(address,userSeq), HttpStatus.OK);
     }
 
     @PostMapping("/add")
