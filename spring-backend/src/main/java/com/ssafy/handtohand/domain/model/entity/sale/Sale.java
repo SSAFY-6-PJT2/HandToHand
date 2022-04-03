@@ -1,14 +1,11 @@
 package com.ssafy.handtohand.domain.model.entity.sale;
 
 import com.ssafy.handtohand.domain.model.entity.item.Item;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 적금 내역 엔티티
@@ -21,6 +18,7 @@ import java.util.Date;
 @Table(name="sales")
 @Getter
 @Builder
+@RequiredArgsConstructor
 @AllArgsConstructor
 public class Sale {
 
@@ -34,6 +32,7 @@ public class Sale {
     /* 판매 거래주소 */
     private String contractAddress;
 
+    @Setter
     @Column(name="sale_yn")
     /* 판매 여부 */
     private int yn;
@@ -46,21 +45,21 @@ public class Sale {
     /* 판매자 지갑주소 */
     private String sellerAddress;
 
+    @Setter
     @Column(name="sale_buyer_address")
     /* 구매자 지갑주소 */
     private String buyerAddress;
 
     @CreatedDate
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name="sale_created_at")
     /* 판매 생성일자 */
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
+    @Setter
     @CreatedDate
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name="sale_completed_at")
     /* 판매 종료일자 */
-    private Date completedAt;
+    private LocalDateTime completedAt;
 
     @JoinColumn(name="fk_item_seq")
     @ManyToOne(fetch = FetchType.LAZY)

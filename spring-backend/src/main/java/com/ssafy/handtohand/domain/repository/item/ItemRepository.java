@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ItemRepository extends JpaRepository<Item, Long> {
     /**
      * 토큰 아이디로 NFT 조회
+     *
      * @param tokenId
      * @return
      */

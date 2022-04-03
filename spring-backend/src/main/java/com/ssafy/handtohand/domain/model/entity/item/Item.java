@@ -1,9 +1,6 @@
 package com.ssafy.handtohand.domain.model.entity.item;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
@@ -26,29 +23,46 @@ public class Item {
     /* 작품 이미지 */
     private String hash;
 
-    @Column(name="token_id")
+    @Column(name="item_token_id")
     /* 작품 NFT 주소 */
     private String tokenId;
 
-    @Column(name="title")
+    @Setter
+    @Column(name="item_title")
     /* 작품 이름 */
     private String title;
 
-    @Column(name="owner_address")
+    @Setter
+    @Column(name="item_owner_address")
     /* 소유자 지갑주소 */
     private String ownerAddress;
 
-    @Column(name="on_sale_yn")
+    @Setter
+    @Column(name="item_on_sale_yn")
     /* 판매 중인지 여부 */
     private int onSaleYn;
 
-    @Column(name="price")
+    @Setter
+    @Column(name="item_price")
     /* 작품현재가격 */
     private double price;
 
-    @Column(name="like_count")
+    @Setter
+    @Column(name="item_like_count")
     /* 작품 좋아요 수 */
     private int likeCount;
 
+    @Builder
+    public Item(String hash, String tokenId,String ownerAddress){
+        this.hash=hash;
+        this.tokenId=tokenId;
+        this.ownerAddress=ownerAddress;
+
+        // TODO DB DEFAULT 설정
+        this.title="";
+        this.onSaleYn=1;
+        this.price=0;
+        this.likeCount=1;
+    }
 }
 

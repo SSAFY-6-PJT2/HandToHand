@@ -1,5 +1,6 @@
 package com.ssafy.handtohand.domain.service.sale;
 
+import com.ssafy.handtohand.domain.model.dto.sale.request.BuyerUpdateRequest;
 import com.ssafy.handtohand.domain.model.dto.sale.request.SaleRequest;
 import com.ssafy.handtohand.domain.model.dto.sale.response.SaleInfoResponse;
 import com.ssafy.handtohand.domain.model.entity.item.Item;
@@ -11,14 +12,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 @RequiredArgsConstructor
 public class SaleService {
 
-    private SaleRepository saleRepository;
-    private ItemRepository itemRepository;
+    private final SaleRepository saleRepository;
+    private final ItemRepository itemRepository;
     private EntityManager em;
 
     /**
@@ -28,17 +30,18 @@ public class SaleService {
      */
     @Transactional(rollbackFor = Exception.class)
     public void insertSale(SaleRequest request) {
+        Item item = itemRepository.findByTokenId(request.getTokenId());
         Sale sale = Sale.builder()
                 .contractAddress(request.getSaleContractAddress())
-                .yn(request.getSaleYN())
+                .yn(1)
                 .cashContractAddress(request.getCashContractAddress())
                 .sellerAddress(request.getSellerAddress())
-                .buyerAddress(request.getBuyerAddress())
-                .createdAt(request.getCreatedAt())
-                .completedAt(request.getCompletedAt())
+                .buyerAddress("notYet")
+                .createdAt(LocalDateTime.now())
+                .completedAt(LocalDateTime.now())
+                .item(item)
                 .build();
         saleRepository.save(sale);
-        em.refresh(em.merge(sale));
     }
 
     /**
@@ -47,7 +50,6 @@ public class SaleService {
      * @param tokenId
      * @return
      */
-
     public SaleInfoResponse getSaleDetail(String tokenId) {
         Item item = itemRepository.findByTokenId(tokenId);
         Sale sale = saleRepository.findByItem(item);
@@ -60,5 +62,38 @@ public class SaleService {
                 .createdAt(sale.getCreatedAt())
                 .completedAt(sale.getCompletedAt())
                 .build();
+    }
+
+    /**
+     * 구매자 정보 업데이트
+     *
+     * @param request
+     */
+    public void updateBuyerInfo(BuyerUpdateRequest request, String tokenId) {
+        Item item = itemRepository.findByTokenId(tokenId);
+        Sale sale = saleRepository.findByItem(item);
+        sale.setBuyerAddress(request.getBuyerAddress());
+    }
+
+    /**
+     * 판매 상태 취소로 업데이트
+     *
+     * @param saleSeq
+     */
+    public void changeYNSale(Long saleSeq) {
+        Sale sale = saleRepository.findBySeq(saleSeq);
+        sale.setYn(0);
+    }
+
+    /**
+     * 판매 상태 완료로 업데이트
+     *
+     * @param tokenId
+     */
+    public void changeSaleComplete(String tokenId) {
+        Item item = itemRepository.findByTokenId(tokenId);
+        Sale sale = saleRepository.findByItem(item);
+        sale.setYn(0);
+        sale.setCompletedAt(LocalDateTime.now());
     }
 }

@@ -1,6 +1,7 @@
 package com.ssafy.handtohand.controller.sale;
 
 
+import com.ssafy.handtohand.domain.model.dto.sale.request.BuyerUpdateRequest;
 import com.ssafy.handtohand.domain.model.dto.sale.request.SaleRequest;
 import com.ssafy.handtohand.domain.model.dto.sale.response.SaleInfoResponse;
 import com.ssafy.handtohand.domain.service.sale.SaleService;
@@ -8,7 +9,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +32,7 @@ public class SaleController {
      *
      * @param
      */
-    @PostMapping("sale")
+    @PostMapping("/")
     @ApiOperation(value = "판매 정보 등록")
     public void registrationSale(@ApiParam(value ="판매 정보",required = true) @RequestBody SaleRequest request){
         saleService.insertSale(request);
@@ -43,7 +43,7 @@ public class SaleController {
      *
      * @param
      */
-    @GetMapping("sale/{token_id}")
+    @GetMapping("{token_id}")
     @ApiOperation(value = "판매 정보 상세 조회")
     public ResponseEntity<SaleInfoResponse> viewSaleDetail(@ApiParam(value="판매 상세 정보",required = true) @PathVariable("token_id") String tokenId){
         return new ResponseEntity<>(saleService.getSaleDetail(tokenId), HttpStatus.OK);
@@ -54,9 +54,10 @@ public class SaleController {
      *
      * @param
      */
+    @PatchMapping("{token_id}/purchase")
     @ApiOperation(value = "구매자 정보 업데이트")
-    public void updateBuyerInfo(){
-
+    public void updateBuyerInfo(@ApiParam(value = "구매자 정보 업데이트", required = true) @RequestBody BuyerUpdateRequest request, @PathVariable String token_id){
+        saleService.updateBuyerInfo(request, token_id);
     }
 
     /**
@@ -64,9 +65,10 @@ public class SaleController {
      *
      * @param
      */
+    @PatchMapping("{sale_seq}")
     @ApiOperation(value = "판매 취소")
-    public void cancelSale(){
-
+    public void cancelSale(@ApiParam(value = "판매 취소", required = true) @PathVariable Long sale_seq){
+        saleService.changeYNSale(sale_seq);
     }
 
     /**
@@ -74,9 +76,10 @@ public class SaleController {
      *
      * @param
      */
+    @PatchMapping("{token_id}/complete")
     @ApiOperation(value = "판매 완료")
-    public void completeSale(){
-
+    public void completeSale(@ApiParam(value = "판매 완료", required = true) @PathVariable String token_id){
+        saleService.changeSaleComplete(token_id);
     }
 
 }
