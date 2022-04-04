@@ -131,7 +131,7 @@ export default {
         .catch((err) => console.log(err));
     },
     async NFTTransferTo() {
-      NFTTransfer(
+      await NFTTransfer(
         this.userAddress,
         this.privKey,
         '0xf41523A930f3dbC1CcF23b7F30bc814c35597FAe',
