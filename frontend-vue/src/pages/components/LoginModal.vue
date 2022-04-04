@@ -28,10 +28,27 @@
         <p v-if="showErr" class="text-danger" style="font-size: 14px">
           유효한 개인키를 입력해주세요.
         </p>
+        <p v-if="isLoading" class="text-danger" style="font-size: 14px">
+          {{ loadingMsg }}
+        </p>
       </template>
       <div slot="footer" class="justify-content-center">
-        <n-button type="warning" round size="lg" @click="eableWallet">
+        <n-button
+          v-if="!isLoading"
+          type="warning"
+          round
+          size="lg"
+          @click="eableWallet"
+        >
           지갑 연결하기
+        </n-button>
+        <n-button v-else type="warning" round size="lg">
+          <div
+            class="spinner-border spinner-border-sm text-light"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
         </n-button>
       </div>
     </modal>
@@ -42,6 +59,7 @@
 import { mapState, mapGetters, mapActions } from 'vuex';
 import { FormGroupInput, Button, Modal } from '@/components';
 import { getAddressFrom } from '../../utils/eth.js';
+import { getBalance, tokenMint, tokenTransfer } from '../../utils/Token.js';
 
 export default {
   components: {
@@ -59,20 +77,55 @@ export default {
       },
       privKey: null,
       showErr: false,
+      isLoading: false,
+      loadingMsg: null,
     };
   },
   methods: {
     ...mapActions(['vuexSetPrivKey', 'vuexSetAddress']),
-    eableWallet() {
+    async eableWallet() {
       try {
+        this.isLoading = true;
         const address = getAddressFrom(this.privKey);
+        await this.transferFaucet(address);
+        this.loadingMsg = null;
         this.vuexSetAddress(address);
         this.vuexSetPrivKey(this.privKey);
         this.modals.notice = false;
+        this.isLoading = false;
       } catch (error) {
         console.log(error);
         this.showErr = true;
+        this.isLoading = false;
       }
+    },
+    async transferFaucet(toAddr) {
+      this.loadingMsg = '지갑 잔액 조회 중입니다...';
+      await getBalance(toAddr)
+        .then(async (res) => {
+          console.log(res);
+          console.log(typeof res);
+          if (res === '0') {
+            console.log('tokenMint');
+            this.loadingMsg = '토큰 생성 중입니다...';
+            await tokenMint(
+              process.env.VUE_APP_ADMIN_ADDRESS,
+              process.env.VUE_APP_ADMIN_PRIV_KEY,
+              1000,
+            );
+            console.log('tokenTransfer');
+            this.loadingMsg = '해당 지갑으로 토큰 지급 중입니다..';
+            await tokenTransfer(
+              process.env.VUE_APP_ADMIN_ADDRESS,
+              process.env.VUE_APP_ADMIN_PRIV_KEY,
+              toAddr,
+              1000,
+            );
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
   computed: {
