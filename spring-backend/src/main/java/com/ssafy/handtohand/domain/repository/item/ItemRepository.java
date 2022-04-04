@@ -3,6 +3,8 @@ package com.ssafy.handtohand.domain.repository.item;
 import com.ssafy.handtohand.domain.model.entity.item.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface ItemRepository extends JpaRepository<Item, Long> {
     /**
      * 토큰 아이디로 NFT 조회
@@ -12,5 +14,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
      */
 //    Item findByItem_Token_Id(String tokenId);
     Item findByTokenId(String tokenId);
+    List<Item> findByOwnerAddress(String ownerAddress);
+    List<Item> findByOnSaleYn(int onSaleYn);
 
 }
