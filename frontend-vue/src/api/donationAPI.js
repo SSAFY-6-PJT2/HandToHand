@@ -45,7 +45,7 @@ const addDonationHistory = async (amount, txHash, addr, success, fail) => {
  */
 const updateDonationStatus = async (txHash, statusNum, success, fail) => {
   const params = { transactionHash: txHash, type: statusNum };
-  api.patch('donations', null, { params }).then(success).catch(fail);
+  api.patch('/donations', null, { params }).then(success).catch(fail);
 };
 
 export { getDonationHistory, addDonationHistory, updateDonationStatus };

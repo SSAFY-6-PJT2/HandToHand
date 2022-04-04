@@ -21,9 +21,19 @@ const defaultFail = (err) => {
  * 등록된 모든 작품 조회
  * @param {Function} success  요청 성공 시 수행할 콜백 함수
  * @param {Function} fail     요청 실패 시 수행할 콜백 함수
+ * @returns {Promise}
  */
-const getItems = (success = defaultSuccess, fail = defaultFail) => {
-  api.get('/items').then(success).catch(fail);
+const getItems = async () => {
+  let result = null;
+  await api
+    .get('/items')
+    .then((res) => {
+      result = res;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return result;
 };
 
 /**
@@ -58,7 +68,7 @@ const getItemsOnSale = (success = defaultSuccess, fail = defaultFail) => {
  * @param {Function} success  요청 성공 시 수행할 콜백 함수
  * @param {Function} fail     요청 실패 시 수행할 콜백 함수
  */
-const addItem = (
+const addItem = async (
   tokenUri,
   ownerAddr,
   tokenId,
@@ -71,7 +81,7 @@ const addItem = (
     tokenId: tokenId,
   };
 
-  api.post('/items/add', JSON.stringify(data)).then(success).catch(fail);
+  await api.post('/items/add', JSON.stringify(data)).then(success).catch(fail);
 };
 
 /**
