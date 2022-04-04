@@ -77,6 +77,7 @@ const tokenTransfer = async (fromAddr, privKey, toAddr, amount) => {
     privKey,
     process.env.VUE_APP_ERC20_CA,
     data,
+    true,
   );
 
   return result;
