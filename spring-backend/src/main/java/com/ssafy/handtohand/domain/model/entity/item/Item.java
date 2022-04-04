@@ -64,5 +64,9 @@ public class Item {
         this.price=0;
         this.likeCount=1;
     }
+
+    public void changeLikeCount(boolean flag){
+        this.likeCount = flag ? this.likeCount-- : this.likeCount++;
+    }
 }
 
