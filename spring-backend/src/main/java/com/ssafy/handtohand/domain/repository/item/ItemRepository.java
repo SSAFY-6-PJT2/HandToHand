@@ -15,5 +15,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 //    Item findByItem_Token_Id(String tokenId);
     Item findByTokenId(String tokenId);
     List<Item> findByOwnerAddress(String ownerAddress);
+    List<Item> findByOnSaleYn(int onSaleYn);
 
 }
