@@ -78,6 +78,7 @@ const createSale = async (
     admin_privkey,
     SaleFactory_CA,
     data,
+    true,
   );
 
   return result;

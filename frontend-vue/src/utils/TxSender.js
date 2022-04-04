@@ -3,15 +3,11 @@
  */
 
 import Web3 from 'web3';
-import CallAPI from '@/utils/API.js';
 
 // Web3
 const web3 = new Web3(
   new Web3.providers.HttpProvider(process.env.VUE_APP_ETHEREUM_RPC_URL),
 );
-
-// API List
-const apiList = ['create', 'bid'];
 
 /**
  * 트랜잭션 전송을 위한 공통 로직
