@@ -2,7 +2,7 @@ package com.ssafy.handtohand.domain.service.item;
 
 import com.ssafy.handtohand.domain.model.dto.item.response.ItemDetailResponse;
 import com.ssafy.handtohand.domain.model.dto.item.response.ItemResponse;
-import com.ssafy.handtohand.domain.model.dto.item.requset.RequestItem;
+import com.ssafy.handtohand.domain.model.dto.item.requset.ItemRequest;
 import com.ssafy.handtohand.domain.model.entity.donation.Donation;
 import com.ssafy.handtohand.domain.model.entity.item.Item;
 import com.ssafy.handtohand.domain.model.entity.user.User;
@@ -97,9 +97,9 @@ public class ItemService {
         return list;
     }
 
-    public String insertItem(RequestItem request){
+    public String insertItem(ItemRequest request){
         try{
-            Item item = RequestItem.convertToEntity(request);
+            Item item = ItemRequest.convertToEntity(request);
             itemRepository.save(item);
             item.setTitle("HandToHand#"+item.getSeq());
             return "success";
@@ -108,7 +108,7 @@ public class ItemService {
         }
     }
 
-    public String updateOwner(RequestItem request){
+    public String updateOwner(ItemRequest request){
         try{
             Item item = itemRepository.findByTokenId(request.getTokenId());
             item.setOwnerAddress(request.getOwnerAddress());

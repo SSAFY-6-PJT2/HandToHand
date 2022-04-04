@@ -15,7 +15,7 @@ import lombok.Getter;
 @ApiModel("기부 내역 추가 요청 정보")
 @Getter
 @Builder
-public class RequestDonationInfo {
+public class DonationInfoRequest {
     @ApiModelProperty(value = "기부자 지갑 주소",required = true)
     private final String walletAddress;
 
