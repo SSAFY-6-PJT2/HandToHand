@@ -47,7 +47,7 @@ public class ItemService {
         return list;
     }
 
-    public List<ItemResponse> getUserItemList(String address,long userSeq){
+    public List<ItemResponse> getUserItemList(String address){
         List<ItemResponse> list = new ArrayList<>();
 
         List<Item> items = itemRepository.findByOwnerAddress(address);
@@ -66,6 +66,30 @@ public class ItemService {
         }
 
         return list;
+    }
+
+    public List<ItemResponse> getSaleItemList() {
+        List<ItemResponse> list = new ArrayList<>();
+
+        List<Item> items = itemRepository.findByOnSaleYn(1);
+        for(Item item:items){
+            ItemResponse itemResponse = ItemResponse.builder()
+                    .seq(item.getSeq())
+                    .hash(item.getHash())
+                    .tokenId(item.getTokenId())
+                    .title(item.getTitle())
+                    .ownerAddress(item.getOwnerAddress())
+                    .onSaleYn(item.getOnSaleYn())
+                    .price(item.getPrice())
+                    .likeCount(item.getLikeCount())
+                    .build();
+            list.add(itemResponse);
+        }
+        return list;
+    }
+
+    public void updateLike() {
+
     }
 
     public String insertItem(RequestItem request){

@@ -33,10 +33,22 @@ public class ItemController {
         return new ResponseEntity<>(itemService.getItemList(), HttpStatus.OK);
     }
 
-    @GetMapping("/{user_seq}")
+    @GetMapping("/{address}")
     @ApiOperation(value = "특정 주소가 보유한 작품 목록 조회")
-    public ResponseEntity<List<ItemResponse>> viewUserItemList(@PathVariable("user_seq") long userSeq, @RequestHeader("wallet-address") String address){
-        return new ResponseEntity<>(itemService.getUserItemList(address,userSeq), HttpStatus.OK);
+    public ResponseEntity<List<ItemResponse>> viewUserItemList(@PathVariable("wallet-address") String address){
+        return new ResponseEntity<>(itemService.getUserItemList(address), HttpStatus.OK);
+    }
+
+    @GetMapping("/onSale")
+    @ApiOperation(value = "판매중인 작품 목록 조회")
+    public ResponseEntity<List<ItemResponse>> viewSaleItemList(){
+        return new ResponseEntity<>(itemService.getSaleItemList(), HttpStatus.OK);
+    }
+
+    @PatchMapping
+    @ApiOperation(value = "좋아요 업데이트")
+    public void updateLike(){
+        itemService.updateLike();
     }
 
     @PostMapping("/add")
