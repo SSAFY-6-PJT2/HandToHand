@@ -12,7 +12,7 @@ import lombok.Getter;
  */
 @ApiModel(value = "작품 요청 정보")
 @Getter
-public class ItemRequest {
+public class RequestItem {
 
     /* 작품 이미지 */
     private String hash;
@@ -23,7 +23,7 @@ public class ItemRequest {
     /* 소유자 지갑주소 */
     private String ownerAddress;
 
-    static public Item convertToEntity(ItemRequest requestItem) {
+    static public Item convertToEntity(RequestItem requestItem) {
         return Item.builder()
                 .hash(requestItem.getHash())
                 .tokenId(requestItem.getTokenId())

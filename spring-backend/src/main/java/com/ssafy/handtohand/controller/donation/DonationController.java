@@ -1,8 +1,8 @@
 package com.ssafy.handtohand.controller.donation;
 
-import com.ssafy.handtohand.domain.model.dto.donation.request.DonationInfoRequest;
-import com.ssafy.handtohand.domain.model.dto.donation.request.DonationStatusRequest;
-import com.ssafy.handtohand.domain.model.dto.donation.response.DonationResponse;
+import com.ssafy.handtohand.domain.model.dto.donation.request.RequestDonationInfo;
+import com.ssafy.handtohand.domain.model.dto.donation.request.RequestDonationStatus;
+import com.ssafy.handtohand.domain.model.dto.donation.response.ResponseDonation;
 import com.ssafy.handtohand.domain.service.donation.DonationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,19 +34,19 @@ public class DonationController {
 
     @PostMapping()
     @ApiOperation(value = "기부 내역 추가")
-    public ResponseEntity<Integer> addDonation(@ApiParam(value = "기부 내역 정보", required = true) @RequestBody DonationInfoRequest request) {
+    public ResponseEntity<Integer> addDonation(@ApiParam(value = "기부 내역 정보", required = true) @RequestBody RequestDonationInfo request) {
         return new ResponseEntity<>(donationService.insertDonationHistory(request), HttpStatus.OK);
     }
 
     @GetMapping
     @ApiOperation(value = "본인의 기부 내역 조회")
-    public ResponseEntity<List<DonationResponse>> getDonations(@ApiParam(value = "기부자 지갑 주소", required = true) @RequestHeader("wallet-address") String address) {
+    public ResponseEntity<List<ResponseDonation>> getDonations(@ApiParam(value = "기부자 지갑 주소", required = true) @RequestHeader("wallet-address") String address) {
         return new ResponseEntity<>(donationService.getDonations(address), HttpStatus.OK);
     }
 
     @PatchMapping
     @ApiOperation(value = "기부 내역 상태 업데이트")
-    public ResponseEntity<String> updateDonation(DonationStatusRequest request) {
+    public ResponseEntity<String> updateDonation(RequestDonationStatus request) {
         return new ResponseEntity<>(donationService.updateDonations(request), HttpStatus.OK);
     }
 }

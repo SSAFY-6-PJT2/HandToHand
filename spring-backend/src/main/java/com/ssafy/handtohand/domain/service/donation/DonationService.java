@@ -1,8 +1,8 @@
 package com.ssafy.handtohand.domain.service.donation;
 
-import com.ssafy.handtohand.domain.model.dto.donation.request.DonationInfoRequest;
-import com.ssafy.handtohand.domain.model.dto.donation.request.DonationStatusRequest;
-import com.ssafy.handtohand.domain.model.dto.donation.response.DonationResponse;
+import com.ssafy.handtohand.domain.model.dto.donation.request.RequestDonationInfo;
+import com.ssafy.handtohand.domain.model.dto.donation.request.RequestDonationStatus;
+import com.ssafy.handtohand.domain.model.dto.donation.response.ResponseDonation;
 import com.ssafy.handtohand.domain.model.entity.donation.Donation;
 import com.ssafy.handtohand.domain.model.entity.donation.DonationStatusType;
 import com.ssafy.handtohand.domain.model.entity.user.User;
@@ -35,7 +35,7 @@ public class DonationService {
         this.userRepository = userRepository;
     }
 
-    public int insertDonationHistory(DonationInfoRequest request) {
+    public int insertDonationHistory(RequestDonationInfo request) {
         try {
             Donation donation = Donation.builder()
                     .transactionHash(request.getTransactionHash())
@@ -52,17 +52,17 @@ public class DonationService {
         }
     }
 
-    public List<DonationResponse> getDonations(String address) {
+    public List<ResponseDonation> getDonations(String address) {
         User user = userRepository.findUserByWalletAddress(address);
         List<Donation> donationList = donationRepository.findDonationsByUserOrderByCreatedDateDesc(user);
-        List<DonationResponse> responseDonationList = new ArrayList<>();
+        List<ResponseDonation> responseDonationList = new ArrayList<>();
         for (Donation d : donationList) {
-            responseDonationList.add(DonationResponse.convertToDto(d));
+            responseDonationList.add(ResponseDonation.convertToDto(d));
         }
         return responseDonationList;
     }
 
-    public String updateDonations(DonationStatusRequest request) {
+    public String updateDonations(RequestDonationStatus request) {
         try {
             Donation donation = donationRepository.findDonationByTransactionHash(request.getTransactionHash());
             donation.setType(DonationStatusType.values()[request.getType()]);
