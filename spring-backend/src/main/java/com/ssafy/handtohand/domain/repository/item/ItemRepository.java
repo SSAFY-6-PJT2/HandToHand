@@ -1,6 +1,7 @@
 package com.ssafy.handtohand.domain.repository.item;
 
 import com.ssafy.handtohand.domain.model.entity.item.Item;
+import com.ssafy.handtohand.domain.model.entity.like.Like;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
