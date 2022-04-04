@@ -3,8 +3,14 @@
     <h5 class="headder">2022.04.15 에 입찰이 마감됩니다.</h5>
     <hr />
     <div class="contents">
-      <p>현재 입찰가</p>
-      <h4>0.22 SSF</h4>
+      <div class="content">
+        <p>현재 입찰가 :</p>
+        <p>0.22 SSF</p>
+      </div>
+      <div class="content">
+        <p>즉시 구매가 :</p>
+        <p>10 SSF</p>
+      </div>
       <div class="button-box">
         <button
           type="button"
@@ -62,6 +68,16 @@ export default {
 .sale-card > .headder {
   text-align: center;
   margin: 0;
+}
+
+.sale-card > .contents {
+  align-items: center;
+}
+
+.sale-card > .contents > .content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .sale-card > .contents > .button-box {

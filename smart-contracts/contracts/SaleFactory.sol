@@ -182,6 +182,7 @@ contract Sale {
         public
         notASeller
         isSaleOngoing
+        returns (bool)
     {
         // bid 함수 조건
         address _bidder = msg.sender;
@@ -203,6 +204,8 @@ contract Sale {
         highestBidder = _bidder;
 
         emit BidMade(address(this), tokenId, _bidder, bid_amount, currencyAddress);
+
+        return true;
     }
 
     // Todo : 수정
@@ -210,6 +213,7 @@ contract Sale {
         public
         notASeller
         isSaleOngoing
+        returns (bool)
     {
         address _purchaser = msg.sender;
         require(erc20Contract.approve(_purchaser, purchasePrice), "Not approved for ERC20");
@@ -233,12 +237,14 @@ contract Sale {
 
         emit SaleEnded(address(this), tokenId, _purchaser, purchasePrice);
 
+        return true;
     }
 
     function confirmItem()
         public
         notASeller
         isSaleOver
+        returns (bool)
     {
         address confirmer = msg.sender;
         require(confirmer != address(0), "address(0) is not allowed");
@@ -256,12 +262,14 @@ contract Sale {
 
         emit SaleEnded(address(this), tokenId, confirmer, highestBid);
 
+        return true;
     }
     
     // Todo : cancelSales => cancelSale 수정
     function cancelSales()
         public
         isSaleOngoing
+        returns (bool)
     {
         address requestor = msg.sender;
         require(requestor == admin || requestor == seller, "You do not have permission");
@@ -278,6 +286,8 @@ contract Sale {
         _end();
 
         emit SaleEnded(address(this), tokenId, address(0), 0);
+
+        return true;
     }
 
     function getTimeLeft() public view returns (int256) {

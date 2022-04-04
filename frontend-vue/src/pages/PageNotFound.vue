@@ -62,7 +62,7 @@ export default {
   data() {
     let startTime = new Date();
     startTime = parseInt(startTime.getTime() / 1000);
-    let endTime = startTime + 120;
+    let endTime = startTime + 300;
     return {
       balance: null,
       currentTokenId: null,
@@ -88,7 +88,7 @@ export default {
         });
     },
     TokenMint() {
-      tokenMint(this.userAddress, this.privKey, 1000)
+      tokenMint(this.userAddress, this.privKey, 100000)
         .then((res) => {
           console.log(res);
         })
@@ -112,7 +112,7 @@ export default {
     },
     GetcurrentId() {
       getCurrentId()
-        .then((res) => (this.currentTokenId = res))
+        .then((res) => (this.currentTokenId = Number(res)))
         .catch((err) => console.log(err));
     },
     GetTokenURI() {
@@ -126,22 +126,22 @@ export default {
         .catch((err) => console.log(err));
     },
     NFTCreate() {
-      createNFT(this.userAddress, this.privKey, this.userAddress, 'TokenURI!!')
+      createNFT(this.userAddress, this.privKey, this.userAddress, 'TokenURI!')
         .then((res) => console.log(res))
         .catch((err) => console.log(err));
     },
-    NFTTransferTo() {
+    async NFTTransferTo() {
       NFTTransfer(
         this.userAddress,
         this.privKey,
-        '0xc7734A83850af15140AAa6dbe506172eA1f8a275',
+        '0xf41523A930f3dbC1CcF23b7F30bc814c35597FAe',
         this.currentTokenId,
       )
         .then((res) => console.log(res))
-        .catch((err) => console.log(err));
+        .catch((err) => console.log('에러!', err));
     },
-    GetSaleAddress() {
-      getSaleAddress(this.currentTokenId)
+    async GetSaleAddress() {
+      await getSaleAddress(this.currentTokenId)
         .then((res) => (this.sales = res))
         .catch((err) => console.log(err));
     },

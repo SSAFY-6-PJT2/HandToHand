@@ -3,11 +3,15 @@
  */
 
 import Web3 from 'web3';
+import CallAPI from '@/utils/API.js';
 
 // Web3
 const web3 = new Web3(
   new Web3.providers.HttpProvider(process.env.VUE_APP_ETHEREUM_RPC_URL),
 );
+
+// API List
+const apiList = ['create'];
 
 /**
  * 트랜잭션 전송을 위한 공통 로직
@@ -43,10 +47,23 @@ export default async function sendTransaction(fromAddr, privKey, toAddr, data) {
         // 트랜잭션 결과 저장
         console.log(receipt);
         result.receipt = receipt;
+      })
+      .on('confirmation', async (confirmationNumber, receipt) => {
+        if (confirmationNumber == 1) {
+          console.log('Transaction Confirmed');
+          if (data._method.name in apiList) {
+            const apiName = data._method.name;
+            const args = data.arguments;
+            await CallAPI(apiName, args);
+          }
+        }
+      })
+      .on('error', (error) => {
+        console.log(error);
       });
   });
   // 함수 실행 결과를 반환할 객체에 저장
   result.data = await data.call();
-
+  // console.log(result);
   return result;
 }
