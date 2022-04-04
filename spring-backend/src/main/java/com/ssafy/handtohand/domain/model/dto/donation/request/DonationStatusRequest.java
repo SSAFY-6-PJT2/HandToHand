@@ -13,7 +13,7 @@ import lombok.Getter;
 @ApiModel("기부 내역 상태 업데이트 요청 정보")
 @Getter
 @Builder
-public class RequestDonationStatus {
+public class DonationStatusRequest {
     private String transactionHash;
     private int type;
 }
