@@ -35,6 +35,7 @@ import { mapState, mapGetters, mapActions } from 'vuex';
 import SaleCard from './components/SaleCard.vue';
 import ContributeCard from './components/ContributeCard.vue';
 import NftdetailCard from './components/NftdetailCard.vue';
+import {} from '@/api/saleAPI.js';
 export default {
   name: 'nft-detail',
   components: {
