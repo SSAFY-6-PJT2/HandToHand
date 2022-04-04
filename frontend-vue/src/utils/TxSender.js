@@ -3,15 +3,11 @@
  */
 
 import Web3 from 'web3';
-import CallAPI from '@/utils/API.js';
 
 // Web3
 const web3 = new Web3(
   new Web3.providers.HttpProvider(process.env.VUE_APP_ETHEREUM_RPC_URL),
 );
-
-// API List
-const apiList = ['create'];
 
 /**
  * 트랜잭션 전송을 위한 공통 로직
@@ -22,7 +18,13 @@ const apiList = ['create'];
  * @param {String} data 입력 데이터
  * @returns {Promise} 함수 실행 결과
  */
-export default async function sendTransaction(fromAddr, privKey, toAddr, data) {
+export default async function sendTransaction(
+  fromAddr,
+  privKey,
+  toAddr,
+  data,
+  isCallable = false,
+) {
   const gas = await data.estimateGas({ from: fromAddr });
 
   // 트랜잭션 객체
@@ -43,27 +45,25 @@ export default async function sendTransaction(fromAddr, privKey, toAddr, data) {
     // 트랜잭션 보내기
     await web3.eth
       .sendSignedTransaction(rawTx.rawTransaction)
-      .once('receipt', (receipt) => {
+      .once('receipt', async (receipt) => {
         // 트랜잭션 결과 저장
         console.log(receipt);
         result.receipt = receipt;
+        if (!isCallable) {
+          result.data = true;
+        } else {
+          result.data = await data.call();
+        }
       })
       .on('confirmation', async (confirmationNumber, receipt) => {
         if (confirmationNumber == 1) {
           console.log('Transaction Confirmed');
-          if (data._method.name in apiList) {
-            const apiName = data._method.name;
-            const args = data.arguments;
-            await CallAPI(apiName, args);
-          }
         }
       })
       .on('error', (error) => {
         console.log(error);
       });
   });
-  // 함수 실행 결과를 반환할 객체에 저장
-  result.data = await data.call();
-  // console.log(result);
   return result;
+  // 함수 실행 결과를 반환할 객체에 저장
 }
