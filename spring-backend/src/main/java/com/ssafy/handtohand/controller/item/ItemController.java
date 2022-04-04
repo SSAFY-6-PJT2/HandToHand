@@ -1,6 +1,7 @@
 package com.ssafy.handtohand.controller.item;
 
 import com.ssafy.handtohand.domain.model.dto.item.requset.LikeRequest;
+import com.ssafy.handtohand.domain.model.dto.item.response.ItemDetailResponse;
 import com.ssafy.handtohand.domain.model.dto.item.response.ItemResponse;
 import com.ssafy.handtohand.domain.model.dto.item.requset.RequestItem;
 import com.ssafy.handtohand.domain.service.item.ItemService;
@@ -65,4 +66,11 @@ public class ItemController {
     public ResponseEntity<String> updateOwner(@ApiParam(value = "NFT owner 변경 요청 정보",required = true)@RequestBody RequestItem request){
         return new ResponseEntity<>(itemService.updateOwner(request),HttpStatus.OK);
     }
+
+    @GetMapping("/details/{tokenId}")
+    @ApiOperation(value = "작품 상세 정보 조회")
+    public ResponseEntity<ItemDetailResponse> getItemDetails(@ApiParam(value = "NFT 작품 token id",required = true)@PathVariable("tokenId") String tokenId){
+        return new ResponseEntity<>(itemService.getItemDetails(tokenId),HttpStatus.OK);
+    }
+
 }
