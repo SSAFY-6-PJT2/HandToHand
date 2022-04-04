@@ -41,7 +41,7 @@
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex';
 import { FormGroupInput, Button, Modal } from '@/components';
-import { ethGetAddressFrom } from '../../utils/eth';
+import { getAddressFrom } from '../../utils/eth.js';
 
 export default {
   components: {
@@ -65,7 +65,7 @@ export default {
     ...mapActions(['vuexSetPrivKey', 'vuexSetAddress']),
     eableWallet() {
       try {
-        const address = ethGetAddressFrom(this.privKey);
+        const address = getAddressFrom(this.privKey);
         this.vuexSetAddress(address);
         this.vuexSetPrivKey(this.privKey);
         this.modals.notice = false;
