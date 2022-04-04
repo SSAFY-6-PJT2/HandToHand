@@ -1,5 +1,6 @@
 package com.ssafy.handtohand.domain.model.dto.item.response;
 
+import com.ssafy.handtohand.domain.model.entity.item.Item;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
@@ -8,7 +9,7 @@ import lombok.Getter;
 /**
  * 작품 응답 DTO
  *
- * @author SeungYeon Hwang
+ * @author SeungYeon Hwang,Eunee Chung
  * created on 2022-04-03
  */
 
@@ -49,5 +50,17 @@ public class ItemResponse {
     @ApiModelProperty(value = "작품 좋아요 수", required = true)
     private int likeCount;
 
+    static public ItemResponse convertToDto(Item item) {
+        return ItemResponse.builder()
+                .seq(item.getSeq())
+                .hash(item.getHash())
+                .tokenId(item.getTokenId())
+                .title(item.getTitle())
+                .ownerAddress(item.getOwnerAddress())
+                .onSaleYn(item.getOnSaleYn())
+                .price(item.getPrice())
+                .likeCount(item.getLikeCount())
+                .build();
+    }
 
 }
