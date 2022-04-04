@@ -34,6 +34,14 @@
 <script>
 import { Button, FormGroupInput } from '@/components';
 import NftList from './components/NftList.vue';
+import {
+  getItems,
+  getUsersItems,
+  getItemsOnSale,
+  addItem,
+  updateNftOwner,
+  updateItemLikes,
+} from '../api/itemAPI.js';
 export default {
   name: 'nft-gallery',
   bodyClass: 'landing-page',
@@ -42,64 +50,19 @@ export default {
     [FormGroupInput.name]: FormGroupInput,
     NftList,
   },
+  created() {
+    getItems().then((res) => {
+      this.items = res.data;
+      console.log(this.items);
+    });
+    // getItemsOnSale().then((res) => {
+    //   this.itemsOnSale = res.data;
+    // });
+  },
   data() {
     return {
-      items: [
-        {
-          token_id: 1,
-          imageUri: 'img/NFT/nft1.png',
-          title: 'NFT Title',
-          price: 300,
-          donator_nickname: '82surf',
-          donated_price: 300,
-          onSale: true,
-        },
-        {
-          token_id: 2,
-          imageUri: 'img/NFT/nft2.png',
-          title: 'NFT Title',
-          price: 300,
-          donator_nickname: '82surf',
-          donated_price: 300,
-          onSale: false,
-        },
-        {
-          token_id: 3,
-          imageUri: 'img/NFT/nft3.png',
-          title: 'NFT Title',
-          price: 300,
-          donator_nickname: '82surf',
-          donated_price: 300,
-          onSale: true,
-        },
-        {
-          token_id: 4,
-          imageUri: 'img/NFT/nft4.png',
-          title: 'NFT Title',
-          price: 300,
-          donator_nickname: '82surf',
-          donated_price: 300,
-          onSale: false,
-        },
-        {
-          token_id: 5,
-          imageUri: 'img/NFT/nft5.png',
-          title: 'NFT Title',
-          price: 300,
-          donator_nickname: '82surf',
-          donated_price: 300,
-          onSale: true,
-        },
-        {
-          token_id: 6,
-          imageUri: 'img/NFT/nft6.png',
-          title: 'NFT Title',
-          price: 300,
-          donator_nickname: '82surf',
-          donated_price: 300,
-          onSale: false,
-        },
-      ],
+      items: null,
+      itemsOnSale: null,
     };
   },
 };
