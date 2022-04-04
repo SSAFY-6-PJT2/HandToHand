@@ -885,7 +885,13 @@ const ABIs = {
         },
       ],
       name: 'transferFrom',
-      outputs: [],
+      outputs: [
+        {
+          internalType: 'bool',
+          name: '',
+          type: 'bool',
+        },
+      ],
       stateMutability: 'nonpayable',
       type: 'function',
     },
@@ -1488,28 +1494,52 @@ const ABIs = {
         },
       ],
       name: 'bid',
-      outputs: [],
+      outputs: [
+        {
+          internalType: 'bool',
+          name: '',
+          type: 'bool',
+        },
+      ],
       stateMutability: 'nonpayable',
       type: 'function',
     },
     {
       inputs: [],
       name: 'purchase',
-      outputs: [],
+      outputs: [
+        {
+          internalType: 'bool',
+          name: '',
+          type: 'bool',
+        },
+      ],
       stateMutability: 'nonpayable',
       type: 'function',
     },
     {
       inputs: [],
       name: 'confirmItem',
-      outputs: [],
+      outputs: [
+        {
+          internalType: 'bool',
+          name: '',
+          type: 'bool',
+        },
+      ],
       stateMutability: 'nonpayable',
       type: 'function',
     },
     {
       inputs: [],
       name: 'cancelSales',
-      outputs: [],
+      outputs: [
+        {
+          internalType: 'bool',
+          name: '',
+          type: 'bool',
+        },
+      ],
       stateMutability: 'nonpayable',
       type: 'function',
     },
