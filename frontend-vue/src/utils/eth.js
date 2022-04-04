@@ -2,9 +2,11 @@
  * @author Hyeonsooryu
  */
 
+/*╔═════════════════════════════╗
+	║        Ethereum Net         ║
+	╚═════════════════════════════╝*/
+
 import Web3 from 'web3';
-import TOKEN_ABI from '@/utils/ABI/TOKEN_ABI.js';
-import sendTransaction from './TxSender';
 
 const web3 = new Web3(
   new Web3.providers.HttpProvider(process.env.VUE_APP_ETHEREUM_RPC_URL),
@@ -15,75 +17,28 @@ const web3 = new Web3(
  * @param {String} privKey 개인키
  * @returns 주소
  */
-export default function ethGetAddressFrom(privKey) {
+const getAddressFrom = (privKey) => {
   if (privKey.length === 66 && privKey.startsWith('0x')) {
-    const web3 = new Web3(
-      new Web3.providers.HttpProvider(process.env.VUE_APP_ETHEREUM_RPC_URL),
-    );
     const pubKey = web3.eth.accounts.privateKeyToAccount(privKey);
-
     return pubKey.address;
   } else {
     throw '유효한 개인키를 입력해주세요.';
   }
-}
-
-/**
- * 해당 주소의 지갑 잔액을 반환합니다.
- * @param {String} address 조회할 지갑 주소
- * @returns {Promise}      resolve 시 잔액을 Number로 반환
- */
-const ethGetBalance = async (address) => {
-  const contractInstance = new web3.eth.Contract(
-    TOKEN_ABI.abi,
-    process.env.VUE_APP_ERC20_CA,
-  );
-  const balance = await contractInstance.methods.balanceOf(address).call();
-  return +balance;
-};
-
-/**
- * SSF 토큰을 어드민 계정으로 송금합니다.
- * @param {String} fromAddr 보내는 지갑 주소
- * @param {String} toAddr   받는 지갑 주소
- * @param {Number} amount   보내는 SSF 토큰 양
- * @returns {Promise}       resolve시 성공 여부를 Boolean으로 반환
- */
-const ethTransferToAdmin = async (fromAddr, privKey, amount) => {
-  const contractInstance = new web3.eth.Contract(
-    TOKEN_ABI.abi,
-    process.env.VUE_APP_ERC20_CA,
-    { from: fromAddr },
-  );
-
-  const data = contractInstance.methods.transfer(
-    process.env.VUE_APP_ADMIN_ADDRESS,
-    amount,
-  );
-
-  const result = await sendTransaction(
-    fromAddr,
-    privKey,
-    process.env.VUE_APP_ERC20_CA,
-    data,
-  );
-
-  return result;
 };
 
 /**
  * 트랜잭션의 상태를 반환합니다.
  * @param {String} txHash    트랜잭션 해시
- * @returns {String}         트랜잭션 상태
+ * @returns {Number}         트랜잭션 상태 / 0:실패 / 1:처리중 / 2:성공
  */
-const ethGetTxStatus = async (txHash) => {
+const getTxStatus = async (txHash) => {
   let result = null;
   await web3.eth
     .getTransactionReceipt(txHash)
     .then(async (res) => {
       if (res.status) {
         console.log('success');
-        result = 'success';
+        result = 2;
       } else {
         await web3.eth
           .getPendingTransactions()
@@ -91,11 +46,11 @@ const ethGetTxStatus = async (txHash) => {
             for (let tx of res) {
               if (tx.hash === txHash) {
                 console.log('pending');
-                result = 'pending';
+                result = 1;
               }
             }
             console.log('fail');
-            result = 'fail';
+            result = 0;
           })
           .catch((err) => console.log(err));
       }
@@ -105,4 +60,4 @@ const ethGetTxStatus = async (txHash) => {
   return result ? result : new Error('예외: 알 수 없는 오류');
 };
 
-export { ethGetAddressFrom, ethGetBalance, ethTransferToAdmin, ethGetTxStatus };
+export { getAddressFrom, getTxStatus };

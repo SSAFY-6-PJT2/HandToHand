@@ -15,7 +15,7 @@
             round
             size="sm"
             class="my-0 mx-4"
-            @click="getBalance"
+            @click="getUserBalance"
           >
             잔액 조회
           </n-button>
@@ -51,13 +51,7 @@
         >
           송금하기
         </n-button>
-        <n-button
-          v-if="isLogin && isLoading"
-          type="success"
-          round
-          size="lg"
-          @click="donate"
-        >
+        <n-button v-if="isLogin && isLoading" type="success" round size="lg">
           <div
             class="spinner-border spinner-border-sm text-light"
             role="status"
@@ -83,11 +77,8 @@
 import { mapState, mapGetters, mapActions } from 'vuex';
 import { Card, FormGroupInput, Button, Modal } from '@/components';
 import LoginModal from '../components/LoginModal.vue';
-import {
-  ethGetBalance,
-  ethTransferToAdmin,
-  ethGetTxStatus,
-} from '@/utils/eth.js';
+import { getBalance, tokenTransfer } from '../../utils/Token';
+import { getTxStatus } from '../../utils/eth';
 import {
   getDonationHistory,
   addDonationHistory,
@@ -112,8 +103,8 @@ export default {
   },
   methods: {
     ...mapActions(['vuexAddDonationHistory']),
-    getBalance() {
-      ethGetBalance(this.userAddress)
+    getUserBalance() {
+      getBalance(this.userAddress)
         .then((res) => {
           this.userBalance = res;
         })
@@ -123,25 +114,25 @@ export default {
     },
     async donate() {
       console.log('donate!');
+      // 로딩 시작
       this.isLoading = true;
+
       if (
         this.privKey &&
         this.userBalance &&
         this.amount &&
         this.userBalance >= this.amount
       ) {
-        const sendResult = await ethTransferToAdmin(
+        // 송금
+        const sendResult = await tokenTransfer(
           this.userAddress,
           this.privKey,
+          process.env.VUE_APP_ADMIN_ADDRESS,
           this.amount,
         );
-        this.isLoading = false;
-        // console.log(sendResult.data)
-        // console.log(sendResult.receipt)
-        this.vuexAddDonationHistory(sendResult.receipt);
-        // await ethGetTxStatus(sendResult.receipt.transactionHash).then((res) => {
-        //   console.log(res);
-        // });
+        console.log(sendResult.data);
+        console.log(sendResult.receipt);
+        // 기부 내역 저장
         await addDonationHistory(
           this.amount,
           sendResult.receipt.transactionHash,
