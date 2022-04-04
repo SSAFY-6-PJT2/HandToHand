@@ -1,9 +1,14 @@
 package com.ssafy.handtohand.domain.service.item;
 
+import com.ssafy.handtohand.domain.model.dto.item.requset.LikeRequest;
 import com.ssafy.handtohand.domain.model.dto.item.response.ItemResponse;
 import com.ssafy.handtohand.domain.model.dto.item.requset.RequestItem;
 import com.ssafy.handtohand.domain.model.entity.item.Item;
+import com.ssafy.handtohand.domain.model.entity.like.Like;
+import com.ssafy.handtohand.domain.model.entity.user.User;
 import com.ssafy.handtohand.domain.repository.item.ItemRepository;
+import com.ssafy.handtohand.domain.repository.like.LikeRepository;
+import com.ssafy.handtohand.domain.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +29,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ItemService {
     private final ItemRepository itemRepository;
+    private final UserRepository userRepository;
+    private final LikeRepository likeRepository;
     private EntityManager em;
 
     public List<ItemResponse> getItemList(){
@@ -86,10 +93,6 @@ public class ItemService {
             list.add(itemResponse);
         }
         return list;
-    }
-
-    public void updateLike() {
-
     }
 
     public String insertItem(RequestItem request){

@@ -1,8 +1,10 @@
 package com.ssafy.handtohand.controller.item;
 
+import com.ssafy.handtohand.domain.model.dto.item.requset.LikeRequest;
 import com.ssafy.handtohand.domain.model.dto.item.response.ItemResponse;
 import com.ssafy.handtohand.domain.model.dto.item.requset.RequestItem;
 import com.ssafy.handtohand.domain.service.item.ItemService;
+import com.ssafy.handtohand.domain.service.like.LikeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -26,6 +28,7 @@ import java.util.List;
 @RequestMapping("/items")
 public class ItemController {
     private final ItemService itemService;
+    private final LikeService likeService;
 
     @GetMapping
     @ApiOperation(value = "등록된 모든 작품 조회")
@@ -35,7 +38,7 @@ public class ItemController {
 
     @GetMapping("/{address}")
     @ApiOperation(value = "특정 주소가 보유한 작품 목록 조회")
-    public ResponseEntity<List<ItemResponse>> viewUserItemList(@PathVariable("wallet-address") String address){
+    public ResponseEntity<List<ItemResponse>> viewUserItemList(@PathVariable("address") String address){
         return new ResponseEntity<>(itemService.getUserItemList(address), HttpStatus.OK);
     }
 
@@ -45,10 +48,10 @@ public class ItemController {
         return new ResponseEntity<>(itemService.getSaleItemList(), HttpStatus.OK);
     }
 
-    @PatchMapping
+    @PatchMapping("/like")
     @ApiOperation(value = "좋아요 업데이트")
-    public void updateLike(){
-        itemService.updateLike();
+    public void updateLike(@RequestBody LikeRequest likeRequest){
+        likeService.updateLike(likeRequest);
     }
 
     @PostMapping("/add")
