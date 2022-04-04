@@ -12,6 +12,7 @@
         <div class="item">
           <section class="item-abst">
             <h2>Token Name</h2>
+            <p>{{ NFTid }}</p>
             <p>좋아요</p>
           </section>
           <h4 class="mt-0">소유자: UserId</h4>
