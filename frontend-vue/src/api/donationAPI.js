@@ -43,13 +43,9 @@ const addDonationHistory = async (amount, txHash, addr, success, fail) => {
  * @param {Function} success    요청 성공 시 수행할 콜백 함수
  * @param {Function} fail       요청 실패 시 수행할 콜백 함수
  */
-const updateDonationStatus = (txHash, statusNum, success, fail) => {
-  api
-    .patch('donations', {
-      params: { transactionHash: txHash, type: statusNum },
-    })
-    .then(success)
-    .catch(fail);
+const updateDonationStatus = async (txHash, statusNum, success, fail) => {
+  const params = { transactionHash: txHash, type: statusNum };
+  api.patch('donations', null, { params }).then(success).catch(fail);
 };
 
 export { getDonationHistory, addDonationHistory, updateDonationStatus };
