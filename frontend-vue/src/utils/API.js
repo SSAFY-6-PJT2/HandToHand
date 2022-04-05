@@ -5,7 +5,7 @@
 import { updateNftOwner } from '../api/itemAPI.js';
 import {
   addSale,
-  cancelSale,
+  cancelSales,
   completeSale,
   updateBuyer,
 } from '../api/saleAPI.js';
@@ -70,13 +70,13 @@ const CallAPI = async (apiName, args, fromAddr, tokenId = null) => {
      * @param {String} token_id
      */
     await completeSale(token_id);
-  } else if (apiName == 'cancelSale') {
+  } else if (apiName == 'cancelSales') {
     /**
      * 판매 취소
      * @param {String} token_id
      */
     const token_id = tokenId;
-    await cancelSale(token_id);
+    await cancelSales(token_id);
   }
 };
 
