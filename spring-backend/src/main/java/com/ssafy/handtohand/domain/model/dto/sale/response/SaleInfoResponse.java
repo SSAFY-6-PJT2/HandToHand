@@ -27,8 +27,8 @@ public class SaleInfoResponse {
     @ApiModelProperty(value = "거래 성사 여부",required = true)
     private int yn;
 
-    /* 거래완료 거래주소 */
-    @ApiModelProperty(value = "거래완료 컨트랙트 주소",required = true)
+    /* 구매 시 사용한 토큰의 주소 */
+    @ApiModelProperty(value = "구매 시 사용한 토큰의 주소",required = true)
     private String cashContractAddress;
 
     /* 판매자 지갑주소 */
