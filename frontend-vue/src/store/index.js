@@ -13,6 +13,8 @@ export default new Vuex.Store({
     privKey: null,
     userAddress: null,
     donationHistory: [],
+    totalDonation: 0,
+    totalNft: 0,
   },
   getters: {
     isLogin: (state) => {
@@ -32,6 +34,12 @@ export default new Vuex.Store({
     ADD_DONATION_HISTORY: (state, txHash) => {
       state.donationHistory.push(txHash);
     },
+    SET_TOTAL_DONATION: (state, amount) => {
+      state.totalDonation = amount;
+    },
+    SET_TOTAL_NFT: (state, numOfNft) => {
+      state.totalNft = numOfNft;
+    },
   },
   actions: {
     vuexSetPrivKey({ commit }, privKey) {
@@ -42,6 +50,12 @@ export default new Vuex.Store({
     },
     vuexAddDonationHistory({ commit }, txHash) {
       commit('ADD_DONATION_HISTORY', txHash);
+    },
+    vuexUpdateTotalDonation({ commit }, amount) {
+      commit('SET_TOTAL_DONATION', amount);
+    },
+    vuexUpdateTotalNft({ commit }, numOfNft) {
+      commit('SET_TOTAL_NFT', numOfNft);
     },
   },
   modules: {},

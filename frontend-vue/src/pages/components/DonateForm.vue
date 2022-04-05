@@ -20,7 +20,7 @@
             잔액 조회
           </n-button>
           <p v-if="isLogin" class="my-0 mx-4">
-            {{ userBalance ? userBalance : '-' }} SSF
+            {{ userBalance ? userBalance : '-' }} HTH
           </p>
         </div>
       </template>

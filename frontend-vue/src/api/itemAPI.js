@@ -44,9 +44,8 @@ const getItems = async () => {
  */
 const getUsersItems = async (userAddr) => {
   let result = null;
-  const params = { 'wallet-address': userAddr };
   await api
-    .get('/items', { params })
+    .get(`/items/${userAddr}`)
     .then((res) => {
       result = res;
     })

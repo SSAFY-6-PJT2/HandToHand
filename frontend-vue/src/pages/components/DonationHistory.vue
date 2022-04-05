@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import { getDonationHistory, updateDonationStatus } from '@/api/donationAPI.js';
 import { addItem } from '@/api/itemAPI.js';
 import { getTxStatus } from '@/utils/eth.js';
@@ -102,6 +102,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['vuexUpdateTotalDonation']),
     // 송금 중 상태인 기부 내역이 송금 완료되면 기부 내역을 업데이트하는 함수
     async checkInProgress() {
       for (const history of this.histories) {
@@ -129,6 +130,11 @@ export default {
         this.userAddress,
         (res) => {
           this.histories = res.data;
+          let total = 0;
+          for (const history of this.histories) {
+            total += history.amount;
+          }
+          this.vuexUpdateTotalDonation(total);
           this.checkInProgress();
         },
         (err) => {
@@ -157,8 +163,11 @@ export default {
       this.updateDonationHistories();
       this.loadingMsg = 'NFT 발급이 완료되었습니다.';
       this.loadingIsDone = true;
+      console.log(this);
       setTimeout(() => {
+        console.log(this);
         this.showModal = false;
+        this.$router.push('/profile/my-nft');
       }, 2000);
     },
   },

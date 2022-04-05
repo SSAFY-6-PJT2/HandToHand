@@ -127,9 +127,9 @@ export default {
     },
     NFTCreate() {
       createNFT(
-        this.userAddress,
-        this.privKey,
-        this.userAddress,
+        process.env.VUE_APP_ADMIN_ADDRESS,
+        process.env.VUE_APP_ADMIN_PRIV_KEY,
+        process.env.VUE_APP_ADMIN_ADDRESS,
         'https://image.aladin.co.kr/product/23596/28/cover500/8950987007_1.jpg',
       )
         .then((res) => console.log(res))
@@ -137,9 +137,9 @@ export default {
     },
     async NFTTransferTo() {
       await NFTTransfer(
+        process.env.VUE_APP_ADMIN_ADDRESS,
+        process.env.VUE_APP_ADMIN_PRIV_KEY,
         this.userAddress,
-        this.privKey,
-        '0xf41523A930f3dbC1CcF23b7F30bc814c35597FAe',
         this.currentTokenId,
       )
         .then((res) => console.log(res))
