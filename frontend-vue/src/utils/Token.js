@@ -59,7 +59,6 @@ const tokenMint = async (fromAddr, privKey, amount) => {
     privKey,
     process.env.VUE_APP_ERC20_CA,
     data,
-    true,
   );
 
   return result;
@@ -73,13 +72,20 @@ const tokenTransfer = async (fromAddr, privKey, toAddr, amount) => {
     { from: fromAddr },
   );
   const data = tokenContractInstance.methods.transfer(toAddr, amount);
-  const result = await sendTransaction(
+  const receipt = await sendTransaction(
     fromAddr,
     privKey,
     process.env.VUE_APP_ERC20_CA,
     data,
-    true,
   );
+
+  const response = await data.call();
+  console.log(response);
+
+  const result = {
+    receipt: receipt,
+    data: response,
+  };
 
   return result;
 };
