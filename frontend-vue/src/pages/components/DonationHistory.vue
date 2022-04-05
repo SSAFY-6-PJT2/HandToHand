@@ -8,7 +8,6 @@
       :showModal="showModal"
       :loadingMsg="loadingMsg"
       :loadingIsDone="loadingIsDone"
-      @closeModal="showModal"
     />
     <h3 class="text-center">기부 내역</h3>
     <ul v-if="histories.length" class="list-group mb-5">
@@ -120,7 +119,7 @@ export default {
                   });
               })
               .catch((err) => console.log(err));
-          }, 3000);
+          }, 2000);
         }
       }
     },
@@ -141,6 +140,7 @@ export default {
     async getNFT(history) {
       this.showModal = true;
       this.loadingMsg = 'NFT 발급 중입니다..';
+      // 대량 민팅 후 currId => history.seq로 변경
       const currId = await getCurrentId();
       await NFTTransfer(
         process.env.VUE_APP_ADMIN_ADDRESS,
@@ -148,9 +148,9 @@ export default {
         this.userAddress,
         currId,
       );
-      const uri = await getTokenURI(history.seq);
+      const uri = await getTokenURI(currId);
       // 백엔드에 nft 정보 추가
-      await addItem(uri, this.userAddress, history.seq);
+      await addItem(uri, this.userAddress, currId);
       // 해당 기부 내역의 status 백엔드에 업데이트
       await updateDonationStatus(history.transactionHash, 3);
       // 전체 기부 내역 업데이트
@@ -175,7 +175,6 @@ export default {
   },
   async mounted() {
     await this.updateDonationHistories();
-    console.log(this.histories);
   },
 };
 </script>
