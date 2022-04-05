@@ -1,55 +1,45 @@
 <template>
   <section class="card sale-card">
-    <div v-if="item.onSaleYn">
-      <div class="headder">
-        <h5>2022.04.15 에 입찰이 마감됩니다.</h5>
-        <hr />
-      </div>
-      {{ userInfo }}
-      {{ item }}
-      <div class="contents">
-        <div class="content">
-          <p>현재 입찰가 :</p>
-          <p>{{ saleInfo.highestBid }} HTH</p>
-        </div>
-        <div class="content">
-          <p>즉시 구매가 :</p>
-          <p>{{ saleInfo.purchasePrice }} HTH</p>
-        </div>
-        <div class="button-box">
-          <button
-            type="button"
-            class="btn btn-primary btn-lg"
-            data-toggle="modal"
-            data-target="#purchaseModal"
-          >
-            구매하기
-          </button>
-          <button
-            type="button"
-            class="btn btn-success btn-lg"
-            data-toggle="modal"
-            data-target="#bidModal"
-          >
-            입찰하기
-          </button>
-          <button
-            type="button"
-            class="btn btn-warning btn-lg"
-            data-toggle="modal"
-            data-target="#makeSaleModal"
-          >
-            판매등록
-          </button>
-        </div>
-      </div>
+    <div class="headder">
+      <h5>{{ timeLeft }} 후 입찰이 마감됩니다.</h5>
+      <hr />
     </div>
-    <div v-else>
-      {{ userInfo }}
-      {{ item }}
-      <div class="headder">
-        <h5>입찰 시간이 아닙니다.</h5>
-        <hr />
+    {{ userInfo }}
+    {{ item }}
+    <div class="contents">
+      <div class="content">
+        <p>현재 입찰가 :</p>
+        <p>{{ saleInfo.highestBid }} HTH</p>
+      </div>
+      <div class="content">
+        <p>즉시 구매가 :</p>
+        <p>{{ saleInfo.purchasePrice }} HTH</p>
+      </div>
+      <div class="button-box">
+        <button
+          type="button"
+          class="btn btn-primary btn-lg"
+          data-toggle="modal"
+          data-target="#purchaseModal"
+        >
+          구매하기
+        </button>
+        <button
+          type="button"
+          class="btn btn-success btn-lg"
+          data-toggle="modal"
+          data-target="#bidModal"
+        >
+          입찰하기
+        </button>
+        <button
+          type="button"
+          class="btn btn-warning btn-lg"
+          data-toggle="modal"
+          data-target="#makeSaleModal"
+        >
+          판매등록
+        </button>
       </div>
     </div>
   </section>
@@ -99,7 +89,7 @@ export default {
       getHighestBid(tokenId).then((res) => (this.highestBid = res));
       setTimeout(() => {
         getTimeLeft(tokenId).then((res) => (this.timeLeft = res));
-      });
+      }, 1000);
     }
   },
 };

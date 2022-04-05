@@ -37,7 +37,7 @@ const addSale = async (
  * @param {String} token_id
  */
 
-const cancelSale = async (token_id) => {
+const cancelSales = async (token_id) => {
   await api
     .patch(`/sales/${token_id}`)
     .then((res) => console.log(res))
@@ -84,4 +84,4 @@ const updateBuyer = async (token_id, buyer_address) => {
     .catch((err) => console.log(err));
 };
 
-export { addSale, getSale, updateBuyer, cancelSale, completeSale };
+export { addSale, getSale, updateBuyer, cancelSales, completeSale };
