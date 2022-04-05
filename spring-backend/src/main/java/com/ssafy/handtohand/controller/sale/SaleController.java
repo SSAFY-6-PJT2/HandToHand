@@ -65,10 +65,10 @@ public class SaleController {
      *
      * @param
      */
-    @PatchMapping("{sale_seq}")
+    @PatchMapping("{token_id}")
     @ApiOperation(value = "판매 취소")
-    public void cancelSale(@ApiParam(value = "판매 취소", required = true) @PathVariable Long sale_seq){
-        saleService.changeYNSale(sale_seq);
+    public void cancelSale(@ApiParam(value = "판매 취소", required = true) @PathVariable String token_id){
+        saleService.changeYNSale(token_id);
     }
 
     /**

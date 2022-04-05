@@ -78,10 +78,11 @@ public class SaleService {
     /**
      * 판매 상태 취소로 업데이트
      *
-     * @param saleSeq
+     * @param tokenId
      */
-    public void changeYNSale(Long saleSeq) {
-        Sale sale = saleRepository.findBySeq(saleSeq);
+    public void changeYNSale(String tokenId) {
+        Item item = itemRepository.findByTokenId(tokenId);
+        Sale sale = saleRepository.findByItem(item);
         sale.setYn(0);
     }
 
