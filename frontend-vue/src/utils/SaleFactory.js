@@ -156,7 +156,13 @@ const purchase = async (fromAddr, privKey, tokenId) => {
 
   const data = saleContractInstance.methods.purchase();
 
-  const result = await sendTransaction(fromAddr, privKey, Sale_CA, data);
+  const result = await sendTransaction(
+    fromAddr,
+    privKey,
+    Sale_CA,
+    data,
+    tokenId,
+  );
 
   return result;
 };
@@ -169,7 +175,13 @@ const confirmItem = async (fromAddr, privKey, tokenId) => {
 
   const data = saleContractInstance.methods.confirmItem();
 
-  const result = await sendTransaction(fromAddr, privKey, Sale_CA, data);
+  const result = await sendTransaction(
+    fromAddr,
+    privKey,
+    Sale_CA,
+    data,
+    tokenId,
+  );
 
   return result;
 };
@@ -183,7 +195,13 @@ const cancelSales = async (fromAddr, privKey, tokenId) => {
 
   const data = saleContractInstance.methods.cancelSales();
 
-  const result = await sendTransaction(fromAddr, privKey, Sale_CA, data);
+  const result = await sendTransaction(
+    fromAddr,
+    privKey,
+    Sale_CA,
+    data,
+    tokenId,
+  );
 
   return result;
 };
