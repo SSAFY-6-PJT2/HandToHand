@@ -78,11 +78,17 @@ export default {
       type: Number,
       default: 500,
     },
+    staticBackdrop: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
     closeModal() {
-      this.$emit('update:show', false);
-      this.$emit('close');
+      if (!this.staticBackdrop) {
+        this.$emit('update:show', false);
+        this.$emit('close');
+      }
     },
   },
   watch: {
@@ -100,5 +106,9 @@ export default {
 <style>
 .modal.show {
   background-color: rgba(0, 0, 0, 0.3);
+}
+.modal-mini .modal-content {
+  position: absolute;
+  top: 0;
 }
 </style>

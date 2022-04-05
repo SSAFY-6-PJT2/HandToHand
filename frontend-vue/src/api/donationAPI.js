@@ -6,13 +6,24 @@ import apiInstance from './index';
 
 const api = apiInstance();
 
+const defaultSuccess = (res) => {
+  console.log(res);
+};
+const defaultFail = (err) => {
+  console.log(err);
+};
+
 /**
  * 기부 내역 가져오기
  * @param {String} walletAddress   기부 내역을 확인할 유저의 지갑 주소
  * @param {Function} success       요청 성공 시 수행할 콜백 함수
  * @param {Function} fail          요청 실패 시 수행할 콜백 함수
  */
-const getDonationHistory = async (walletAddress, success, fail) => {
+const getDonationHistory = async (
+  walletAddress,
+  success = defaultSuccess,
+  fail = defaultFail,
+) => {
   await api
     .get('/donations', { headers: { 'wallet-address': walletAddress } })
     .then(success)
@@ -27,7 +38,13 @@ const getDonationHistory = async (walletAddress, success, fail) => {
  * @param {Function} success  요청 성공 시 수행할 콜백 함수
  * @param {Function} fail     요청 실패 시 수행할 콜백 함수
  */
-const addDonationHistory = async (amount, txHash, addr, success, fail) => {
+const addDonationHistory = async (
+  amount,
+  txHash,
+  addr,
+  success = defaultSuccess,
+  fail = defaultFail,
+) => {
   const data = {
     amount: amount,
     transactionHash: txHash,
@@ -43,9 +60,14 @@ const addDonationHistory = async (amount, txHash, addr, success, fail) => {
  * @param {Function} success    요청 성공 시 수행할 콜백 함수
  * @param {Function} fail       요청 실패 시 수행할 콜백 함수
  */
-const updateDonationStatus = async (txHash, statusNum, success, fail) => {
+const updateDonationStatus = async (
+  txHash,
+  statusNum,
+  success = defaultSuccess,
+  fail = defaultFail,
+) => {
   const params = { transactionHash: txHash, type: statusNum };
-  api.patch('/donations', null, { params }).then(success).catch(fail);
+  await api.patch('/donations', null, { params }).then(success).catch(fail);
 };
 
 export { getDonationHistory, addDonationHistory, updateDonationStatus };
