@@ -1,11 +1,12 @@
 package com.ssafy.handtohand.domain.service.item;
 
-import com.ssafy.handtohand.domain.model.dto.item.requset.LikeRequest;
+import com.ssafy.handtohand.domain.model.dto.item.response.ItemDetailResponse;
 import com.ssafy.handtohand.domain.model.dto.item.response.ItemResponse;
-import com.ssafy.handtohand.domain.model.dto.item.requset.RequestItem;
+import com.ssafy.handtohand.domain.model.dto.item.requset.ItemRequest;
+import com.ssafy.handtohand.domain.model.entity.donation.Donation;
 import com.ssafy.handtohand.domain.model.entity.item.Item;
-import com.ssafy.handtohand.domain.model.entity.like.Like;
 import com.ssafy.handtohand.domain.model.entity.user.User;
+import com.ssafy.handtohand.domain.repository.donation.DonationRepository;
 import com.ssafy.handtohand.domain.repository.item.ItemRepository;
 import com.ssafy.handtohand.domain.repository.like.LikeRepository;
 import com.ssafy.handtohand.domain.repository.user.UserRepository;
@@ -31,6 +32,7 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
     private final LikeRepository likeRepository;
+    private final DonationRepository donationRepository;
     private EntityManager em;
 
     public List<ItemResponse> getItemList(){
@@ -95,9 +97,9 @@ public class ItemService {
         return list;
     }
 
-    public String insertItem(RequestItem request){
+    public String insertItem(ItemRequest request){
         try{
-            Item item = RequestItem.convertToEntity(request);
+            Item item = ItemRequest.convertToEntity(request);
             itemRepository.save(item);
             item.setTitle("HandToHand#"+item.getSeq());
             return "success";
@@ -106,7 +108,7 @@ public class ItemService {
         }
     }
 
-    public String updateOwner(RequestItem request){
+    public String updateOwner(ItemRequest request){
         try{
             Item item = itemRepository.findByTokenId(request.getTokenId());
             item.setOwnerAddress(request.getOwnerAddress());
@@ -114,6 +116,20 @@ public class ItemService {
             return "success";
         }catch (Exception e){
             return "error";
+        }
+    }
+    public ItemDetailResponse getItemDetails(String tokenId){
+        try{
+            Item item = itemRepository.findByTokenId(tokenId);
+            ItemResponse response = ItemResponse.convertToDto(item);
+            Donation donationInfo = donationRepository.findDonationByItemEquals(item);
+            User user = donationInfo.getUser();
+            ItemDetailResponse detailResponse = new ItemDetailResponse(response,user.getNickname(),donationInfo.getAmount(),donationInfo.getSeq());
+            return detailResponse;
+        }catch (Exception e){
+            System.out.println(e.getCause());
+            System.out.println(e.getMessage());
+            return null;
         }
     }
 }

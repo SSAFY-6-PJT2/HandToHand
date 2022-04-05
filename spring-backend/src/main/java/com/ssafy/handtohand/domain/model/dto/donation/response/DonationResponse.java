@@ -18,7 +18,7 @@ import java.util.Date;
 @ApiModel(value = "기부 내역 응답 정보")
 @Getter
 @Builder
-public class ResponseDonation {
+public class DonationResponse {
 
     private Double amount;
 
@@ -32,8 +32,8 @@ public class ResponseDonation {
 
     private Long seq;
 
-    static public ResponseDonation convertToDto(Donation donation) {
-        return ResponseDonation.builder()
+    static public DonationResponse convertToDto(Donation donation) {
+        return DonationResponse.builder()
                 .amount(donation.getAmount())
                 .createdDate(donation.getCreatedDate())
                 .type(donation.getType().ordinal())

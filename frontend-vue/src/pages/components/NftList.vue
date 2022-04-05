@@ -9,12 +9,12 @@
         <img
           slot="image"
           class="cropped"
-          :src="item.imageUri"
+          :src="item.hash"
           alt="Card image cap"
           @click="
             $router.push({
               name: 'nft-detail',
-              params: { NFTid: item.token_id },
+              params: { token_id: item.tokenId },
             })
           "
         />
@@ -25,7 +25,7 @@
               {{ item.price }} SSF
             </h5>
             <span
-              v-if="item.onSale"
+              v-if="Boolean(item.onSale)"
               class="badge badge-success badge-pill my-0"
               style="width: 4rem"
             >
