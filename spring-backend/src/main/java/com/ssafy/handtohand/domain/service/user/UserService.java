@@ -36,7 +36,7 @@ public class UserService {
         }
     }
 
-    public String updateNickName(String nickname, String address) {
+    public String updateNickname(String nickname, String address) {
         try {
             User user = userRepository.findUserByWalletAddress(address);
             user.setNickname(nickname);
@@ -45,6 +45,15 @@ public class UserService {
         } catch (Exception e) {
             System.out.println(e);
             return "Error";
+        }
+    }
+
+    public String getNickname(String address) throws Exception {
+        try {
+            User user = userRepository.findUserByWalletAddress(address);
+            return user.getNickname();
+        } catch (Exception e) {
+            throw new Exception("등록되지 않은 지갑 주소입니다.");
         }
     }
 }
