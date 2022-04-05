@@ -42,13 +42,18 @@ const getItems = async () => {
  * @param {Function} success  요청 성공 시 수행할 콜백 함수
  * @param {Function} fail     요청 실패 시 수행할 콜백 함수
  */
-const getUsersItems = (
-  userAddr,
-  success = defaultSuccess,
-  fail = defaultFail,
-) => {
+const getUsersItems = async (userAddr) => {
+  let result = null;
   const params = { 'wallet-address': userAddr };
-  api.get('/items', { params }).then(success).catch(fail);
+  await api
+    .get('/items', { params })
+    .then((res) => {
+      result = res;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return result;
 };
 
 /**

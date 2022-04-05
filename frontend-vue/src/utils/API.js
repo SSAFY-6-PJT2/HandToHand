@@ -28,8 +28,9 @@ const CallAPI = async (apiName, args, fromAddr, tokenId = null) => {
      * @param {*} tokenId
      */
     const newOwnerAddr = args[1];
-    const token_id = args[2];
-    await updateNftOwner(newOwnerAddr, token_id);
+    const token_id = +args[2];
+    console.log(token_id);
+    updateNftOwner(newOwnerAddr, token_id);
   } else if (apiName == 'createSale') {
     /**
      * 판매 정보 등록
