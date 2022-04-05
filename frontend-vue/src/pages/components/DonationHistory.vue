@@ -8,7 +8,6 @@
       :showModal="showModal"
       :loadingMsg="loadingMsg"
       :loadingIsDone="loadingIsDone"
-      @closeModal="showModal"
     />
     <h3 class="text-center">기부 내역</h3>
     <ul v-if="histories.length" class="list-group mb-5">
@@ -120,7 +119,7 @@ export default {
                   });
               })
               .catch((err) => console.log(err));
-          }, 3000);
+          }, 2000);
         }
       }
     },
@@ -175,7 +174,6 @@ export default {
   },
   async mounted() {
     await this.updateDonationHistories();
-    console.log(this.histories);
   },
 };
 </script>

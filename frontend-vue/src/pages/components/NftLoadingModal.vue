@@ -52,12 +52,12 @@ export default {
     showModal() {
       this.modals.mini = this.showModal;
     },
-    modals: {
-      deep: true,
-      handler() {
-        if (!this.modals.notice) this.$emit('closeModal');
-      },
-    },
+    // modals: {
+    //   deep: true,
+    //   handler() {
+    //     if (!this.modals.notice) this.$emit('closeModal');
+    //   },
+    // },
     loadingMsg() {
       this.liveLoadingMsg = this.loadingMsg;
     },
