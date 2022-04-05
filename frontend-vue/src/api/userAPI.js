@@ -19,9 +19,13 @@ const defaultFail = (err) => {
  * @param {Function} success  요청 성공 시 수행할 콜백 함수
  * @param {Function} fail     요청 실패 시 수행할 콜백 함수
  */
-const addUser = (walletAddr, success = defaultSuccess, fail = defaultFail) => {
+const addUser = async (
+  walletAddr,
+  success = defaultSuccess,
+  fail = defaultFail,
+) => {
   const headers = { 'wallet-address': walletAddr };
-  api.post('/users', null, { headers }).then(success).catch(fail);
+  await api.post('/users', null, { headers }).then(success).catch(fail);
 };
 
 /**

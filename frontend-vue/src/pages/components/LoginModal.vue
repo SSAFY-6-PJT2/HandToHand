@@ -58,6 +58,7 @@
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex';
 import { FormGroupInput, Button, Modal } from '@/components';
+import { addUser } from '../../api/userAPI';
 import { getAddressFrom } from '../../utils/eth.js';
 import { getBalance, tokenMint, tokenTransfer } from '../../utils/Token.js';
 
@@ -87,8 +88,9 @@ export default {
       try {
         this.isLoading = true;
         const address = getAddressFrom(this.privKey);
+        this.loadingMsg = '기존 회원인지 확인 중입니다..';
+        await addUser(address);
         await this.transferFaucet(address);
-        this.loadingMsg = null;
         this.vuexSetAddress(address);
         this.vuexSetPrivKey(this.privKey);
         this.modals.notice = false;
