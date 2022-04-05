@@ -34,12 +34,12 @@ const addSale = async (
 
 /**
  * 판매 취소
- * @param {String} sale_seq
+ * @param {String} token_id
  */
 
-const cancelSale = async (sale_seq) => {
+const cancelSale = async (token_id) => {
   await api
-    .patch(`/sales/${sale_seq}`)
+    .patch(`/sales/${token_id}`)
     .then((res) => console.log(res))
     .catch((err) => console.log(err));
 };
