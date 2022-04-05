@@ -3,6 +3,15 @@
  */
 
 import Web3 from 'web3';
+import CallAPI from './API.js';
+
+const callApiList = [
+  'transferFrom', // NFT 이전 => ownerAddr, tokenId 필요
+  'createSale', // 판매 생성
+  'purchase', // 즉시 구매
+  'confirmItem', // 구매 확인
+  'cancelSales', // 판매 취소
+];
 
 // Web3
 const web3 = new Web3(
@@ -18,7 +27,13 @@ const web3 = new Web3(
  * @param {String} data 입력 데이터
  * @returns {Promise} 함수 실행 결과
  */
-export default async function sendTransaction(fromAddr, privKey, toAddr, data) {
+export default async function sendTransaction(
+  fromAddr,
+  privKey,
+  toAddr,
+  data,
+  tokenId = null,
+) {
   const gas = await data.estimateGas({ from: fromAddr });
 
   // 트랜잭션 객체
@@ -38,9 +53,23 @@ export default async function sendTransaction(fromAddr, privKey, toAddr, data) {
       .once('receipt', (receipt) => {
         result = receipt;
       })
-      .on('confirmation', (confirmationNumber) => {
+      .on('confirmation', async (confirmationNumber) => {
         if (confirmationNumber == 1) {
           console.log('start');
+
+          // API 요청이 필요한 경우를 위한 분기처리
+          if (callApiList.includes(data._method.name)) {
+            if (tokenId) {
+              await CallAPI(
+                data._method.name,
+                data.arguments,
+                fromAddr,
+                tokenId,
+              );
+            } else {
+              await CallAPI(data._method.name, data.arguments, fromAddr);
+            }
+          }
         } else if (confirmationNumber == 3) {
           console.log('confirm end!');
         }

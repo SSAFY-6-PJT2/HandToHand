@@ -27,7 +27,7 @@ const addSale = async (
     tokenId: tokenId,
   };
   await api
-    .post(`/sales`, JSON.stringify(data))
+    .post(`/sales/`, JSON.stringify(data))
     .then((res) => console.log(res))
     .catch((err) => console.log(err));
 };
