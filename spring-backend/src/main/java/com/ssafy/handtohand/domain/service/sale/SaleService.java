@@ -21,7 +21,6 @@ public class SaleService {
 
     private final SaleRepository saleRepository;
     private final ItemRepository itemRepository;
-    private EntityManager em;
 
     /**
      * 판매 등록 추가
