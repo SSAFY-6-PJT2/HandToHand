@@ -14,7 +14,7 @@
           @click="
             $router.push({
               name: 'nft-detail',
-              params: { NFTid: item.tokenId },
+              params: { token_id: item.tokenId },
             })
           "
         />

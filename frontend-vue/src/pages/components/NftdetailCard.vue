@@ -4,31 +4,35 @@
     <hr />
     <div class="contents">
       <div class="content">
-        <p>Contract Address :</p>
-        <p>0x000000000000000</p>
-      </div>
-      <div class="content">
         <p>Token ID :</p>
-        <p>42</p>
+        <p>{{ item.tokenId }}</p>
       </div>
       <div class="content">
-        <p>Token Standard :</p>
-        <p>ERC721</p>
+        <p>Titile :</p>
+        <p>{{ item.title }}</p>
       </div>
       <div class="content">
-        <p>Blockchain :</p>
-        <p>Ethereum</p>
+        <p>Owner :</p>
+        <p>{{ item.ownerAddress }}</p>
       </div>
       <div class="content">
-        <p>Metadata :</p>
-        <p>Centralized</p>
+        <p>Owner Address :</p>
+        <p>{{ item.ownerAddress }}</p>
+      </div>
+      <div class="content">
+        <p>onSale :</p>
+        <p>{{ item.onSaleYn }}</p>
       </div>
     </div>
   </section>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    item: Object,
+  },
+};
 </script>
 
 <style scoped>

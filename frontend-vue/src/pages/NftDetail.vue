@@ -7,24 +7,23 @@
     <article>
       <div class="flexbox">
         <div class="item">
-          <img src="img/NFT/nft1.png" alt="" />
+          <img src="item.hash" alt="image cap" />
         </div>
         <div class="item">
           <section class="item-abst">
-            <h2>Token Name</h2>
-            <p>{{ NFTid }}</p>
-            <p>좋아요</p>
+            <h2>{{ item.title }}</h2>
+            <p>{{ item.likeCount }}</p>
           </section>
-          <h4 class="mt-0">소유자: UserId</h4>
-          <sale-card></sale-card>
+          <h4 class="mt-0">소유자: {{ item.ownerAddress }}</h4>
+          <sale-card :userInfo="userInfo" :item="item"></sale-card>
         </div>
       </div>
       <div class="flexbox">
         <div class="item">
-          <contribute-card></contribute-card>
+          <contribute-card :donor="donor"></contribute-card>
         </div>
         <div class="item">
-          <nftdetail-card></nftdetail-card>
+          <nftdetail-card :item="item"></nftdetail-card>
         </div>
       </div>
     </article>
@@ -36,7 +35,7 @@ import { mapState, mapGetters, mapActions } from 'vuex';
 import SaleCard from './components/SaleCard.vue';
 import ContributeCard from './components/ContributeCard.vue';
 import NftdetailCard from './components/NftdetailCard.vue';
-import {} from '@/api/saleAPI.js';
+import { getItem } from '@/api/itemAPI.js';
 export default {
   name: 'nft-detail',
   components: {
@@ -46,10 +45,22 @@ export default {
   },
   created() {
     // token_id 를 이용해 NFT 정보 API 호출
+    getItem('eeee').then((res) => {
+      this.itemInfo = res;
+      this.donor = res.donor;
+      this.item = res.item;
+    });
+    if (this.isLogin) {
+      this.userInfo = [this.privKey, this.userAddress, this.isLogin];
+    }
   },
   data() {
     return {
-      NFTid: this.$route.params.NFTid,
+      token_id: this.$route.params.token_id,
+      itemInfo: null,
+      donor: null,
+      item: null,
+      userInfo: null,
     };
   },
   computed: {

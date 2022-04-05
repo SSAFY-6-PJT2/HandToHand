@@ -5,22 +5,26 @@
     <div class="contents">
       <div class="content">
         <p>기부자 :</p>
-        <p>Daniel</p>
+        <p>{{ donor.nickname }}</p>
       </div>
       <div class="content">
         <p>기부금액 :</p>
-        <p>100 SSF</p>
+        <p>{{ donor.price }} HTH</p>
       </div>
       <div class="content">
         <p>기부 순서 :</p>
-        <p>872 번째 기부자</p>
+        <p>{{ donor.order }} 번째 기부자</p>
       </div>
     </div>
   </section>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    donor: Object,
+  },
+};
 </script>
 
 <style scoped>

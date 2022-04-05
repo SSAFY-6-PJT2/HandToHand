@@ -114,6 +114,29 @@ const updateItemLikes = (success = defaultSuccess, fail = defaultFail) => {
   api.patch('/items').then(success).catch(fail);
 };
 
+/**
+ * 작품 상세 조회
+ * @param {Function} token_id
+ * @param {Function} success  요청 성공 시 수행할 콜백 함수
+ * @param {Function} fail     요청 실패 시 수행할 콜백 함수
+ * @returns {Promise}
+ */
+const getItem = async (
+  token_id,
+  success = defaultSuccess,
+  fail = defaultFail,
+) => {
+  let result = null;
+  await api
+    .get(`/items/details/${token_id}`)
+    .then((res) => {
+      result = res.data;
+      // console.log(result);
+    })
+    .catch(fail);
+  return result;
+};
+
 export {
   getItems,
   getUsersItems,
@@ -121,4 +144,5 @@ export {
   addItem,
   updateNftOwner,
   updateItemLikes,
+  getItem,
 };
