@@ -126,7 +126,12 @@ export default {
         .catch((err) => console.log(err));
     },
     NFTCreate() {
-      createNFT(this.userAddress, this.privKey, this.userAddress, 'TokenURI!')
+      createNFT(
+        this.userAddress,
+        this.privKey,
+        this.userAddress,
+        'https://image.aladin.co.kr/product/23596/28/cover500/8950987007_1.jpg',
+      )
         .then((res) => console.log(res))
         .catch((err) => console.log(err));
     },

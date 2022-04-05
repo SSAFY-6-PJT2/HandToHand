@@ -56,7 +56,7 @@ export default new Router({
       ],
     },
     {
-      path: '/nft-detail/:NFTid',
+      path: '/nft-detail/:token_id',
       name: 'nft-detail',
       components: {
         default: NftDetail,

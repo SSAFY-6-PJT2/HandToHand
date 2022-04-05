@@ -2,6 +2,8 @@
   <section class="card sale-card">
     <h5 class="headder">2022.04.15 에 입찰이 마감됩니다.</h5>
     <hr />
+    {{ userInfo }}
+    {{ item }}
     <div class="contents">
       <div class="content">
         <p>현재 입찰가 :</p>
@@ -44,7 +46,10 @@
 <script>
 export default {
   name: 'sale-card',
-  props: {},
+  props: {
+    userInfo: Array,
+    item: Object,
+  },
 };
 </script>
 

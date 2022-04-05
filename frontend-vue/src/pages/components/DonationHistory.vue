@@ -78,11 +78,11 @@
 import { mapState, mapGetters } from 'vuex';
 import { getDonationHistory, updateDonationStatus } from '@/api/donationAPI.js';
 import { getTxStatus } from '@/utils/eth.js';
-import {
-  getBalanceOf,
-  getOwnerOf,
-  trasferNftTo,
-} from '@/utils/test/nftTest.js';
+// import {
+//   getBalanceOf,
+//   getOwnerOf,
+//   trasferNftTo,
+// } from '@/utils/test/nftTest.js';
 import { Button } from '@/components';
 
 export default {
