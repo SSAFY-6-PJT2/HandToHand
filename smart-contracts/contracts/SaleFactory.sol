@@ -208,7 +208,6 @@ contract Sale {
         return true;
     }
 
-    // Todo : 수정
     function purchase()
         public
         notASeller
@@ -265,10 +264,8 @@ contract Sale {
         return true;
     }
     
-    // Todo : cancelSales => cancelSale 수정
     function cancelSales()
         public
-        isSaleOngoing
         returns (bool)
     {
         address requestor = msg.sender;
