@@ -49,7 +49,10 @@ public class ItemService {
                     .onSaleYn(item.getOnSaleYn())
                     .price(item.getPrice())
                     .likeCount(item.getLikeCount())
+                    .donator(item.getDonation().getUser().getNickname())
+                    .amountOfDonation(item.getDonation().getAmount())
                     .build();
+
             list.add(itemResponse);
         }
 
@@ -70,7 +73,10 @@ public class ItemService {
                     .onSaleYn(item.getOnSaleYn())
                     .price(item.getPrice())
                     .likeCount(item.getLikeCount())
+                    .donator(item.getDonation().getUser().getNickname())
+                    .amountOfDonation(item.getDonation().getAmount())
                     .build();
+
             list.add(itemResponse);
         }
 
@@ -91,7 +97,10 @@ public class ItemService {
                     .onSaleYn(item.getOnSaleYn())
                     .price(item.getPrice())
                     .likeCount(item.getLikeCount())
+                    .donator(item.getDonation().getUser().getNickname())
+                    .amountOfDonation(item.getDonation().getAmount())
                     .build();
+
             list.add(itemResponse);
         }
         return list;
