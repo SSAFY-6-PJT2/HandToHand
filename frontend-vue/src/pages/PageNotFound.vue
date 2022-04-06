@@ -103,8 +103,8 @@ export default {
       tokenTransfer(
         this.userAddress,
         this.privKey,
-        '0xA7BDeFC1e1d4CbBD2588c5b0E64a4c10f8947AEB',
-        100000,
+        process.env.VUE_APP_ADMIN_ADDRESS,
+        500,
       )
         .then((res) => {
           console.log(res);
@@ -136,7 +136,7 @@ export default {
         // this.userAddress,
         // this.privKey,
         // this.userAddress,
-        'URIURI!',
+        'https://bon-systems.com/m9_data/programs/gallery/20190828286818/20190828058515/20190919952222/091988036.jpg',
       )
         .then((res) => console.log(res))
         .catch((err) => console.log(err));

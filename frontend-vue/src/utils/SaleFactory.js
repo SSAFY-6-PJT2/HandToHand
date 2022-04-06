@@ -21,7 +21,7 @@ let Sale_CA;
 
 // Admin account
 const admin_address = process.env.VUE_APP_ADMIN_ADDRESS;
-const admin_privkey = process.env.VUE_APP_ADMIN_PRIVKEY;
+const admin_privkey = process.env.VUE_APP_ADMIN_PRIV_KEY;
 
 // Web3
 const web3 = new Web3(
@@ -78,7 +78,6 @@ const createSale = async (
     admin_privkey,
     SaleFactory_CA,
     data,
-    true,
   );
 
   return result;
@@ -135,7 +134,13 @@ const bid = async (fromAddr, privKey, tokenId, amount) => {
 
   const data = saleContractInstance.methods.bid(amount);
 
-  const result = await sendTransaction(fromAddr, privKey, Sale_CA, data);
+  const result = await sendTransaction(
+    fromAddr,
+    privKey,
+    Sale_CA,
+    data,
+    tokenId,
+  );
 
   return result;
 };

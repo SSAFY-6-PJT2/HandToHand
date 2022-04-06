@@ -1,14 +1,14 @@
 <template>
   <section class="card sale-card">
     <div class="headder">
-      <h5>현재 입찰중인 작품이 아닙니다.</h5>
+      <h5>현재 판매중인 작품이 아닙니다.</h5>
       <hr />
     </div>
     {{ item }}
     <div v-if="isLogin">
       <!-- 사용자가 owner 일경우 -> 판매 등록 가능 -->
       <div v-if="userAddress === item.ownerAddress" class="contents">
-        <form></form>
+        <start-sale-form />
         <div class="content"></div>
         <div class="content"></div>
         <div class="button-box">
@@ -16,21 +16,9 @@
           <button
             type="button"
             class="btn btn-warning btn-lg"
-            data-toggle="modal"
-            data-target="#makeSaleModal"
             @click="CreateSale"
           >
             판매등록
-          </button>
-          <!-- 입찰이 마감되고 입찰자가 없었을 경우 판매 취소를 통한 마감 -->
-          <button
-            type="button"
-            class="btn btn-danger btn-lg"
-            data-toggle="modal"
-            data-target="#makeSaleModal"
-            @click="cancelSales"
-          >
-            판매취소
           </button>
         </div>
       </div>
@@ -40,6 +28,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
+import StartSaleFrom from './StartSaleForm.vue';
 import {
   getSaleAddress,
   createSale,
@@ -59,8 +48,12 @@ import {
   NFTTransfer,
   setApproveForAll,
 } from '../../utils/NFT.js';
+import StartSaleForm from './StartSaleForm.vue';
 export default {
   name: 'sale-card',
+  components: {
+    StartSaleForm,
+  },
   props: {
     item: Object,
   },
@@ -85,16 +78,12 @@ export default {
   },
   created() {
     const tokenId = this.item.tokenId;
-    getOwner(tokenId).then((res) => {
-      this.tokenOwner = res;
-      console.log(res);
-    });
 
     // Testing code
     //seller
     this.startTime = new Date();
     this.startTime = parseInt(this.startTime.getTime() / 1000);
-    this.endTime = this.startTime + 6000;
+    this.endTime = this.startTime + 600;
     this.minPrice = 10;
     this.purchasePrice = 30;
   },

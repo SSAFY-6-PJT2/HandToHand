@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.module.ResolutionException;
+
 /**
  * 판매 컨트롤러
  *
@@ -46,7 +48,12 @@ public class SaleController {
     @GetMapping("{token_id}")
     @ApiOperation(value = "판매 정보 상세 조회")
     public ResponseEntity<SaleInfoResponse> viewSaleDetail(@ApiParam(value="판매 상세 정보",required = true) @PathVariable("token_id") String tokenId){
-        return new ResponseEntity<>(saleService.getSaleDetail(tokenId), HttpStatus.OK);
+        try{
+            return new ResponseEntity<>(saleService.getSaleDetail(tokenId), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
     }
 
     /**

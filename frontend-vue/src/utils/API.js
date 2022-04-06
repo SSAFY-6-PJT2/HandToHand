@@ -44,12 +44,25 @@ const CallAPI = async (apiName, args, fromAddr, tokenId = null) => {
     const cashContractAddress = args[6];
     const saleContractAddress = await getSaleAddress(token_id);
     const sellerAddress = args[0];
+    const startTime = args[4];
+    const endTime = args[5];
     await addSale(
       cashContractAddress,
+      endTime,
       saleContractAddress,
       sellerAddress,
+      startTime,
       token_id,
     );
+  } else if (apiName == 'bid') {
+    /**
+     * 구매자 정보 업데이트
+     * @param {String} token_id
+     * @param {String} buyer_address
+     */
+    const token_id = tokenId;
+    const buyer_address = fromAddr;
+    await updateBuyer(token_id, buyer_address);
   } else if (apiName == 'purchase' || apiName == 'confirmItem') {
     /**
      * NFT 소유자 업데이트

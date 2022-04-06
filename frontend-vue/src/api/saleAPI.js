@@ -17,14 +17,18 @@ const api = apiInstance();
 // Todo : 판매 시작시간, 종료 시간 data 에 추가해서 api 요청
 const addSale = async (
   cashContractAddress,
+  endTime,
   saleContractAddress,
   sellerAddress,
+  startTime,
   tokenId,
 ) => {
   const data = {
     cashContractAddress: cashContractAddress,
+    endTime: endTime,
     saleContractAddress: saleContractAddress,
     sellerAddress: sellerAddress,
+    startTime: startTime,
     tokenId: tokenId,
   };
   await api

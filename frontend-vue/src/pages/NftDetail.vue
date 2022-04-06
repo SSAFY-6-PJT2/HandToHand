@@ -7,7 +7,7 @@
     <article>
       <div class="flexbox">
         <div class="item">
-          <img src="item.hash" alt="image cap" />
+          <img :src="item.hash" alt="image cap" />
         </div>
         <div class="item">
           <section class="item-abst">
@@ -48,7 +48,7 @@ export default {
   },
   created() {
     // token_id 를 이용해 NFT 정보 API 호출
-    getItem('2').then((res) => {
+    getItem(this.token_id).then((res) => {
       this.itemInfo = res;
       this.donor = res.donor;
       this.item = res.item;
@@ -123,8 +123,8 @@ article {
   flex-grow: 1;
 }
 .item > img {
-  /* max-width: 100%;
-  height: auto; */
+  max-width: 400px;
+  height: auto;
   border-radius: 5%;
 }
 @media screen and (max-width: 1023px) {
