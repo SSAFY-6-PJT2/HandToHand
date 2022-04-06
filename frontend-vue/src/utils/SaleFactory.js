@@ -37,7 +37,7 @@ const getSaleAddress = async (tokenId) => {
     SaleFactory_ABI,
     SaleFactory_CA,
   );
-  const saleAddress = saleFactoryContractInstance.methods
+  const saleAddress = await saleFactoryContractInstance.methods
     .getSaleAddress(tokenId)
     .call();
 
@@ -186,7 +186,6 @@ const confirmItem = async (fromAddr, privKey, tokenId) => {
   return result;
 };
 
-// Todo : cancelSales => cancelSale : Smart Contract 수정 후 수정
 const cancelSales = async (fromAddr, privKey, tokenId) => {
   Sale_CA = await getSaleAddress(tokenId);
   const saleContractInstance = new web3.eth.Contract(Sale_ABI, Sale_CA, {

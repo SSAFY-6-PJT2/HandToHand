@@ -14,8 +14,9 @@
             <h2>{{ item.title }}</h2>
             <p>{{ item.likeCount }}</p>
           </section>
-          <h4 class="mt-0">소유자: {{ item.ownerAddress }}</h4>
-          <sale-card :userInfo="userInfo" :item="item"></sale-card>
+          <p class="mt-0">소유자: {{ item.ownerAddress }}</p>
+          <onsale-card v-if="item.onSaleYn" :item="item"></onsale-card>
+          <offsale-card v-else :item="item"></offsale-card>
         </div>
       </div>
       <div class="flexbox">
@@ -32,26 +33,32 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex';
-import SaleCard from './components/SaleCard.vue';
+import OnsaleCard from './components/OnsaleCard.vue';
+import OffsaleCard from './components/OffsaleCard.vue';
 import ContributeCard from './components/ContributeCard.vue';
 import NftdetailCard from './components/NftdetailCard.vue';
 import { getItem } from '@/api/itemAPI.js';
 export default {
   name: 'nft-detail',
   components: {
-    SaleCard,
+    OnsaleCard,
+    OffsaleCard,
     ContributeCard,
     NftdetailCard,
   },
   created() {
     // token_id 를 이용해 NFT 정보 API 호출
-    getItem('eeee').then((res) => {
+    getItem('106').then((res) => {
       this.itemInfo = res;
       this.donor = res.donor;
       this.item = res.item;
     });
     if (this.isLogin) {
-      this.userInfo = [this.privKey, this.userAddress, this.isLogin];
+      this.userInfo = {
+        privKey: this.privKey,
+        userAddress: this.userAddress,
+        isLogin: this.isLogin,
+      };
     }
   },
   data() {

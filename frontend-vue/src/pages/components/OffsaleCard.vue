@@ -1,61 +1,42 @@
 <template>
   <section class="card sale-card">
-    <div v-if="item.onSaleYn">
-      <div class="headder">
-        <h5>2022.04.15 에 입찰이 마감됩니다.</h5>
-        <hr />
-      </div>
-      {{ userInfo }}
-      {{ item }}
-      <div class="contents">
-        <div class="content">
-          <p>현재 입찰가 :</p>
-          <p>{{ saleInfo.highestBid }} HTH</p>
-        </div>
-        <div class="content">
-          <p>즉시 구매가 :</p>
-          <p>{{ saleInfo.purchasePrice }} HTH</p>
-        </div>
+    <div class="headder">
+      <h5>현재 입찰중인 작품이 아닙니다.</h5>
+      <hr />
+    </div>
+    {{ item }}
+    <div v-if="isLogin">
+      <div v-if="userAddress === item.ownerAddress" class="contents">
+        <form></form>
+        <div class="content"></div>
+        <div class="content"></div>
         <div class="button-box">
           <button
             type="button"
-            class="btn btn-primary btn-lg"
+            class="btn btn-danger btn-lg"
             data-toggle="modal"
-            data-target="#purchaseModal"
+            data-target="#makeSaleModal"
+            @click="cancelSales"
           >
-            구매하기
-          </button>
-          <button
-            type="button"
-            class="btn btn-success btn-lg"
-            data-toggle="modal"
-            data-target="#bidModal"
-          >
-            입찰하기
+            판매취소
           </button>
           <button
             type="button"
             class="btn btn-warning btn-lg"
             data-toggle="modal"
             data-target="#makeSaleModal"
+            @click="CreateSale"
           >
             판매등록
           </button>
         </div>
       </div>
     </div>
-    <div v-else>
-      {{ userInfo }}
-      {{ item }}
-      <div class="headder">
-        <h5>입찰 시간이 아닙니다.</h5>
-        <hr />
-      </div>
-    </div>
   </section>
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex';
 import {
   getSaleAddress,
   createSale,
@@ -78,7 +59,6 @@ import {
 export default {
   name: 'sale-card',
   props: {
-    userInfo: Array,
     item: Object,
   },
   data() {
@@ -88,19 +68,48 @@ export default {
       highestBid: null,
       timeLeft: null,
       tokenOwner: null,
+
+      // Sale create info => Todo : Form 에서 입력으로 변경
+      startTime: null,
+      endTime: null,
+      minPrice: null,
+      purchasePrice: null,
     };
+  },
+  computed: {
+    ...mapState(['privKey', 'userAddress']),
+    ...mapGetters(['isLogin']),
   },
   created() {
     const tokenId = this.item.tokenId;
-    getOwner(tokenId).then((res) => (this.tokenOwner = res));
-    if (this.item.onSale) {
-      this.onSale = true;
-      getSaleInfo(tokenId).then((res) => (this.saleInfo = res));
-      getHighestBid(tokenId).then((res) => (this.highestBid = res));
-      setTimeout(() => {
-        getTimeLeft(tokenId).then((res) => (this.timeLeft = res));
-      });
-    }
+    getOwner(tokenId).then((res) => {
+      this.tokenOwner = res;
+      console.log(res);
+    });
+
+    // Testing code
+    //seller
+    this.startTime = new Date();
+    this.startTime = parseInt(this.startTime.getTime() / 1000);
+    this.endTime = this.startTime + 3000;
+    this.minPrice = 10;
+    this.purchasePrice = 30;
+  },
+  methods: {
+    CreateSale() {
+      createSale(
+        this.userAddress,
+        this.privKey,
+        this.item.tokenId,
+        this.minPrice,
+        this.purchasePrice,
+        this.startTime,
+        this.endTime,
+      );
+    },
+    cancelSales() {
+      cancelSales(this.userAddress, this.privKey, this.item.tokenId);
+    },
   },
 };
 </script>

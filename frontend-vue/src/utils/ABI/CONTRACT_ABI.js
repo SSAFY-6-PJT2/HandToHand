@@ -8,7 +8,23 @@
 const CONTRACT_ABI = {
   NFT_ABI: [
     {
-      inputs: [],
+      inputs: [
+        {
+          internalType: 'string',
+          name: 'name',
+          type: 'string',
+        },
+        {
+          internalType: 'string',
+          name: 'symbol',
+          type: 'string',
+        },
+        {
+          internalType: 'uint8',
+          name: 'decimal',
+          type: 'uint8',
+        },
+      ],
       stateMutability: 'nonpayable',
       type: 'constructor',
     },
@@ -24,67 +40,17 @@ const CONTRACT_ABI = {
         {
           indexed: true,
           internalType: 'address',
-          name: 'approved',
+          name: 'spender',
           type: 'address',
         },
         {
-          indexed: true,
+          indexed: false,
           internalType: 'uint256',
-          name: 'tokenId',
+          name: 'value',
           type: 'uint256',
         },
       ],
       name: 'Approval',
-      type: 'event',
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: 'address',
-          name: 'owner',
-          type: 'address',
-        },
-        {
-          indexed: true,
-          internalType: 'address',
-          name: 'operator',
-          type: 'address',
-        },
-        {
-          indexed: false,
-          internalType: 'bool',
-          name: 'approved',
-          type: 'bool',
-        },
-      ],
-      name: 'ApprovalForAll',
-      type: 'event',
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: false,
-          internalType: 'address',
-          name: '_owner',
-          type: 'address',
-        },
-        {
-          indexed: false,
-          internalType: 'uint256',
-          name: '_tokenId',
-          type: 'uint256',
-        },
-        {
-          indexed: false,
-          internalType: 'string',
-          name: '_tokenURI',
-          type: 'string',
-        },
-      ],
-      name: 'NewToken',
       type: 'event',
     },
     {
@@ -122,9 +88,9 @@ const CONTRACT_ABI = {
           type: 'address',
         },
         {
-          indexed: true,
+          indexed: false,
           internalType: 'uint256',
-          name: 'tokenId',
+          name: 'value',
           type: 'uint256',
         },
       ],
@@ -135,17 +101,48 @@ const CONTRACT_ABI = {
       inputs: [
         {
           internalType: 'address',
-          name: 'to',
+          name: 'owner',
+          type: 'address',
+        },
+        {
+          internalType: 'address',
+          name: 'spender',
+          type: 'address',
+        },
+      ],
+      name: 'allowance',
+      outputs: [
+        {
+          internalType: 'uint256',
+          name: '',
+          type: 'uint256',
+        },
+      ],
+      stateMutability: 'view',
+      type: 'function',
+      constant: true,
+    },
+    {
+      inputs: [
+        {
+          internalType: 'address',
+          name: 'spender',
           type: 'address',
         },
         {
           internalType: 'uint256',
-          name: 'tokenId',
+          name: 'amount',
           type: 'uint256',
         },
       ],
       name: 'approve',
-      outputs: [],
+      outputs: [
+        {
+          internalType: 'bool',
+          name: '',
+          type: 'bool',
+        },
+      ],
       stateMutability: 'nonpayable',
       type: 'function',
     },
@@ -153,7 +150,7 @@ const CONTRACT_ABI = {
       inputs: [
         {
           internalType: 'address',
-          name: 'owner',
+          name: 'account',
           type: 'address',
         },
       ],
@@ -170,19 +167,13 @@ const CONTRACT_ABI = {
       constant: true,
     },
     {
-      inputs: [
-        {
-          internalType: 'uint256',
-          name: 'tokenId',
-          type: 'uint256',
-        },
-      ],
-      name: 'getApproved',
+      inputs: [],
+      name: 'decimals',
       outputs: [
         {
-          internalType: 'address',
+          internalType: 'uint8',
           name: '',
-          type: 'address',
+          type: 'uint8',
         },
       ],
       stateMutability: 'view',
@@ -193,16 +184,16 @@ const CONTRACT_ABI = {
       inputs: [
         {
           internalType: 'address',
-          name: 'owner',
+          name: 'spender',
           type: 'address',
         },
         {
-          internalType: 'address',
-          name: 'operator',
-          type: 'address',
+          internalType: 'uint256',
+          name: 'subtractedValue',
+          type: 'uint256',
         },
       ],
-      name: 'isApprovedForAll',
+      name: 'decreaseAllowance',
       outputs: [
         {
           internalType: 'bool',
@@ -210,9 +201,32 @@ const CONTRACT_ABI = {
           type: 'bool',
         },
       ],
-      stateMutability: 'view',
+      stateMutability: 'nonpayable',
       type: 'function',
-      constant: true,
+    },
+    {
+      inputs: [
+        {
+          internalType: 'address',
+          name: 'spender',
+          type: 'address',
+        },
+        {
+          internalType: 'uint256',
+          name: 'addedValue',
+          type: 'uint256',
+        },
+      ],
+      name: 'increaseAllowance',
+      outputs: [
+        {
+          internalType: 'bool',
+          name: '',
+          type: 'bool',
+        },
+      ],
+      stateMutability: 'nonpayable',
+      type: 'function',
     },
     {
       inputs: [],
@@ -243,120 +257,11 @@ const CONTRACT_ABI = {
       constant: true,
     },
     {
-      inputs: [
-        {
-          internalType: 'uint256',
-          name: 'tokenId',
-          type: 'uint256',
-        },
-      ],
-      name: 'ownerOf',
-      outputs: [
-        {
-          internalType: 'address',
-          name: '',
-          type: 'address',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-      constant: true,
-    },
-    {
       inputs: [],
       name: 'renounceOwnership',
       outputs: [],
       stateMutability: 'nonpayable',
       type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: 'from',
-          type: 'address',
-        },
-        {
-          internalType: 'address',
-          name: 'to',
-          type: 'address',
-        },
-        {
-          internalType: 'uint256',
-          name: 'tokenId',
-          type: 'uint256',
-        },
-      ],
-      name: 'safeTransferFrom',
-      outputs: [],
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: 'from',
-          type: 'address',
-        },
-        {
-          internalType: 'address',
-          name: 'to',
-          type: 'address',
-        },
-        {
-          internalType: 'uint256',
-          name: 'tokenId',
-          type: 'uint256',
-        },
-        {
-          internalType: 'bytes',
-          name: '_data',
-          type: 'bytes',
-        },
-      ],
-      name: 'safeTransferFrom',
-      outputs: [],
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: 'operator',
-          type: 'address',
-        },
-        {
-          internalType: 'bool',
-          name: 'approved',
-          type: 'bool',
-        },
-      ],
-      name: 'setApprovalForAll',
-      outputs: [],
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      inputs: [
-        {
-          internalType: 'bytes4',
-          name: 'interfaceId',
-          type: 'bytes4',
-        },
-      ],
-      name: 'supportsInterface',
-      outputs: [
-        {
-          internalType: 'bool',
-          name: '',
-          type: 'bool',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-      constant: true,
     },
     {
       inputs: [],
@@ -373,6 +278,73 @@ const CONTRACT_ABI = {
       constant: true,
     },
     {
+      inputs: [],
+      name: 'totalSupply',
+      outputs: [
+        {
+          internalType: 'uint256',
+          name: '',
+          type: 'uint256',
+        },
+      ],
+      stateMutability: 'view',
+      type: 'function',
+      constant: true,
+    },
+    {
+      inputs: [
+        {
+          internalType: 'address',
+          name: 'recipient',
+          type: 'address',
+        },
+        {
+          internalType: 'uint256',
+          name: 'amount',
+          type: 'uint256',
+        },
+      ],
+      name: 'transfer',
+      outputs: [
+        {
+          internalType: 'bool',
+          name: '',
+          type: 'bool',
+        },
+      ],
+      stateMutability: 'nonpayable',
+      type: 'function',
+    },
+    {
+      inputs: [
+        {
+          internalType: 'address',
+          name: 'sender',
+          type: 'address',
+        },
+        {
+          internalType: 'address',
+          name: 'recipient',
+          type: 'address',
+        },
+        {
+          internalType: 'uint256',
+          name: 'amount',
+          type: 'uint256',
+        },
+      ],
+      name: 'transferFrom',
+      outputs: [
+        {
+          internalType: 'bool',
+          name: '',
+          type: 'bool',
+        },
+      ],
+      stateMutability: 'nonpayable',
+      type: 'function',
+    },
+    {
       inputs: [
         {
           internalType: 'address',
@@ -384,20 +356,6 @@ const CONTRACT_ABI = {
       outputs: [],
       stateMutability: 'nonpayable',
       type: 'function',
-    },
-    {
-      inputs: [],
-      name: 'caller',
-      outputs: [
-        {
-          internalType: 'address',
-          name: '',
-          type: 'address',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-      constant: true,
     },
     {
       inputs: [],
@@ -414,60 +372,15 @@ const CONTRACT_ABI = {
       constant: true,
     },
     {
-      inputs: [],
-      name: 'current',
-      outputs: [
-        {
-          internalType: 'uint256',
-          name: '',
-          type: 'uint256',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-      constant: true,
-    },
-    {
       inputs: [
         {
           internalType: 'uint256',
-          name: 'tokenId',
+          name: 'amount',
           type: 'uint256',
         },
       ],
-      name: 'tokenURI',
-      outputs: [
-        {
-          internalType: 'string',
-          name: '',
-          type: 'string',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-      constant: true,
-    },
-    {
-      inputs: [
-        {
-          internalType: 'address',
-          name: 'to',
-          type: 'address',
-        },
-        {
-          internalType: 'string',
-          name: '_tokenURI',
-          type: 'string',
-        },
-      ],
-      name: 'create',
-      outputs: [
-        {
-          internalType: 'uint256',
-          name: '',
-          type: 'uint256',
-        },
-      ],
+      name: 'mint',
+      outputs: [],
       stateMutability: 'nonpayable',
       type: 'function',
     },
@@ -485,11 +398,11 @@ const CONTRACT_ABI = {
         },
         {
           internalType: 'uint256',
-          name: 'tokenId',
+          name: 'amount',
           type: 'uint256',
         },
       ],
-      name: 'transferFrom',
+      name: 'forceToTransfer',
       outputs: [],
       stateMutability: 'nonpayable',
       type: 'function',
@@ -710,6 +623,26 @@ const CONTRACT_ABI = {
     {
       inputs: [
         {
+          internalType: 'uint256',
+          name: 'tokenId',
+          type: 'uint256',
+        },
+      ],
+      name: 'getSaleAddress',
+      outputs: [
+        {
+          internalType: 'address',
+          name: '',
+          type: 'address',
+        },
+      ],
+      stateMutability: 'view',
+      type: 'function',
+      constant: true,
+    },
+    {
+      inputs: [
+        {
           internalType: 'address',
           name: 'seller',
           type: 'address',
@@ -760,20 +693,6 @@ const CONTRACT_ABI = {
       ],
       stateMutability: 'nonpayable',
       type: 'function',
-    },
-    {
-      inputs: [],
-      name: 'allSales',
-      outputs: [
-        {
-          internalType: 'address[]',
-          name: '',
-          type: 'address[]',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-      constant: true,
     },
   ],
   SALE_ABI: [
@@ -834,6 +753,18 @@ const CONTRACT_ABI = {
         {
           indexed: false,
           internalType: 'address',
+          name: 'saleContractAddress',
+          type: 'address',
+        },
+        {
+          indexed: false,
+          internalType: 'uint256',
+          name: 'tokenId',
+          type: 'uint256',
+        },
+        {
+          indexed: false,
+          internalType: 'address',
           name: 'bidder',
           type: 'address',
         },
@@ -843,13 +774,31 @@ const CONTRACT_ABI = {
           name: 'amount',
           type: 'uint256',
         },
+        {
+          indexed: false,
+          internalType: 'address',
+          name: 'currencyAddress',
+          type: 'address',
+        },
       ],
-      name: 'HighestBidIncereased',
+      name: 'BidMade',
       type: 'event',
     },
     {
       anonymous: false,
       inputs: [
+        {
+          indexed: false,
+          internalType: 'address',
+          name: 'saleContractAddress',
+          type: 'address',
+        },
+        {
+          indexed: false,
+          internalType: 'uint256',
+          name: 'tokenId',
+          type: 'uint256',
+        },
         {
           indexed: false,
           internalType: 'address',
@@ -920,7 +869,7 @@ const CONTRACT_ABI = {
     },
     {
       inputs: [],
-      name: 'erc721Constract',
+      name: 'erc721Contract',
       outputs: [
         {
           internalType: 'contract IERC721',
@@ -1057,28 +1006,52 @@ const CONTRACT_ABI = {
         },
       ],
       name: 'bid',
-      outputs: [],
+      outputs: [
+        {
+          internalType: 'bool',
+          name: '',
+          type: 'bool',
+        },
+      ],
       stateMutability: 'nonpayable',
       type: 'function',
     },
     {
       inputs: [],
       name: 'purchase',
-      outputs: [],
+      outputs: [
+        {
+          internalType: 'bool',
+          name: '',
+          type: 'bool',
+        },
+      ],
       stateMutability: 'nonpayable',
       type: 'function',
     },
     {
       inputs: [],
       name: 'confirmItem',
-      outputs: [],
+      outputs: [
+        {
+          internalType: 'bool',
+          name: '',
+          type: 'bool',
+        },
+      ],
       stateMutability: 'nonpayable',
       type: 'function',
     },
     {
       inputs: [],
       name: 'cancelSales',
-      outputs: [],
+      outputs: [
+        {
+          internalType: 'bool',
+          name: '',
+          type: 'bool',
+        },
+      ],
       stateMutability: 'nonpayable',
       type: 'function',
     },
@@ -1101,47 +1074,47 @@ const CONTRACT_ABI = {
       outputs: [
         {
           internalType: 'uint256',
-          name: '',
+          name: 'StartTime',
           type: 'uint256',
         },
         {
           internalType: 'uint256',
-          name: '',
+          name: 'EndTime',
           type: 'uint256',
         },
         {
           internalType: 'uint256',
-          name: '',
+          name: 'MinPrice',
           type: 'uint256',
         },
         {
           internalType: 'uint256',
-          name: '',
+          name: 'BuyNowPrice',
           type: 'uint256',
         },
         {
           internalType: 'uint256',
-          name: '',
+          name: 'TokenId',
           type: 'uint256',
         },
         {
           internalType: 'address',
-          name: '',
+          name: 'HighestBidder',
           type: 'address',
         },
         {
           internalType: 'uint256',
-          name: '',
+          name: 'HighestBid',
           type: 'uint256',
         },
         {
           internalType: 'address',
-          name: '',
+          name: 'CurrencyAddress',
           type: 'address',
         },
         {
           internalType: 'address',
-          name: '',
+          name: 'NftAddress',
           type: 'address',
         },
       ],
@@ -1152,6 +1125,11 @@ const CONTRACT_ABI = {
       inputs: [],
       name: 'getHighestBid',
       outputs: [
+        {
+          internalType: 'address',
+          name: '',
+          type: 'address',
+        },
         {
           internalType: 'uint256',
           name: '',
