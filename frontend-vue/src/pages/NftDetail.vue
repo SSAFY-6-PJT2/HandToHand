@@ -4,17 +4,16 @@
 
 <template>
   <div class="layout">
-    <article>
+    <article v-if="item">
       <div class="flexbox">
         <div class="item">
           <img :src="item.hash" alt="image cap" />
         </div>
         <div class="item">
-          <section class="item-abst">
-            <h2>{{ item.title }}</h2>
-            <p>{{ item.likeCount }}</p>
+          <section class="item-abst mb-2">
+            <h2 class="mb-0">{{ item.title }}</h2>
           </section>
-          <p class="mt-0">소유자: {{ item.ownerAddress }}</p>
+          <p v-if="userNickname" class="mt-0">소유자: {{ userNickname }}</p>
           <onsale-card v-if="item.onSaleYn" :item="item"></onsale-card>
           <offsale-card v-else :item="item"></offsale-card>
         </div>
@@ -38,6 +37,7 @@ import OffsaleCard from './components/OffsaleCard.vue';
 import ContributeCard from './components/ContributeCard.vue';
 import NftdetailCard from './components/NftdetailCard.vue';
 import { getItem } from '@/api/itemAPI.js';
+import { getNickname } from '@/api/userAPI.js';
 export default {
   name: 'nft-detail',
   components: {
@@ -52,6 +52,9 @@ export default {
       this.itemInfo = res;
       this.donor = res.donor;
       this.item = res.item;
+      getNickname(this.item.ownerAddress).then((res) => {
+        this.userNickname = res.data;
+      });
     });
     if (this.isLogin) {
       this.userInfo = {
@@ -68,6 +71,7 @@ export default {
       donor: null,
       item: null,
       userInfo: null,
+      userNickname: null,
     };
   },
   computed: {
@@ -94,9 +98,10 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
+
 /*  */
 .layout {
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 0 auto;
   margin-top: 100px;
   padding: 20px;
