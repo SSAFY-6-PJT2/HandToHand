@@ -64,7 +64,6 @@ const createNFT = async (fromAddr, privKey, toAddr, tokenURI) => {
     privKey,
     process.env.VUE_APP_NFT_CA,
     data,
-    true,
   );
 
   return result;

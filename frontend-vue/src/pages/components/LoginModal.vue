@@ -56,8 +56,9 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 import { FormGroupInput, Button, Modal } from '@/components';
+import { addUser, getNickname } from '../../api/userAPI';
 import { getAddressFrom } from '../../utils/eth.js';
 import { getBalance, tokenMint, tokenTransfer } from '../../utils/Token.js';
 
@@ -82,15 +83,18 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['vuexSetPrivKey', 'vuexSetAddress']),
+    ...mapActions(['vuexSetPrivKey', 'vuexSetAddress', 'vuexSetNickname']),
     async eableWallet() {
       try {
         this.isLoading = true;
         const address = getAddressFrom(this.privKey);
+        this.loadingMsg = '기존 회원인지 확인 중입니다..';
+        await addUser(address);
         await this.transferFaucet(address);
-        this.loadingMsg = null;
         this.vuexSetAddress(address);
         this.vuexSetPrivKey(this.privKey);
+        const nickname = await getNickname(address);
+        this.vuexSetNickname(nickname.data);
         this.modals.notice = false;
         this.isLoading = false;
       } catch (error) {
@@ -127,10 +131,6 @@ export default {
           console.log(err);
         });
     },
-  },
-  computed: {
-    ...mapState(['address']),
-    ...mapGetters(['isLogin']),
   },
   watch: {
     showModal() {

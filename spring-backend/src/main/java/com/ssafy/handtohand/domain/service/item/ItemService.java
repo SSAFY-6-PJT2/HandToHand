@@ -8,7 +8,7 @@ import com.ssafy.handtohand.domain.model.entity.item.Item;
 import com.ssafy.handtohand.domain.model.entity.user.User;
 import com.ssafy.handtohand.domain.repository.donation.DonationRepository;
 import com.ssafy.handtohand.domain.repository.item.ItemRepository;
-import com.ssafy.handtohand.domain.repository.like.LikeRepository;
+import com.ssafy.handtohand.domain.service.like.LikeRepository;
 import com.ssafy.handtohand.domain.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ItemService {
     private final ItemRepository itemRepository;
-    private final UserRepository userRepository;
+//    private final UserRepository userRepository;
     private final LikeRepository likeRepository;
     private final DonationRepository donationRepository;
     private EntityManager em;
@@ -100,6 +100,7 @@ public class ItemService {
     public String insertItem(ItemRequest request){
         try{
             Item item = ItemRequest.convertToEntity(request);
+            item.setDonation(donationRepository.findBySeq(request.getDonationSeq()));
             itemRepository.save(item);
             item.setTitle("HandToHand#"+item.getSeq());
             return "success";
@@ -122,7 +123,8 @@ public class ItemService {
         try{
             Item item = itemRepository.findByTokenId(tokenId);
             ItemResponse response = ItemResponse.convertToDto(item);
-            Donation donationInfo = donationRepository.findDonationByItemEquals(item);
+//            Donation donationInfo = donationRepository.findDonationByItemEquals(item);
+            Donation donationInfo = item.getDonation();
             User user = donationInfo.getUser();
             ItemDetailResponse detailResponse = new ItemDetailResponse(response,user.getNickname(),donationInfo.getAmount(),donationInfo.getSeq());
             return detailResponse;

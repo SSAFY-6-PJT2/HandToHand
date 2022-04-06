@@ -1,7 +1,6 @@
 package com.ssafy.handtohand.domain.repository.donation;
 
 import com.ssafy.handtohand.domain.model.entity.donation.Donation;
-import com.ssafy.handtohand.domain.model.entity.item.Item;
 import com.ssafy.handtohand.domain.model.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -17,6 +16,5 @@ public interface DonationRepository extends JpaRepository<Donation, Long> {
     List<Donation> findDonationsByUserOrderByCreatedDateDesc(User user);
 
     Donation findDonationByTransactionHash(String hash);
-    Donation findByItem(Item item);
-    Donation findDonationByItemEquals(Item item);
+    Donation findBySeq(Long seq);
 }

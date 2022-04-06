@@ -19,7 +19,7 @@
     <n-button class="btn-primary" @click="Bid">입찰</n-button>
     <n-button class="btn-primary" @click="Purchase">바로구매</n-button>
     <n-button class="btn-primary" @click="ConfirmItem">구매 확인</n-button>
-    <n-button class="btn-primary" @click="CancelSales">판매 취소</n-button>
+    <n-button class="btn-primary" @click="cancelSales">판매 취소</n-button>
     <p>Balance : {{ balance }}</p>
     <p>Current Token Id : {{ currentTokenId }}</p>
     <p>TokenURI : {{ tokenURI }}</p>
@@ -62,7 +62,7 @@ export default {
   data() {
     let startTime = new Date();
     startTime = parseInt(startTime.getTime() / 1000);
-    let endTime = startTime + 300;
+    let endTime = startTime + 10;
     return {
       balance: null,
       currentTokenId: null,
@@ -74,6 +74,9 @@ export default {
       saleInfo: null,
       timeLeft: null,
       highestBid: null,
+      adminAddr: '0x4135f8fD42c98cAb53883863b6b80A7AA806e0E9',
+      adminPrivkey:
+        '0xe20c61798cad4c6edb27c902e3592d9c0f92983239fef77f334a3701e7bad767',
     };
   },
   created: function () {},
@@ -88,7 +91,7 @@ export default {
         });
     },
     TokenMint() {
-      tokenMint(this.userAddress, this.privKey, 100000)
+      tokenMint(this.userAddress, this.privKey, 1000000)
         .then((res) => {
           console.log(res);
         })
@@ -100,8 +103,8 @@ export default {
       tokenTransfer(
         this.userAddress,
         this.privKey,
-        '0xc7734A83850af15140AAa6dbe506172eA1f8a275',
-        50,
+        '0xA7BDeFC1e1d4CbBD2588c5b0E64a4c10f8947AEB',
+        100000,
       )
         .then((res) => {
           console.log(res);
@@ -127,19 +130,22 @@ export default {
     },
     NFTCreate() {
       createNFT(
-        this.userAddress,
-        this.privKey,
-        this.userAddress,
-        'https://image.aladin.co.kr/product/23596/28/cover500/8950987007_1.jpg',
+        this.adminAddr,
+        this.adminPrivkey,
+        this.adminAddr,
+        // this.userAddress,
+        // this.privKey,
+        // this.userAddress,
+        'URIURI!',
       )
         .then((res) => console.log(res))
         .catch((err) => console.log(err));
     },
     async NFTTransferTo() {
       await NFTTransfer(
+        process.env.VUE_APP_ADMIN_ADDRESS,
+        process.env.VUE_APP_ADMIN_PRIV_KEY,
         this.userAddress,
-        this.privKey,
-        '0xf41523A930f3dbC1CcF23b7F30bc814c35597FAe',
         this.currentTokenId,
       )
         .then((res) => console.log(res))
@@ -193,7 +199,7 @@ export default {
         .then((res) => console.log(res))
         .catch((err) => console.log(err));
     },
-    CancelSales() {
+    cancelSales() {
       cancelSales(this.userAddress, this.privKey, this.currentTokenId)
         .then((res) => console.log(res))
         .catch((err) => console.log(err));

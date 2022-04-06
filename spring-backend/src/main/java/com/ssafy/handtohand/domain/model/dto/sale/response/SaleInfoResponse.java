@@ -27,8 +27,8 @@ public class SaleInfoResponse {
     @ApiModelProperty(value = "거래 성사 여부",required = true)
     private int yn;
 
-    /* 거래완료 거래주소 */
-    @ApiModelProperty(value = "거래완료 컨트랙트 주소",required = true)
+    /* 구매 시 사용한 토큰의 주소 */
+    @ApiModelProperty(value = "구매 시 사용한 토큰의 주소",required = true)
     private String cashContractAddress;
 
     /* 판매자 지갑주소 */
@@ -43,9 +43,17 @@ public class SaleInfoResponse {
     @ApiModelProperty(value = "판매 생성일자",required = true)
     private LocalDateTime createdAt;
 
-    /* 판매 종료일자 */
+    /* 판매 완료일자 */
     @ApiModelProperty(value = "판매 종료일자",required = true)
     private LocalDateTime completedAt;
+
+    /* 판매 시작시간 */
+    @ApiModelProperty(value = "판매 시간시간",required = true)
+    private long startTime;
+
+    /* 판매 종료시간 */
+    @ApiModelProperty(value = "판매 종료시간",required = true)
+    private long endTime;
 
     /* 작품키 */
     @ApiModelProperty(value = "작품 키",required = true)

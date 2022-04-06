@@ -4,6 +4,11 @@
 
 <template>
   <div>
+    <nft-loading-modal
+      :showModal="showModal"
+      :loadingMsg="loadingMsg"
+      :loadingIsDone="loadingIsDone"
+    />
     <h3 class="text-center">기부 내역</h3>
     <ul v-if="histories.length" class="list-group mb-5">
       <li
@@ -16,7 +21,7 @@
           class="btn-nft-create"
           type="success"
           round
-          @click="getBalance"
+          @click="getNFT(history)"
         >
           NFT 생성하기
         </n-button>
@@ -75,28 +80,31 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import { getDonationHistory, updateDonationStatus } from '@/api/donationAPI.js';
+import { addItem } from '@/api/itemAPI.js';
 import { getTxStatus } from '@/utils/eth.js';
-// import {
-//   getBalanceOf,
-//   getOwnerOf,
-//   trasferNftTo,
-// } from '@/utils/test/nftTest.js';
+import { getCurrentId, getTokenURI, NFTTransfer } from '@/utils/NFT.js';
 import { Button } from '@/components';
+import NftLoadingModal from './NftLoadingModal.vue';
 
 export default {
   components: {
     [Button.name]: Button,
+    NftLoadingModal,
   },
   data() {
     return {
       histories: [],
+      showModal: false,
+      loadingMsg: null,
+      loadingIsDone: false,
     };
   },
   methods: {
-    // 트랜잭션 확인을 통해 기부내역 상태 조회 및 변경
-    async updateStatus() {
+    ...mapActions(['vuexUpdateTotalDonation']),
+    // 송금 중 상태인 기부 내역이 송금 완료되면 기부 내역을 업데이트하는 함수
+    async checkInProgress() {
       for (const history of this.histories) {
         if (history.type === 1) {
           setTimeout(() => {
@@ -112,27 +120,59 @@ export default {
                   });
               })
               .catch((err) => console.log(err));
-          }, 3000);
+          }, 2000);
         }
       }
     },
-    async getBalance() {
-      const userBalance = await getBalanceOf(this.userAddress);
-      const adminBalance = await getBalanceOf(
-        process.env.VUE_APP_ADMIN_ADDRESS,
+    // 전체 기부 내역 업데이트
+    async updateDonationHistories() {
+      await getDonationHistory(
+        this.userAddress,
+        (res) => {
+          this.histories = res.data;
+          let total = 0;
+          for (const history of this.histories) {
+            total += history.amount;
+          }
+          this.vuexUpdateTotalDonation(total);
+          this.checkInProgress();
+        },
+        (err) => {
+          console.log(err);
+        },
       );
-      console.log(userBalance);
-      console.log(adminBalance);
-      const test = await getOwnerOf(9);
-      console.log(test);
     },
-    async getNFT() {
-      await trasferNftTo(this.userAddress, 9);
+    // 기부자에게 NFT를 이전하는 함수
+    async getNFT(history) {
+      this.showModal = true;
+      this.loadingMsg = 'NFT 발급 중입니다..';
+      // 대량 민팅 후 currId => history.seq로 변경
+      const currId = await getCurrentId();
+      await NFTTransfer(
+        process.env.VUE_APP_ADMIN_ADDRESS,
+        process.env.VUE_APP_ADMIN_PRIV_KEY,
+        this.userAddress,
+        currId,
+      );
+      const uri = await getTokenURI(currId);
+      // 백엔드에 nft 정보 추가
+      await addItem(history.seq, uri, this.userAddress, currId);
+      // 해당 기부 내역의 status 백엔드에 업데이트
+      await updateDonationStatus(history.transactionHash, 3);
+      // 전체 기부 내역 업데이트
+      this.updateDonationHistories();
+      this.loadingMsg = 'NFT 발급이 완료되었습니다.';
+      this.loadingIsDone = true;
+      console.log(this);
+      setTimeout(() => {
+        console.log(this);
+        this.showModal = false;
+        this.$router.push('/profile/my-nft');
+      }, 2000);
     },
   },
   computed: {
     ...mapState(['userAddress']),
-    ...mapGetters(['donationHashes']),
   },
   watch: {
     histories: {
@@ -143,16 +183,7 @@ export default {
     },
   },
   async mounted() {
-    await getDonationHistory(
-      this.userAddress,
-      (res) => {
-        this.histories = res.data;
-        this.updateStatus();
-      },
-      (err) => {
-        console.log(err);
-      },
-    );
+    await this.updateDonationHistories();
   },
 };
 </script>

@@ -14,6 +14,7 @@ const api = apiInstance();
  * @param {String} tokenId
  */
 
+// Todo : 판매 시작시간, 종료 시간 data 에 추가해서 api 요청
 const addSale = async (
   cashContractAddress,
   saleContractAddress,
@@ -27,19 +28,19 @@ const addSale = async (
     tokenId: tokenId,
   };
   await api
-    .post(`/sales`, JSON.stringify(data))
+    .post(`/sales/`, JSON.stringify(data))
     .then((res) => console.log(res))
     .catch((err) => console.log(err));
 };
 
 /**
  * 판매 취소
- * @param {String} sale_seq
+ * @param {String} token_id
  */
 
-const cancelSale = async (sale_seq) => {
+const cancelSales = async (token_id) => {
   await api
-    .patch(`/sales/${sale_seq}`)
+    .patch(`/sales/${token_id}`)
     .then((res) => console.log(res))
     .catch((err) => console.log(err));
 };
@@ -84,4 +85,4 @@ const updateBuyer = async (token_id, buyer_address) => {
     .catch((err) => console.log(err));
 };
 
-export { addSale, getSale, updateBuyer, cancelSale, completeSale };
+export { addSale, getSale, updateBuyer, cancelSales, completeSale };

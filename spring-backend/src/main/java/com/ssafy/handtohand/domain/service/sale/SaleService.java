@@ -21,7 +21,6 @@ public class SaleService {
 
     private final SaleRepository saleRepository;
     private final ItemRepository itemRepository;
-    private EntityManager em;
 
     /**
      * 판매 등록 추가
@@ -31,6 +30,7 @@ public class SaleService {
     @Transactional(rollbackFor = Exception.class)
     public void insertSale(SaleRequest request) {
         Item item = itemRepository.findByTokenId(request.getTokenId());
+        item.setOnSaleYn(1);
         Sale sale = Sale.builder()
                 .contractAddress(request.getSaleContractAddress())
                 .yn(1)
@@ -39,6 +39,8 @@ public class SaleService {
                 .buyerAddress("notYet")
                 .createdAt(LocalDateTime.now())
                 .completedAt(LocalDateTime.now())
+                .startTime(request.getStartTime())
+                .endTime(request.getEndTime())
                 .item(item)
                 .build();
         saleRepository.save(sale);
@@ -52,7 +54,7 @@ public class SaleService {
      */
     public SaleInfoResponse getSaleDetail(String tokenId) {
         Item item = itemRepository.findByTokenId(tokenId);
-        Sale sale = saleRepository.findByItem(item);
+        Sale sale = saleRepository.findTopByItemOrderBySeq(item);
         return SaleInfoResponse.builder()
                 .contractAddress(sale.getContractAddress())
                 .yn(sale.getYn())
@@ -61,6 +63,8 @@ public class SaleService {
                 .buyerAddress(sale.getBuyerAddress())
                 .createdAt(sale.getCreatedAt())
                 .completedAt(sale.getCompletedAt())
+                .startTime(sale.getStartTime())
+                .endTime(sale.getEndTime())
                 .build();
     }
 
@@ -71,18 +75,21 @@ public class SaleService {
      */
     public void updateBuyerInfo(BuyerUpdateRequest request, String tokenId) {
         Item item = itemRepository.findByTokenId(tokenId);
-        Sale sale = saleRepository.findByItem(item);
+        Sale sale = saleRepository.findTopByItemOrderBySeq(item);
         sale.setBuyerAddress(request.getBuyerAddress());
     }
 
     /**
      * 판매 상태 취소로 업데이트
      *
-     * @param saleSeq
+     * @param tokenId
      */
-    public void changeYNSale(Long saleSeq) {
-        Sale sale = saleRepository.findBySeq(saleSeq);
+    public void changeYNSale(String tokenId) {
+        Item item = itemRepository.findByTokenId(tokenId);
+        Sale sale = saleRepository.findTopByItemOrderBySeq(item);
+        item.setOnSaleYn(0);
         sale.setYn(0);
+        sale.setCompletedAt(LocalDateTime.now());
     }
 
     /**
@@ -92,7 +99,8 @@ public class SaleService {
      */
     public void changeSaleComplete(String tokenId) {
         Item item = itemRepository.findByTokenId(tokenId);
-        Sale sale = saleRepository.findByItem(item);
+        Sale sale = saleRepository.findTopByItemOrderBySeq(item);
+        item.setOnSaleYn(0);
         sale.setYn(0);
         sale.setCompletedAt(LocalDateTime.now());
     }

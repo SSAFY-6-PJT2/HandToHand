@@ -37,7 +37,7 @@ const getSaleAddress = async (tokenId) => {
     SaleFactory_ABI,
     SaleFactory_CA,
   );
-  const saleAddress = saleFactoryContractInstance.methods
+  const saleAddress = await saleFactoryContractInstance.methods
     .getSaleAddress(tokenId)
     .call();
 
@@ -156,7 +156,13 @@ const purchase = async (fromAddr, privKey, tokenId) => {
 
   const data = saleContractInstance.methods.purchase();
 
-  const result = await sendTransaction(fromAddr, privKey, Sale_CA, data);
+  const result = await sendTransaction(
+    fromAddr,
+    privKey,
+    Sale_CA,
+    data,
+    tokenId,
+  );
 
   return result;
 };
@@ -169,12 +175,17 @@ const confirmItem = async (fromAddr, privKey, tokenId) => {
 
   const data = saleContractInstance.methods.confirmItem();
 
-  const result = await sendTransaction(fromAddr, privKey, Sale_CA, data);
+  const result = await sendTransaction(
+    fromAddr,
+    privKey,
+    Sale_CA,
+    data,
+    tokenId,
+  );
 
   return result;
 };
 
-// Todo : cancelSales => cancelSale : Smart Contract 수정 후 수정
 const cancelSales = async (fromAddr, privKey, tokenId) => {
   Sale_CA = await getSaleAddress(tokenId);
   const saleContractInstance = new web3.eth.Contract(Sale_ABI, Sale_CA, {
@@ -183,7 +194,13 @@ const cancelSales = async (fromAddr, privKey, tokenId) => {
 
   const data = saleContractInstance.methods.cancelSales();
 
-  const result = await sendTransaction(fromAddr, privKey, Sale_CA, data);
+  const result = await sendTransaction(
+    fromAddr,
+    privKey,
+    Sale_CA,
+    data,
+    tokenId,
+  );
 
   return result;
 };

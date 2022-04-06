@@ -42,13 +42,17 @@ const getItems = async () => {
  * @param {Function} success  요청 성공 시 수행할 콜백 함수
  * @param {Function} fail     요청 실패 시 수행할 콜백 함수
  */
-const getUsersItems = (
-  userAddr,
-  success = defaultSuccess,
-  fail = defaultFail,
-) => {
-  const params = { 'wallet-address': userAddr };
-  api.get('/items', { params }).then(success).catch(fail);
+const getUsersItems = async (userAddr) => {
+  let result = null;
+  await api
+    .get(`/items/${userAddr}`)
+    .then((res) => {
+      result = res;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return result;
 };
 
 /**
@@ -69,6 +73,7 @@ const getItemsOnSale = (success = defaultSuccess, fail = defaultFail) => {
  * @param {Function} fail     요청 실패 시 수행할 콜백 함수
  */
 const addItem = async (
+  donationSeq,
   tokenUri,
   ownerAddr,
   tokenId,
@@ -76,7 +81,8 @@ const addItem = async (
   fail = defaultFail,
 ) => {
   const data = {
-    hash: tokenUri,
+    donationSeq: donationSeq,
+    imageUrl: tokenUri,
     ownerAddress: ownerAddr,
     tokenId: tokenId,
   };

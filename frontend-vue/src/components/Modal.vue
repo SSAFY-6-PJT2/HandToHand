@@ -78,20 +78,16 @@ export default {
       type: Number,
       default: 500,
     },
+    staticBackdrop: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
     closeModal() {
-      this.$emit('update:show', false);
-      this.$emit('close');
-    },
-  },
-  watch: {
-    show(val) {
-      let documentClasses = document.body.classList;
-      if (val) {
-        documentClasses.add('modal-open');
-      } else {
-        documentClasses.remove('modal-open');
+      if (!this.staticBackdrop) {
+        this.$emit('update:show', false);
+        this.$emit('close');
       }
     },
   },
@@ -100,5 +96,9 @@ export default {
 <style>
 .modal.show {
   background-color: rgba(0, 0, 0, 0.3);
+}
+.modal-mini .modal-content {
+  position: absolute;
+  top: 0;
 }
 </style>

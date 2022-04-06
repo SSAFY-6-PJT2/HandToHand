@@ -1,6 +1,5 @@
 package com.ssafy.handtohand.domain.model.entity.donation;
 
-import com.ssafy.handtohand.domain.model.entity.item.Item;
 import com.ssafy.handtohand.domain.model.entity.user.User;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
@@ -44,9 +43,9 @@ public class Donation {
     private String transactionHash;
 
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_item_seq")
-    private Item item;
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "fk_item_seq")
+//    private Item item;
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
