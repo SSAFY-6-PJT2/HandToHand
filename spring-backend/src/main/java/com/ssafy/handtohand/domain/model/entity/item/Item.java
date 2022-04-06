@@ -63,12 +63,6 @@ public class Item {
         this.hash=hash;
         this.tokenId=tokenId;
         this.ownerAddress=ownerAddress;
-
-        // TODO DB DEFAULT 설정
-        this.title="";
-        this.onSaleYn=1;
-        this.price=0;
-        this.likeCount=1;
     }
 
     public void changeLikeCount(boolean flag){
