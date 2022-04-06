@@ -44,10 +44,14 @@ const CallAPI = async (apiName, args, fromAddr, tokenId = null) => {
     const cashContractAddress = args[6];
     const saleContractAddress = await getSaleAddress(token_id);
     const sellerAddress = args[0];
+    const startTime = args[4];
+    const endTime = args[5];
     await addSale(
       cashContractAddress,
+      endTime,
       saleContractAddress,
       sellerAddress,
+      startTime,
       token_id,
     );
   } else if (apiName == 'bid') {
