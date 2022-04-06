@@ -30,6 +30,7 @@ public class SaleService {
     @Transactional(rollbackFor = Exception.class)
     public void insertSale(SaleRequest request) {
         Item item = itemRepository.findByTokenId(request.getTokenId());
+        item.setOnSaleYn(1);
         Sale sale = Sale.builder()
                 .contractAddress(request.getSaleContractAddress())
                 .yn(1)
@@ -86,6 +87,7 @@ public class SaleService {
     public void changeYNSale(String tokenId) {
         Item item = itemRepository.findByTokenId(tokenId);
         Sale sale = saleRepository.findTopByItemOrderBySeq(item);
+        item.setOnSaleYn(0);
         sale.setYn(0);
         sale.setCompletedAt(LocalDateTime.now());
     }
@@ -98,6 +100,7 @@ public class SaleService {
     public void changeSaleComplete(String tokenId) {
         Item item = itemRepository.findByTokenId(tokenId);
         Sale sale = saleRepository.findTopByItemOrderBySeq(item);
+        item.setOnSaleYn(0);
         sale.setYn(0);
         sale.setCompletedAt(LocalDateTime.now());
     }
