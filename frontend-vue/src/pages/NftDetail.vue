@@ -48,7 +48,7 @@ export default {
   },
   created() {
     // token_id 를 이용해 NFT 정보 API 호출
-    getItem('106').then((res) => {
+    getItem('2').then((res) => {
       this.itemInfo = res;
       this.donor = res.donor;
       this.item = res.item;

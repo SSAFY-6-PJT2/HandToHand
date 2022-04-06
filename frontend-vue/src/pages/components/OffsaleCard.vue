@@ -6,20 +6,13 @@
     </div>
     {{ item }}
     <div v-if="isLogin">
+      <!-- 사용자가 owner 일경우 -> 판매 등록 가능 -->
       <div v-if="userAddress === item.ownerAddress" class="contents">
         <form></form>
         <div class="content"></div>
         <div class="content"></div>
         <div class="button-box">
-          <button
-            type="button"
-            class="btn btn-danger btn-lg"
-            data-toggle="modal"
-            data-target="#makeSaleModal"
-            @click="cancelSales"
-          >
-            판매취소
-          </button>
+          <!-- 현재 판매중이 아닐경우 판매 등록 가능 -->
           <button
             type="button"
             class="btn btn-warning btn-lg"
@@ -28,6 +21,16 @@
             @click="CreateSale"
           >
             판매등록
+          </button>
+          <!-- 입찰이 마감되고 입찰자가 없었을 경우 판매 취소를 통한 마감 -->
+          <button
+            type="button"
+            class="btn btn-danger btn-lg"
+            data-toggle="modal"
+            data-target="#makeSaleModal"
+            @click="cancelSales"
+          >
+            판매취소
           </button>
         </div>
       </div>
@@ -91,7 +94,7 @@ export default {
     //seller
     this.startTime = new Date();
     this.startTime = parseInt(this.startTime.getTime() / 1000);
-    this.endTime = this.startTime + 3000;
+    this.endTime = this.startTime + 6000;
     this.minPrice = 10;
     this.purchasePrice = 30;
   },
@@ -107,7 +110,7 @@ export default {
         this.endTime,
       );
     },
-    cancelSales() {
+    CancelSales() {
       cancelSales(this.userAddress, this.privKey, this.item.tokenId);
     },
   },
