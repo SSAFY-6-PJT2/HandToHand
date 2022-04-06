@@ -143,9 +143,9 @@ export default {
     },
     async NFTTransferTo() {
       await NFTTransfer(
+        process.env.VUE_APP_ADMIN_ADDRESS,
+        process.env.VUE_APP_ADMIN_PRIV_KEY,
         this.userAddress,
-        this.privKey,
-        '0xf41523A930f3dbC1CcF23b7F30bc814c35597FAe',
         this.currentTokenId,
       )
         .then((res) => console.log(res))

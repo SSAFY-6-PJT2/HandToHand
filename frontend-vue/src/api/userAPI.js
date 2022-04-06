@@ -19,9 +19,13 @@ const defaultFail = (err) => {
  * @param {Function} success  요청 성공 시 수행할 콜백 함수
  * @param {Function} fail     요청 실패 시 수행할 콜백 함수
  */
-const addUser = (walletAddr, success = defaultSuccess, fail = defaultFail) => {
+const addUser = async (
+  walletAddr,
+  success = defaultSuccess,
+  fail = defaultFail,
+) => {
   const headers = { 'wallet-address': walletAddr };
-  api.post('/users', null, { headers }).then(success).catch(fail);
+  await api.post('/users', null, { headers }).then(success).catch(fail);
 };
 
 /**
@@ -31,9 +35,31 @@ const addUser = (walletAddr, success = defaultSuccess, fail = defaultFail) => {
  * @param {Function} success  요청 성공 시 수행할 콜백 함수
  * @param {Function} fail     요청 실패 시 수행할 콜백 함수
  */
-const updateNickname = (nickname, walletAddr, success, fail) => {
+const updateNickname = async (
+  nickname,
+  walletAddr,
+  success = defaultSuccess,
+  fail = defaultFail,
+) => {
   const headers = { 'nickname': nickname, 'wallet-address': walletAddr };
-  api.patch('/users', null, { headers });
+  await api
+    .patch('/users/nickname', null, { headers })
+    .then(success)
+    .then(fail);
 };
 
-export { addUser, updateNickname };
+const getNickname = async (walletAddr) => {
+  let result = null;
+  const headers = { 'wallet-address': walletAddr };
+  await api
+    .get('/users/nickname', { headers })
+    .then((res) => {
+      result = res;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return result;
+};
+
+export { addUser, updateNickname, getNickname };

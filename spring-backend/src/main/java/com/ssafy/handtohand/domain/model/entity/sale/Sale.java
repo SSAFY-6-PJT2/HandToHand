@@ -58,8 +58,16 @@ public class Sale {
     @Setter
     @CreatedDate
     @Column(name="sale_completed_at")
-    /* 판매 종료일자 */
+    /* 판매 완료일자 */
     private LocalDateTime completedAt;
+
+    @Column(name="sale_start_time")
+    /* 판매 시작시간 */
+    private long startTime;
+
+    @Column(name="sale_end_time")
+    /* 판매 종료시간 */
+    private long endTime;
 
     @JoinColumn(name="fk_item_seq")
     @ManyToOne(fetch = FetchType.LAZY)

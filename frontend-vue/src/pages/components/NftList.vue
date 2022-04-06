@@ -22,7 +22,7 @@
           <h4 class="my-0">{{ item.title }}</h4>
           <div class="d-flex align-items-center">
             <h5 class="card-subtitle text-muted my-0 mr-3">
-              {{ item.price }} SSF
+              {{ item.price }} HTH
             </h5>
             <span
               v-if="Boolean(item.onSale)"

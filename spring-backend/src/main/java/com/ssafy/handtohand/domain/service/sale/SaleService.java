@@ -38,6 +38,8 @@ public class SaleService {
                 .buyerAddress("notYet")
                 .createdAt(LocalDateTime.now())
                 .completedAt(LocalDateTime.now())
+                .startTime(request.getStartTime())
+                .endTime(request.getEndTime())
                 .item(item)
                 .build();
         saleRepository.save(sale);
@@ -51,7 +53,7 @@ public class SaleService {
      */
     public SaleInfoResponse getSaleDetail(String tokenId) {
         Item item = itemRepository.findByTokenId(tokenId);
-        Sale sale = saleRepository.findByItem(item);
+        Sale sale = saleRepository.findTopByItemOrderBySeq(item);
         return SaleInfoResponse.builder()
                 .contractAddress(sale.getContractAddress())
                 .yn(sale.getYn())
@@ -60,6 +62,8 @@ public class SaleService {
                 .buyerAddress(sale.getBuyerAddress())
                 .createdAt(sale.getCreatedAt())
                 .completedAt(sale.getCompletedAt())
+                .startTime(sale.getStartTime())
+                .endTime(sale.getEndTime())
                 .build();
     }
 
@@ -70,7 +74,7 @@ public class SaleService {
      */
     public void updateBuyerInfo(BuyerUpdateRequest request, String tokenId) {
         Item item = itemRepository.findByTokenId(tokenId);
-        Sale sale = saleRepository.findByItem(item);
+        Sale sale = saleRepository.findTopByItemOrderBySeq(item);
         sale.setBuyerAddress(request.getBuyerAddress());
     }
 
@@ -81,8 +85,9 @@ public class SaleService {
      */
     public void changeYNSale(String tokenId) {
         Item item = itemRepository.findByTokenId(tokenId);
-        Sale sale = saleRepository.findByItem(item);
+        Sale sale = saleRepository.findTopByItemOrderBySeq(item);
         sale.setYn(0);
+        sale.setCompletedAt(LocalDateTime.now());
     }
 
     /**
@@ -92,7 +97,7 @@ public class SaleService {
      */
     public void changeSaleComplete(String tokenId) {
         Item item = itemRepository.findByTokenId(tokenId);
-        Sale sale = saleRepository.findByItem(item);
+        Sale sale = saleRepository.findTopByItemOrderBySeq(item);
         sale.setYn(0);
         sale.setCompletedAt(LocalDateTime.now());
     }
