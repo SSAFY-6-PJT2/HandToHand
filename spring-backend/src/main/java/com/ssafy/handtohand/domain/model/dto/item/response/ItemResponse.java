@@ -50,6 +50,14 @@ public class ItemResponse {
     @ApiModelProperty(value = "작품 좋아요 수", required = true)
     private int likeCount;
 
+    /* 기부자 아이디 */
+    @ApiModelProperty(value = "기부자 닉네임", required = true)
+    private String donator;
+
+    /* 기부 금액 */
+    @ApiModelProperty(value = "기부 금액", required = true)
+    private double amountOfDonation;
+
     static public ItemResponse convertToDto(Item item) {
         return ItemResponse.builder()
                 .seq(item.getSeq())
