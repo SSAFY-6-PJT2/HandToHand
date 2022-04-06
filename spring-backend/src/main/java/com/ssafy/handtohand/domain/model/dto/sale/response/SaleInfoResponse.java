@@ -43,9 +43,17 @@ public class SaleInfoResponse {
     @ApiModelProperty(value = "판매 생성일자",required = true)
     private LocalDateTime createdAt;
 
-    /* 판매 종료일자 */
+    /* 판매 완료일자 */
     @ApiModelProperty(value = "판매 종료일자",required = true)
     private LocalDateTime completedAt;
+
+    /* 판매 시작시간 */
+    @ApiModelProperty(value = "판매 시간시간",required = true)
+    private long startTime;
+
+    /* 판매 종료시간 */
+    @ApiModelProperty(value = "판매 종료시간",required = true)
+    private long endTime;
 
     /* 작품키 */
     @ApiModelProperty(value = "작품 키",required = true)
