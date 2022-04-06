@@ -156,7 +156,7 @@ export default {
       );
       const uri = await getTokenURI(currId);
       // 백엔드에 nft 정보 추가
-      await addItem(uri, this.userAddress, currId);
+      await addItem(history.seq, uri, this.userAddress, currId);
       // 해당 기부 내역의 status 백엔드에 업데이트
       await updateDonationStatus(history.transactionHash, 3);
       // 전체 기부 내역 업데이트
