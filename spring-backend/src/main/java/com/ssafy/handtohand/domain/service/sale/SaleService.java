@@ -52,20 +52,24 @@ public class SaleService {
      * @param tokenId
      * @return
      */
-    public SaleInfoResponse getSaleDetail(String tokenId) {
-        Item item = itemRepository.findByTokenId(tokenId);
-        Sale sale = saleRepository.findTopByItemOrderBySeq(item);
-        return SaleInfoResponse.builder()
-                .contractAddress(sale.getContractAddress())
-                .yn(sale.getYn())
-                .cashContractAddress(sale.getCashContractAddress())
-                .sellerAddress(sale.getSellerAddress())
-                .buyerAddress(sale.getBuyerAddress())
-                .createdAt(sale.getCreatedAt())
-                .completedAt(sale.getCompletedAt())
-                .startTime(sale.getStartTime())
-                .endTime(sale.getEndTime())
-                .build();
+    public SaleInfoResponse getSaleDetail(String tokenId) throws Exception {
+        try {
+            Item item = itemRepository.findByTokenId(tokenId);
+            Sale sale = saleRepository.findTopByItemOrderBySeq(item);
+            return SaleInfoResponse.builder()
+                    .contractAddress(sale.getContractAddress())
+                    .yn(sale.getYn())
+                    .cashContractAddress(sale.getCashContractAddress())
+                    .sellerAddress(sale.getSellerAddress())
+                    .buyerAddress(sale.getBuyerAddress())
+                    .createdAt(sale.getCreatedAt())
+                    .completedAt(sale.getCompletedAt())
+                    .startTime(sale.getStartTime())
+                    .endTime(sale.getEndTime())
+                    .build();
+        }catch (Exception e){
+            throw new Exception("유효하지 않은 TokenId입니다.");
+        }
     }
 
     /**
