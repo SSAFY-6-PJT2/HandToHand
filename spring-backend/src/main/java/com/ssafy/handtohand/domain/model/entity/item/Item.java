@@ -1,5 +1,6 @@
 package com.ssafy.handtohand.domain.model.entity.item;
 
+import com.ssafy.handtohand.domain.model.entity.donation.Donation;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -19,7 +20,7 @@ public class Item {
     /* 작품 키 */
     private Long seq;
 
-    @Column(name="item_hash")
+    @Column(name="item_image_url")
     /* 작품 이미지 */
     private String hash;
 
@@ -52,6 +53,11 @@ public class Item {
     /* 작품 좋아요 수 */
     private int likeCount;
 
+    @Setter
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_donation_seq")
+    private Donation donation;
+
     @Builder
     public Item(String hash, String tokenId,String ownerAddress){
         this.hash=hash;
@@ -66,7 +72,7 @@ public class Item {
     }
 
     public void changeLikeCount(boolean flag){
-        this.likeCount = flag ? this.likeCount-- : this.likeCount++;
+        this.likeCount = flag ? this.likeCount++ : this.likeCount--;
     }
 }
 
