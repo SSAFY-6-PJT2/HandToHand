@@ -1,7 +1,7 @@
 #자바 11버전 환경 구성
 FROM openjdk:11-jdk
 
-#EXPOSE 8080
+EXPOSE 8081
 
 #빌드 시점에 JAR_FILE 변수에 build/libs/*.jar 표현식을 선언
 ARG JAR_FILE=build/libs/handtohand-0.0.1-SNAPSHOT.jar
