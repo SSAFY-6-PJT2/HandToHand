@@ -4,6 +4,9 @@
 
 <template>
   <div>
+    <alert v-show="showNicknameChangeAlert" type="success">
+      닉네임 변경이 완료되었습니다.
+    </alert>
     <div class="page-header clear-filter" filter-color="green">
       <parallax
         class="page-header-image"
@@ -11,8 +14,14 @@
       >
       </parallax>
       <div class="container">
-        <h3 class="title mt-5 pt-5 mb-0">{{ username }}</h3>
-        <n-button class="mb-5" size="sm" round simple> 닉네임 변경 </n-button>
+        <h3 class="title mt-5 pt-5 mb-0">{{ nickname }}</h3>
+        <n-button class="mb-5" size="sm" round simple @click="showModal = true">
+          닉네임 변경
+        </n-button>
+        <nickname-change-modal
+          :showModal="showModal"
+          @closeModal="showModal = false"
+        />
         <div class="content">
           <div class="social-description">
             <h2>{{ totalDonation }}</h2>
@@ -46,22 +55,34 @@
 
 <script>
 import { mapState } from 'vuex';
-import { Button } from '@/components';
+import { Alert, Button } from '@/components';
+import NicknameChangeModal from './components/NicknameChangeModal.vue';
 import { getNickname } from '@/api/userAPI.js';
 
 export default {
   name: 'profile',
   bodyClass: 'profile-page',
   components: {
+    Alert,
+    NicknameChangeModal,
     [Button.name]: Button,
   },
   data() {
     return {
-      username: 'unnamed',
+      showModal: false,
+      showNicknameChangeAlert: false,
     };
   },
   computed: {
-    ...mapState(['userAddress', 'totalDonation', 'totalNft']),
+    ...mapState(['userAddress', 'totalDonation', 'totalNft', 'nickname']),
+  },
+  watch: {
+    nickname() {
+      this.showNicknameChangeAlert = true;
+      setTimeout(() => {
+        this.showNicknameChangeAlert = false;
+      }, 3000);
+    },
   },
   async mounted() {
     const nickname = await getNickname(this.userAddress);

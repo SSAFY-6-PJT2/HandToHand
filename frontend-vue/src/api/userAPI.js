@@ -35,14 +35,17 @@ const addUser = async (
  * @param {Function} success  요청 성공 시 수행할 콜백 함수
  * @param {Function} fail     요청 실패 시 수행할 콜백 함수
  */
-const updateNickname = (
+const updateNickname = async (
   nickname,
   walletAddr,
   success = defaultSuccess,
   fail = defaultFail,
 ) => {
   const headers = { 'nickname': nickname, 'wallet-address': walletAddr };
-  api.patch('/users', null, { headers }).then(success).then(fail);
+  await api
+    .patch('/users/nickname', null, { headers })
+    .then(success)
+    .then(fail);
 };
 
 const getNickname = async (walletAddr) => {

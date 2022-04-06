@@ -56,9 +56,9 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 import { FormGroupInput, Button, Modal } from '@/components';
-import { addUser } from '../../api/userAPI';
+import { addUser, getNickname } from '../../api/userAPI';
 import { getAddressFrom } from '../../utils/eth.js';
 import { getBalance, tokenMint, tokenTransfer } from '../../utils/Token.js';
 
@@ -83,7 +83,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['vuexSetPrivKey', 'vuexSetAddress']),
+    ...mapActions(['vuexSetPrivKey', 'vuexSetAddress', 'vuexSetNickname']),
     async eableWallet() {
       try {
         this.isLoading = true;
@@ -93,6 +93,8 @@ export default {
         await this.transferFaucet(address);
         this.vuexSetAddress(address);
         this.vuexSetPrivKey(this.privKey);
+        const nickname = await getNickname(address);
+        this.vuexSetNickname(nickname.data);
         this.modals.notice = false;
         this.isLoading = false;
       } catch (error) {
@@ -129,10 +131,6 @@ export default {
           console.log(err);
         });
     },
-  },
-  computed: {
-    ...mapState(['address']),
-    ...mapGetters(['isLogin']),
   },
   watch: {
     showModal() {
