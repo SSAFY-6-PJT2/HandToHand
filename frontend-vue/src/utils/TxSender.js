@@ -8,6 +8,7 @@ import CallAPI from './API.js';
 const callApiList = [
   'transferFrom', // NFT 이전 => ownerAddr, tokenId 필요
   'createSale', // 판매 생성
+  'bid', // 입찰
   'purchase', // 즉시 구매
   'confirmItem', // 구매 확인
   'cancelSales', // 판매 취소

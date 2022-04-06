@@ -16,18 +16,14 @@
           <button
             type="button"
             class="btn btn-warning btn-lg"
-            data-toggle="modal"
-            data-target="#makeSaleModal"
             @click="CreateSale"
           >
             판매등록
           </button>
-          <!-- 입찰이 마감되고 입찰자가 없었을 경우 판매 취소를 통한 마감 -->
+          <!-- 입찰이 마감되고 입찰자가 없었을 경우 판매 취소를 통한 마감 -> 블록체인 saleinfo에서 highestbid  -->
           <button
             type="button"
             class="btn btn-danger btn-lg"
-            data-toggle="modal"
-            data-target="#makeSaleModal"
             @click="cancelSales"
           >
             판매취소

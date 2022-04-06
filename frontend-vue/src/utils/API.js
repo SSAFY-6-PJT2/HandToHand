@@ -50,6 +50,15 @@ const CallAPI = async (apiName, args, fromAddr, tokenId = null) => {
       sellerAddress,
       token_id,
     );
+  } else if (apiName == 'bid') {
+    /**
+     * 구매자 정보 업데이트
+     * @param {String} token_id
+     * @param {String} buyer_address
+     */
+    const token_id = tokenId;
+    const buyer_address = fromAddr;
+    await updateBuyer(token_id, buyer_address);
   } else if (apiName == 'purchase' || apiName == 'confirmItem') {
     /**
      * NFT 소유자 업데이트
