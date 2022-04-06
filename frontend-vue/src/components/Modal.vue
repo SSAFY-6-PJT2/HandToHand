@@ -91,16 +91,6 @@ export default {
       }
     },
   },
-  watch: {
-    show(val) {
-      let documentClasses = document.body.classList;
-      if (val) {
-        documentClasses.add('modal-open');
-      } else {
-        documentClasses.remove('modal-open');
-      }
-    },
-  },
 };
 </script>
 <style>
