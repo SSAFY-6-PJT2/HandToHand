@@ -63,6 +63,7 @@ public class Item {
         this.hash=hash;
         this.tokenId=tokenId;
         this.ownerAddress=ownerAddress;
+        this.title="";
     }
 
     public void changeLikeCount(boolean flag){
