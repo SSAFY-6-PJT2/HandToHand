@@ -8,7 +8,7 @@
     <div v-if="isLogin">
       <!-- 사용자가 owner 일경우 -> 판매 등록 가능 -->
       <div v-if="userAddress === item.ownerAddress" class="contents">
-        <form></form>
+        <start-sale-form />
         <div class="content"></div>
         <div class="content"></div>
         <div class="button-box">
@@ -40,6 +40,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
+import StartSaleFrom from './StartSaleForm.vue';
 import {
   getSaleAddress,
   createSale,
@@ -59,8 +60,12 @@ import {
   NFTTransfer,
   setApproveForAll,
 } from '../../utils/NFT.js';
+import StartSaleForm from './StartSaleForm.vue';
 export default {
   name: 'sale-card',
+  components: {
+    StartSaleForm,
+  },
   props: {
     item: Object,
   },
