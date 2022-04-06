@@ -39,6 +39,7 @@ const CallAPI = async (apiName, args, fromAddr, tokenId = null) => {
      * @param {String} sellerAddress
      * @param {String} tokenId
      */
+    // Todo : 판매 시작시간 판매 종료 시간 추가
     const token_id = args[1];
     const cashContractAddress = args[6];
     const saleContractAddress = await getSaleAddress(token_id);
