@@ -1,4 +1,4 @@
-package com.ssafy.handtohand.domain.repository.like;
+package com.ssafy.handtohand.domain.service.like;
 
 import com.ssafy.handtohand.domain.model.entity.like.Like;
 import org.springframework.data.jpa.repository.JpaRepository;

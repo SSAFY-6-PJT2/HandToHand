@@ -5,7 +5,6 @@ import com.ssafy.handtohand.domain.model.entity.item.Item;
 import com.ssafy.handtohand.domain.model.entity.like.Like;
 import com.ssafy.handtohand.domain.model.entity.user.User;
 import com.ssafy.handtohand.domain.repository.item.ItemRepository;
-import com.ssafy.handtohand.domain.repository.like.LikeRepository;
 import com.ssafy.handtohand.domain.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
