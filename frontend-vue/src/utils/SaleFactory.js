@@ -135,7 +135,13 @@ const bid = async (fromAddr, privKey, tokenId, amount) => {
 
   const data = saleContractInstance.methods.bid(amount);
 
-  const result = await sendTransaction(fromAddr, privKey, Sale_CA, data);
+  const result = await sendTransaction(
+    fromAddr,
+    privKey,
+    Sale_CA,
+    data,
+    tokenId,
+  );
 
   return result;
 };
