@@ -1,13 +1,20 @@
 <template>
-  <section class="card sale-card">
-    {{ item }}
-    {{ saleInfo }}
-    <div v-if="timeLeft">
+  <section class="card">
+    <sale-loading-modal
+      :showModal="showModal"
+      :loadingMsg="loadingMsg"
+      :loadingIsDone="loadingIsDone"
+    />
+    <div v-if="timeLeft" class="sale-card">
       <div class="headder">
-        <h5>{{ timeLeft }} 후 입찰이 마감됩니다.</h5>
+        <h5>{{ hour }}시간 {{ min }}분 {{ sec }}초 후 입찰이 마감됩니다.</h5>
         <hr />
       </div>
       <div class="contents">
+        <div class="content">
+          <p>최소 입찰가 :</p>
+          <p>{{ saleInfo.MinPrice }} HTH</p>
+        </div>
         <div class="content">
           <p>현재 입찰가 :</p>
           <p>{{ saleInfo.HighestBid }} HTH</p>
@@ -19,38 +26,50 @@
         <!-- 로그인 사용자 -->
         <div v-if="isLogin">
           <!-- 토큰 소유자 -->
-          <div v-if="userAddress === item.ownerAddress" class="button-box">
-            <button
-              type="button"
-              class="btn btn-danger btn-lg"
+          <div
+            v-if="userAddress === item.ownerAddress"
+            class="button-box d-flex"
+          >
+            <n-button
+              class="mr-1"
+              type="danger"
+              round
+              block
               @click="CancelSales"
+              >판매취소</n-button
             >
-              판매취소
-            </button>
           </div>
           <!-- 구매, 입찰 가능 소유자 -->
           <div v-else class="button-box">
             <!-- Form (입찰 가격) -->
-            <button type="button" class="btn btn-success btn-lg" @click="Bid">
-              입찰하기
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary btn-lg"
-              @click="Purchase"
+            <fg-input
+              placeholder="입찰 금액 (HTH)"
+              addon-left-icon="now-ui-icons business_money-coins"
+              v-model="bidAmount"
             >
-              구매하기
-            </button>
+            </fg-input>
+            <div class="d-flex">
+              <n-button class="mr-1" type="success" round block @click="Bid"
+                >입찰</n-button
+              >
+              <n-button
+                class="mr-1"
+                type="primary"
+                round
+                block
+                @click="Purchase"
+                >즉시구매</n-button
+              >
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div v-else>
+    <div v-else class="sale-card">
       <div class="headder">
         <h5>입찰이 마감되었습니다.</h5>
         <hr />
       </div>
-      {{ highestBid }}
       <div class="contents">
         <div class="content">
           <p>최고 입찰금액 :</p>
@@ -58,30 +77,29 @@
         </div>
         <div class="content">
           <p>최고 입찰자 :</p>
-          <p>{{ highestBid[0] }} HTH</p>
+          <p>{{ highestBid[0] }}</p>
         </div>
         <div v-if="highestBid">
           <!-- 최고 입찰자 -->
-          <div v-if="userAddress === highestBid[0]" class="button-box">
-            <button
-              type="button"
-              class="btn btn-danger btn-lg"
+          <div v-if="userAddress === highestBid[0]" class="button-box d-flex">
+            <n-button
+              class="mr-1"
+              type="success"
+              round
+              block
               @click="ConfirmItem"
+              >구매확정</n-button
             >
-              구매 확정
-            </button>
           </div>
-          <!-- 구매, 입찰 가능 소유자 -->
-          <div v-else-if="userAddress === item.ownerAddress" class="button-box">
-            <!-- Form (입찰 가격) -->
-            <button
-              type="button"
-              class="btn btn-success btn-lg"
-              @click="CancelSales"
-            >
-              판매 취소
-            </button>
-          </div>
+        </div>
+        <!-- NFT 소유자 -> 판매 취소 가능 -->
+        <div
+          v-else-if="userAddress === item.ownerAddress"
+          class="button-box d-flex"
+        >
+          <n-button class="mr-1" type="danger" round block @click="CancelSales"
+            >판매취소</n-button
+          >
         </div>
       </div>
     </div>
@@ -90,9 +108,8 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
+import { FormGroupInput, Button } from '@/components';
 import {
-  getSaleAddress,
-  createSale,
   getTimeLeft,
   getSaleInfo,
   getHighestBid,
@@ -101,25 +118,35 @@ import {
   confirmItem,
   cancelSales,
 } from '../../utils/SaleFactory.js';
-import {
-  getCurrentId,
-  getTokenURI,
-  getOwner,
-  createNFT,
-  NFTTransfer,
-  setApproveForAll,
-} from '../../utils/NFT.js';
+import SaleLoadingModal from './SaleLoadingModal.vue';
+
 export default {
   name: 'sale-card',
   props: {
     item: Object,
   },
+  components: {
+    [FormGroupInput.name]: FormGroupInput,
+    [Button.name]: Button,
+    SaleLoadingModal,
+  },
   data() {
     return {
       saleInfo: null,
       highestBid: null,
-      timeLeft: null,
       onSale: false,
+      bidAmount: null,
+
+      // Time Left
+      timeLeft: null,
+      hour: 0,
+      min: 0,
+      sec: 0,
+
+      // Modal
+      showModal: false,
+      loadingMsg: null,
+      loadingIsDone: false,
     };
   },
   computed: {
@@ -137,34 +164,118 @@ export default {
         this.highestBid = false;
         console.log(this.highestBid);
       });
+    getTimeLeft(this.item.tokenId)
+      .then((res) => {
+        this.timeLeft = res;
+        this.GetTimeLeft();
+      })
+      .catch((err) => (this.timeLeft = 0));
   },
   mounted() {
-    this.GetTimeLeft();
+    // this.GetTimeLeft();
   },
   methods: {
     CancelSales() {
-      cancelSales(this.userAddress, this.privKey, this.item.tokenId);
+      this.showModal = true;
+      this.loadingMsg = '판매 취소 중입니다..';
+      cancelSales(this.userAddress, this.privKey, this.item.tokenId)
+        .then((res) => {
+          this.loadingMsg = '판매 취소를 기록중입니다.';
+          this.loadingIsDone = true;
+          setTimeout(() => {
+            this.loadingMsg = '판매 취소 완료되었습니다.';
+            this.showModal = false;
+            this.$router.go();
+          }, 6000);
+        })
+        .catch((err) => {
+          this.loadingMsg = '잘못된 요청입니다.';
+          this.loadingIsDone = true;
+          setTimeout(() => {
+            this.showModal = false;
+            this.$router.go();
+          }, 2000);
+        });
     },
     Bid() {
+      this.showModal = true;
+      this.loadingMsg = '입찰 중입니다..';
       // 현재시각과 입찰 가능 시간 확인 ->
-      bid(this.userAddress, this.privKey, this.item.tokenId, 20).catch((err) =>
-        console.log('잘못된 입찰입니다.'),
-      );
+      bid(this.userAddress, this.privKey, this.item.tokenId, this.bidAmount)
+        .then((res) => {
+          this.loadingMsg = '입찰을 기록중입니다.';
+          this.loadingIsDone = true;
+          setTimeout(() => {
+            this.loadingMsg = '입찰 완료되었습니다.';
+            this.showModal = false;
+            this.$router.go();
+          }, 6000);
+        })
+        .catch((err) => {
+          this.loadingMsg = '잘못된 요청입니다.';
+          this.loadingIsDone = true;
+          setTimeout(() => {
+            this.showModal = false;
+            this.$router.go();
+          }, 2000);
+        });
     },
     Purchase() {
-      purchase(this.userAddress, this.privKey, this.item.tokenId);
+      this.showModal = true;
+      this.loadingMsg = '구매 중입니다..';
+      purchase(this.userAddress, this.privKey, this.item.tokenId)
+        .then((res) => {
+          this.loadingMsg = '구매를 기록중입니다.';
+          this.loadingIsDone = true;
+          setTimeout(() => {
+            this.loadingMsg = '구매 완료되었습니다.';
+            this.showModal = false;
+            this.$router.go();
+          }, 6000);
+        })
+        .catch((err) => {
+          this.loadingMsg = '잘못된 요청입니다.';
+          this.loadingIsDone = true;
+          setTimeout(() => {
+            this.showModal = false;
+            this.$router.go();
+          }, 2000);
+        });
     },
     GetTimeLeft() {
-      setTimeout(() => {
-        getTimeLeft(this.item.tokenId)
-          .then((res) => {
-            this.timeLeft = res;
-          })
-          .catch((err) => (this.timeLeft = 0));
+      const timer = setInterval(() => {
+        if (this.timeLeft > 0) {
+          this.timeLeft -= 1;
+          this.hour = parseInt(this.timeLeft / 3600);
+          this.min = parseInt((this.timeLeft - this.hour * 3600) / 60);
+          this.sec = this.timeLeft - this.hour * 3600 - this.min * 60;
+        } else {
+          clearInterval(timer);
+          // this.$router.go();
+        }
       }, 1000);
     },
     ConfirmItem() {
-      confirmItem(this.userAddress, this.privKey, this.item.tokenId);
+      this.showModal = true;
+      this.loadingMsg = '구매 확정 중입니다..';
+      confirmItem(this.userAddress, this.privKey, this.item.tokenId)
+        .then((res) => {
+          this.loadingMsg = '구매를 기록중입니다.';
+          this.loadingIsDone = true;
+          setTimeout(() => {
+            this.loadingMsg = '구매 확정 완료되었습니다.';
+            this.showModal = false;
+            this.$router.go();
+          }, 6000);
+        })
+        .catch((err) => {
+          this.loadingMsg = '잘못된 요청입니다.';
+          this.loadingIsDone = true;
+          setTimeout(() => {
+            this.showModal = false;
+            this.$router.go();
+          }, 2000);
+        });
     },
   },
 };
@@ -176,6 +287,8 @@ export default {
   transition: 0.3s;
   width: 500px;
   justify-content: start;
+  border-radius: 5%;
+  padding: 10px;
 }
 
 .card:hover {
@@ -183,8 +296,8 @@ export default {
 }
 
 .sale-card {
-  border-radius: 5%;
-  padding: 10px;
+  /* border-radius: 5%;
+  padding: 10px; */
 }
 
 .sale-card > .headder {

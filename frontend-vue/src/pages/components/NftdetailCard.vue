@@ -15,14 +15,6 @@
         <p>Owner :</p>
         <p>{{ item.ownerAddress }}</p>
       </div>
-      <div class="content">
-        <p>Owner Address :</p>
-        <p>{{ item.ownerAddress }}</p>
-      </div>
-      <div class="content">
-        <p>onSale :</p>
-        <p>{{ item.onSaleYn }}</p>
-      </div>
     </div>
   </section>
 </template>

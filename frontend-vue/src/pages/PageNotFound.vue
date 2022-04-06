@@ -133,10 +133,7 @@ export default {
         this.adminAddr,
         this.adminPrivkey,
         this.adminAddr,
-        // this.userAddress,
-        // this.privKey,
-        // this.userAddress,
-        'https://bon-systems.com/m9_data/programs/gallery/20190828286818/20190828058515/20190919952222/091988036.jpg',
+        'https://i.pinimg.com/originals/c9/be/bd/c9bebde3b2ec1ceebe9d6dcf2714220a.png',
       )
         .then((res) => console.log(res))
         .catch((err) => console.log(err));

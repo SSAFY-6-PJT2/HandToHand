@@ -4,23 +4,10 @@
       <h5>현재 판매중인 작품이 아닙니다.</h5>
       <hr />
     </div>
-    {{ item }}
     <div v-if="isLogin">
       <!-- 사용자가 owner 일경우 -> 판매 등록 가능 -->
       <div v-if="userAddress === item.ownerAddress" class="contents">
-        <start-sale-form />
-        <div class="content"></div>
-        <div class="content"></div>
-        <div class="button-box">
-          <!-- 현재 판매중이 아닐경우 판매 등록 가능 -->
-          <button
-            type="button"
-            class="btn btn-warning btn-lg"
-            @click="CreateSale"
-          >
-            판매등록
-          </button>
-        </div>
+        <start-sale-form :item="item" />
       </div>
     </div>
   </section>
@@ -28,26 +15,6 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
-import StartSaleFrom from './StartSaleForm.vue';
-import {
-  getSaleAddress,
-  createSale,
-  getTimeLeft,
-  getSaleInfo,
-  getHighestBid,
-  bid,
-  purchase,
-  confirmItem,
-  cancelSales,
-} from '../../utils/SaleFactory.js';
-import {
-  getCurrentId,
-  getTokenURI,
-  getOwner,
-  createNFT,
-  NFTTransfer,
-  setApproveForAll,
-} from '../../utils/NFT.js';
 import StartSaleForm from './StartSaleForm.vue';
 export default {
   name: 'sale-card',
@@ -57,51 +24,9 @@ export default {
   props: {
     item: Object,
   },
-  data() {
-    return {
-      onSale: false,
-      saleInfo: null,
-      highestBid: null,
-      timeLeft: null,
-      tokenOwner: null,
-
-      // Sale create info => Todo : Form 에서 입력으로 변경
-      startTime: null,
-      endTime: null,
-      minPrice: null,
-      purchasePrice: null,
-    };
-  },
   computed: {
     ...mapState(['privKey', 'userAddress']),
     ...mapGetters(['isLogin']),
-  },
-  created() {
-    const tokenId = this.item.tokenId;
-
-    // Testing code
-    //seller
-    this.startTime = new Date();
-    this.startTime = parseInt(this.startTime.getTime() / 1000);
-    this.endTime = this.startTime + 600;
-    this.minPrice = 10;
-    this.purchasePrice = 30;
-  },
-  methods: {
-    CreateSale() {
-      createSale(
-        this.userAddress,
-        this.privKey,
-        this.item.tokenId,
-        this.minPrice,
-        this.purchasePrice,
-        this.startTime,
-        this.endTime,
-      );
-    },
-    CancelSales() {
-      cancelSales(this.userAddress, this.privKey, this.item.tokenId);
-    },
   },
 };
 </script>
@@ -130,15 +55,5 @@ export default {
 
 .sale-card > .contents {
   align-items: center;
-}
-
-.sale-card > .contents > .content {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.sale-card > .contents > .button-box {
-  text-align: center;
 }
 </style>
