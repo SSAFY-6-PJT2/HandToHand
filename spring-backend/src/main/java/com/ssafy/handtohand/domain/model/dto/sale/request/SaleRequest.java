@@ -40,4 +40,12 @@ public class SaleRequest {
     @ApiModelProperty(value = "판매자 지갑 주소",required = true)
     private String sellerAddress;
 
+    /* 판매 시작시간 */
+    @ApiModelProperty(value = "판매 시간시간",required = true)
+    private long startTime;
+
+    /* 판매 종료시간 */
+    @ApiModelProperty(value = "판매 종료시간",required = true)
+    private long endTime;
+
 }

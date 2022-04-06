@@ -38,6 +38,8 @@ public class SaleService {
                 .buyerAddress("notYet")
                 .createdAt(LocalDateTime.now())
                 .completedAt(LocalDateTime.now())
+                .startTime(request.getStartTime())
+                .endTime(request.getEndTime())
                 .item(item)
                 .build();
         saleRepository.save(sale);
@@ -60,6 +62,8 @@ public class SaleService {
                 .buyerAddress(sale.getBuyerAddress())
                 .createdAt(sale.getCreatedAt())
                 .completedAt(sale.getCompletedAt())
+                .startTime(sale.getStartTime())
+                .endTime(sale.getEndTime())
                 .build();
     }
 
@@ -83,6 +87,7 @@ public class SaleService {
         Item item = itemRepository.findByTokenId(tokenId);
         Sale sale = saleRepository.findTopByItemOrderBySeq(item);
         sale.setYn(0);
+        sale.setCompletedAt(LocalDateTime.now());
     }
 
     /**
