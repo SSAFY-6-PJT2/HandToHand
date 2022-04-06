@@ -50,25 +50,23 @@
         <h5>입찰이 마감되었습니다.</h5>
         <hr />
       </div>
+      {{ highestBid }}
       <div class="contents">
         <div class="content">
           <p>최고 입찰금액 :</p>
-          <p>{{ highestBid.HighestBid }} HTH</p>
+          <p>{{ highestBid[1] }} HTH</p>
         </div>
         <div class="content">
           <p>최고 입찰자 :</p>
-          <p>{{ highestBid.HighestBidder }} HTH</p>
+          <p>{{ highestBid[0] }} HTH</p>
         </div>
         <div v-if="highestBid">
           <!-- 최고 입찰자 -->
-          <div
-            v-if="userAddress === highestBid.HighestBidder"
-            class="button-box"
-          >
+          <div v-if="userAddress === highestBid[0]" class="button-box">
             <button
               type="button"
               class="btn btn-danger btn-lg"
-              @click="CancelSales"
+              @click="ConfirmItem"
             >
               구매 확정
             </button>
@@ -76,7 +74,11 @@
           <!-- 구매, 입찰 가능 소유자 -->
           <div v-else-if="userAddress === item.ownerAddress" class="button-box">
             <!-- Form (입찰 가격) -->
-            <button type="button" class="btn btn-success btn-lg" @click="Bid">
+            <button
+              type="button"
+              class="btn btn-success btn-lg"
+              @click="CancelSales"
+            >
               판매 취소
             </button>
           </div>
@@ -133,6 +135,7 @@ export default {
       })
       .catch((err) => {
         this.highestBid = false;
+        console.log(this.highestBid);
       });
   },
   mounted() {
@@ -159,6 +162,9 @@ export default {
           })
           .catch((err) => (this.timeLeft = 0));
       }, 1000);
+    },
+    ConfirmItem() {
+      confirmItem(this.userAddress, this.privKey, this.item.tokenId);
     },
   },
 };
