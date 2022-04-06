@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SaleRepository extends JpaRepository<Sale,Long> {
     /* item으로 판매 테이블 조회 */
-    Sale findByItem(Item item);
+    Sale findTopByItemOrderBySeq(Item item);
+
 }

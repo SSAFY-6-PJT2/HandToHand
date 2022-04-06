@@ -15,6 +15,7 @@ build/
 .sts4-cache
 *.yml
 *.yaml
+*.pkcs12
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/

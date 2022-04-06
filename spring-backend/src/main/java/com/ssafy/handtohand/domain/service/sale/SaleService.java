@@ -51,7 +51,7 @@ public class SaleService {
      */
     public SaleInfoResponse getSaleDetail(String tokenId) {
         Item item = itemRepository.findByTokenId(tokenId);
-        Sale sale = saleRepository.findByItem(item);
+        Sale sale = saleRepository.findTopByItemOrderBySeq(item);
         return SaleInfoResponse.builder()
                 .contractAddress(sale.getContractAddress())
                 .yn(sale.getYn())
@@ -70,7 +70,7 @@ public class SaleService {
      */
     public void updateBuyerInfo(BuyerUpdateRequest request, String tokenId) {
         Item item = itemRepository.findByTokenId(tokenId);
-        Sale sale = saleRepository.findByItem(item);
+        Sale sale = saleRepository.findTopByItemOrderBySeq(item);
         sale.setBuyerAddress(request.getBuyerAddress());
     }
 
@@ -81,7 +81,7 @@ public class SaleService {
      */
     public void changeYNSale(String tokenId) {
         Item item = itemRepository.findByTokenId(tokenId);
-        Sale sale = saleRepository.findByItem(item);
+        Sale sale = saleRepository.findTopByItemOrderBySeq(item);
         sale.setYn(0);
     }
 
@@ -92,7 +92,7 @@ public class SaleService {
      */
     public void changeSaleComplete(String tokenId) {
         Item item = itemRepository.findByTokenId(tokenId);
-        Sale sale = saleRepository.findByItem(item);
+        Sale sale = saleRepository.findTopByItemOrderBySeq(item);
         sale.setYn(0);
         sale.setCompletedAt(LocalDateTime.now());
     }
