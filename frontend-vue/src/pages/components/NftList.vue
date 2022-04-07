@@ -18,14 +18,14 @@
             })
           "
         />
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h4 class="my-0">{{ item.title }}</h4>
-          <div class="d-flex align-items-center">
+        <div class="mb-4">
+          <h4 class="mt-0 mb-2">{{ item.title }}</h4>
+          <div class="d-flex justify-content-between align-items-center">
             <h5 class="card-subtitle text-muted my-0 mr-3">
               {{ item.price }} HTH
             </h5>
             <span
-              v-if="Boolean(item.onSale)"
+              v-if="Boolean(item.onSaleYn)"
               class="badge badge-success badge-pill my-0"
               style="width: 4rem"
             >
@@ -42,11 +42,11 @@
         </div>
         <div class="d-flex justify-content-between align-items-center">
           <h6>기부자:</h6>
-          <h6>{{ item.donator_nickname }}</h6>
+          <h6>{{ item.donator }}</h6>
         </div>
         <div class="d-flex justify-content-between align-items-center mb-2">
           <h6>기부 금액:</h6>
-          <h6>{{ item.donated_price }} SSF</h6>
+          <h6>{{ item.amountOfDonation }} HTH</h6>
         </div>
       </card>
     </div>

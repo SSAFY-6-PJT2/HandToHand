@@ -2,7 +2,7 @@
   <section class="card detail-card">
     <h5 class="headder">NFT 상세정보</h5>
     <hr />
-    <div class="contents">
+    <div class="contents mx-3 my-4">
       <div class="content">
         <p>Token ID :</p>
         <p>{{ item.tokenId }}</p>
@@ -13,7 +13,7 @@
       </div>
       <div class="content">
         <p>Owner :</p>
-        <p>{{ item.ownerAddress }}</p>
+        <p class="address">{{ item.ownerAddress }}</p>
       </div>
     </div>
   </section>
@@ -56,5 +56,9 @@ export default {
 .detail-card > .contents > .content {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+.detail-card > .contents > .content > .address {
+  font-size: 14px;
 }
 </style>

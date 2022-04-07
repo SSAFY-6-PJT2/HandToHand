@@ -25,7 +25,7 @@
         <div class="content">
           <div class="social-description">
             <h2>{{ totalDonation }}</h2>
-            <p>내가 기부한 SSF</p>
+            <p>내가 기부한 HTH</p>
           </div>
           <div class="social-description">
             <h2>{{ totalNft }}</h2>
