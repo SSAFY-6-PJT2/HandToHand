@@ -4,7 +4,7 @@
 
 <template>
   <footer
-    class="footer"
+    class="footer mt-5"
     :class="{ [`footer-${type}`]: type }"
     :data-background-color="backgroundColor"
   >
@@ -32,5 +32,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

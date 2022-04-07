@@ -2,7 +2,7 @@
   <section class="card detail-card">
     <h5 class="headder">기부정보</h5>
     <hr />
-    <div class="contents">
+    <div class="contents mx-3 my-4">
       <div class="content">
         <p>기부자 :</p>
         <p>{{ donor.nickname }}</p>

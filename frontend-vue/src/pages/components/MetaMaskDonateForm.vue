@@ -13,7 +13,7 @@
       <template>
         <fg-input
           class="no-border"
-          placeholder="보낼 금액(SSF)"
+          placeholder="보낼 금액(HTH)"
           addon-right-icon="now-ui-icons business_money-coins"
         >
         </fg-input>

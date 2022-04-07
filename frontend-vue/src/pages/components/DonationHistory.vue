@@ -28,7 +28,7 @@
         <small>{{ history.createdDate }}</small>
         <div class="d-flex w-100 justify-content-between">
           <div class="d-flex my-2">
-            <h5 class="my-0 mr-2">{{ history.amount }} SSF</h5>
+            <h5 class="my-0 mr-2">{{ history.amount }} HTH</h5>
             <div>
               <span
                 v-if="history.type === 0"

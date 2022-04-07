@@ -64,7 +64,7 @@ export default new Router({
         footer: MainFooter,
       },
       props: {
-        header: { colorOnScroll: 400 },
+        header: { colorOnScroll: 0 },
         footer: { backgroundColor: 'black' },
       },
     },
