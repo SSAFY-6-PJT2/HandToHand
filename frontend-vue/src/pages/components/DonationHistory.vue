@@ -146,17 +146,15 @@ export default {
     async getNFT(history) {
       this.showModal = true;
       this.loadingMsg = 'NFT 발급 중입니다..';
-      // 대량 민팅 후 currId => history.seq로 변경
-      const currId = await getCurrentId();
       await NFTTransfer(
         process.env.VUE_APP_ADMIN_ADDRESS,
         process.env.VUE_APP_ADMIN_PRIV_KEY,
         this.userAddress,
-        currId,
+        history.seq,
       );
-      const uri = await getTokenURI(currId);
+      const uri = await getTokenURI(history.seq);
       // 백엔드에 nft 정보 추가
-      await addItem(history.seq, uri, this.userAddress, currId);
+      await addItem(history.seq, uri, this.userAddress, history.seq);
       // 해당 기부 내역의 status 백엔드에 업데이트
       await updateDonationStatus(history.transactionHash, 3);
       // 전체 기부 내역 업데이트
