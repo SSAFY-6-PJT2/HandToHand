@@ -1,11 +1,11 @@
 # node 이미지를 받는다 build이미지
-# node 기반의 이미지로 생성된다. 
+# node 기반의 이미지로 생성된다.  
 FROM node:latest as build-stage 
 
 # RUN, CMD, ENTRYPOINT의 명령이 실행될 디렉터리 
 WORKDIR /app 
 
-# package*.json이 WORKDIR에 복사된다 
+# package*.json이 WORKDIR에 복사된다  
 COPY package*.json ./ 
 
 # 복사했으니 디펜던시 설치가 가능하다 
