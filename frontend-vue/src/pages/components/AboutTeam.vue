@@ -11,14 +11,17 @@
           <div class="col-md-4">
             <div class="team-player">
               <img
-                src="img/ryan.jpg"
+                src="img/members/member2.jpg"
                 alt="Thumbnail Image"
                 class="rounded-circle img-fluid img-raised"
               />
               <h4 class="title">유현수</h4>
               <p class="category text-primary">Frontend, BlockChain</p>
-              <p class="description">소개 소개</p>
-              <a href="#pablo" class="btn btn-primary btn-icon btn-round">
+              <a
+                href="https://github.com/82surf"
+                class="btn btn-primary btn-icon btn-round"
+                target="_blank"
+              >
                 <i class="fab fa-github"></i>
               </a>
             </div>
@@ -26,14 +29,17 @@
           <div class="col-md-4">
             <div class="team-player">
               <img
-                src="img/eva.jpg"
+                src="img/members/member3.jpg"
                 alt="Thumbnail Image"
                 class="rounded-circle img-fluid img-raised"
               />
               <h4 class="title">이상백</h4>
               <p class="category text-primary">BlockChain, AI</p>
-              <p class="description">소개 소개</p>
-              <a href="#pablo" class="btn btn-primary btn-icon btn-round">
+              <a
+                href="https://github.com/tlsqktem483"
+                class="btn btn-primary btn-icon btn-round"
+                target="_blank"
+              >
                 <i class="fab fa-github"></i>
               </a>
             </div>
@@ -43,14 +49,17 @@
           <div class="col-md-4">
             <div class="team-player">
               <img
-                src="img/avatar.jpg"
+                src="img/members/member1.jpg"
                 alt="Thumbnail Image"
                 class="rounded-circle img-fluid img-raised"
               />
               <h4 class="title">김응철</h4>
               <p class="category text-primary">Backend</p>
-              <p class="description">소개 소개</p>
-              <a href="#pablo" class="btn btn-primary btn-icon btn-round">
+              <a
+                href="https://github.com/zbqlr456"
+                class="btn btn-primary btn-icon btn-round"
+                target="_blank"
+              >
                 <i class="fab fa-github"></i>
               </a>
             </div>
@@ -58,14 +67,17 @@
           <div class="col-md-4">
             <div class="team-player">
               <img
-                src="img/ryan.jpg"
+                src="img/members/member4.jpg"
                 alt="Thumbnail Image"
                 class="rounded-circle img-fluid img-raised"
               />
               <h4 class="title">정은이</h4>
               <p class="category text-primary">Backend</p>
-              <p class="description">소개 소개</p>
-              <a href="#pablo" class="btn btn-primary btn-icon btn-round">
+              <a
+                href="https://github.com/EuneeChung"
+                class="btn btn-primary btn-icon btn-round"
+                target="_blank"
+              >
                 <i class="fab fa-github"></i>
               </a>
             </div>
@@ -73,14 +85,17 @@
           <div class="col-md-4">
             <div class="team-player">
               <img
-                src="img/eva.jpg"
+                src="img/members/member5.jpg"
                 alt="Thumbnail Image"
                 class="rounded-circle img-fluid img-raised"
               />
               <h4 class="title">황승연</h4>
               <p class="category text-primary">Backend, DevOps</p>
-              <p class="description">소개 소개</p>
-              <a href="#pablo" class="btn btn-primary btn-icon btn-round">
+              <a
+                href="https://github.com/yeon-s"
+                class="btn btn-primary btn-icon btn-round"
+                target="_blank"
+              >
                 <i class="fab fa-github"></i>
               </a>
             </div>
