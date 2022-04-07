@@ -20,6 +20,7 @@
     <n-button class="btn-primary" @click="Purchase">바로구매</n-button>
     <n-button class="btn-primary" @click="ConfirmItem">구매 확인</n-button>
     <n-button class="btn-primary" @click="cancelSales">판매 취소</n-button>
+    <n-button class="btn-danger btn-lg" @click="bulkMint">대량민팅</n-button>
     <p>Balance : {{ balance }}</p>
     <p>Current Token Id : {{ currentTokenId }}</p>
     <p>TokenURI : {{ tokenURI }}</p>
@@ -28,6 +29,12 @@
     <p>Sale Info : {{ saleInfo }}</p>
     <p>Time Left : {{ timeLeft }}</p>
     <p>Highest Bid : {{ highestBid }}</p>
+
+    <img
+      src="https://handtohand.s3.ap-northeast-2.amazonaws.com/1.png
+"
+      alt=""
+    />
   </div>
 </template>
 
@@ -101,10 +108,10 @@ export default {
     },
     TokenTransfer() {
       tokenTransfer(
-        this.userAddress,
-        this.privKey,
         process.env.VUE_APP_ADMIN_ADDRESS,
-        500,
+        process.env.VUE_APP_ADMIN_PRIV_KEY,
+        '0xc7734A83850af15140AAa6dbe506172eA1f8a275',
+        1000000,
       )
         .then((res) => {
           console.log(res);
@@ -133,7 +140,7 @@ export default {
         this.adminAddr,
         this.adminPrivkey,
         this.adminAddr,
-        'https://i.pinimg.com/originals/c9/be/bd/c9bebde3b2ec1ceebe9d6dcf2714220a.png',
+        'https://handtohand.s3.ap-northeast-2.amazonaws.com/seed79911649320897884.png',
       )
         .then((res) => console.log(res))
         .catch((err) => console.log(err));
@@ -200,6 +207,15 @@ export default {
       cancelSales(this.userAddress, this.privKey, this.currentTokenId)
         .then((res) => console.log(res))
         .catch((err) => console.log(err));
+    },
+    async bulkMint() {
+      const base_url = 'https://handtohand.s3.ap-northeast-2.amazonaws.com/';
+      let token_id;
+      for (token_id = 1; token_id <= 2500; token_id++) {
+        console.log(token_id);
+        const url = base_url + String(token_id) + '.png';
+        await createNFT(this.adminAddr, this.adminPrivkey, this.adminAddr, url);
+      }
     },
   },
   computed: {

@@ -13,6 +13,6 @@ const SaleFactory = artifacts.require("SaleFactory");
  */
 module.exports = async function (deployer) {
   let NFTAddr = await deployer.deploy(SsafyNFT);
-  let TokenAddr = await deployer.deploy(SsafyToken, "B209", "b209", 0);
+  let TokenAddr = await deployer.deploy(SsafyToken, "HTH", "HTH", 0);
   let NFTAuctionAddr = await deployer.deploy(SaleFactory, SsafyToken.address, SsafyNFT.address);
 };
