@@ -90,9 +90,9 @@
 | :----------------------------------------------------------------------------------------: |
 | <img src="./README.assets/architecture.PNG" alt="아키텍처(Architecture)" width="1000px" /> |
 
-|                   개체-관계 모델(ERD)                    |
-| :------------------------------------------------------: |
-| <img src="#" alt="개체-관계 모델(ERD)" width="1000px" /> |
+|                     개체-관계 모델(ERD)                      |
+| :----------------------------------------------------------: |
+| <img src="./README.assets/erd.png" alt="개체-관계 모델(ERD)" width="1000px" /> |
 
 <br />
 
@@ -166,9 +166,8 @@
 | 김응철 |          Backend           |                                                                                                                                                                                           |
 | 유현수 |   Frontend & Blockchain    | - 지갑 연결 및 회원관리 <br /> - 잔액 확인 및 송금 <br /> - 송금 내역 조회 <br /> - NFT 발급 <br /> - 내 NFT 조회 <br /> - API 호출 모듈 <br />- web3 트랜잭션 모듈 <br /> - vuex, Router |
 | 이상백 | AI & Blockchain & Frontend |                                                                                                                                                                                           |
-| 정은이 |          Backend           |                                                                                                                                                                                           |
+| 정은이 |     Backend & 팀장     | - DB 설계<br />- 기부 API<br />- 작품 API<br />- 회원 API<br />- Spring Boot S3 연결 |
 | 황승연 |          Backend           |                                                                                                                                                                                           |
-
 <br />
 
 <div id="6"></div>
@@ -222,20 +221,62 @@ $ git clone [레포지토리 주소]
 2. **프로젝터 폴더 > src > main > resources 이동**
 
 ```bash
-$ cd ssafy-mate_back-end
-$ cd src
-$ cd main
-$ cd resources
+$ cd spring-backend
 ```
 
-3. **프로젝트 실행을 위한 yml 파일 작성**
+3. **https 설정을 위한 key store file & trust keystore file 추가**
+
+```bash
+$ cd spring-backend\src\main\resources
+```
+
+- key store file 추가
+- trust store file 추가 
+
+4. **프로젝트 실행을 위한 yml 파일 작성**
 
 ```bash
 server:
-  port: [포트번호]
+  port: 8081
+  ssl:
+    enabled: true
+    key-alias: [key-alias]
+    key-store: classpath:[keystore file]
+    key-store-password: [key-store-password]
+    key-password: [key-password]
+    trust-store: classpath:[trust keystore file]
+    trust-store-password: [keystore file]
 
 spring:
-  ...
+  datasource:
+    url: [DB URL]
+    username: [ssafy]
+    password: [ssafy]
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+jpa:
+  generate-ddl: false
+  open-in-view: false
+  hibernate:
+    ddl-auto: validate # 엔티티와 테이블이 정상 매핑되었는지만 확인
+  properties:
+    hibernate:
+      format_sql: true
+logging.level:
+  org.hibernate.SQL: debug  # 모든 hibernate가 생성하는 SQL이 디버그 모드로 로거로 다 찍힘(운영환경에서 권장!)
+  org.hibernate.type: trace
+
+cloud:
+  aws:
+    credentials:
+      access-key: [S3 ACCESS KEY]
+      secret-key: [S3 SECRET KEY]
+    s3:
+      bucket: [BUCKET]
+    region:
+        static: ap-northeast-2
 ```
 
 <br />
