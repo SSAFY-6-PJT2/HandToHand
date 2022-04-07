@@ -186,7 +186,7 @@ export default {
             this.loadingMsg = '판매 취소 완료되었습니다.';
             this.showModal = false;
             this.$router.go();
-          }, 6000);
+          }, 10000);
         })
         .catch((err) => {
           this.loadingMsg = '잘못된 요청입니다.';
@@ -209,7 +209,7 @@ export default {
             this.loadingMsg = '입찰 완료되었습니다.';
             this.showModal = false;
             this.$router.go();
-          }, 6000);
+          }, 10000);
         })
         .catch((err) => {
           this.loadingMsg = '잘못된 요청입니다.';
@@ -231,7 +231,7 @@ export default {
             this.loadingMsg = '구매 완료되었습니다.';
             this.showModal = false;
             this.$router.go();
-          }, 6000);
+          }, 10000);
         })
         .catch((err) => {
           this.loadingMsg = '잘못된 요청입니다.';
@@ -266,7 +266,7 @@ export default {
             this.loadingMsg = '구매 확정 완료되었습니다.';
             this.showModal = false;
             this.$router.go();
-          }, 6000);
+          }, 10000);
         })
         .catch((err) => {
           this.loadingMsg = '잘못된 요청입니다.';
