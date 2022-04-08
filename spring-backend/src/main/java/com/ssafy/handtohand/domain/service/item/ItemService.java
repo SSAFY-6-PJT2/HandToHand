@@ -40,6 +40,7 @@ public class ItemService {
 
         List<Item> items = itemRepository.findAll();
         for(Item item: items){
+            if(item.getDonation().getUser()==null) continue;
             ItemResponse itemResponse = ItemResponse.builder()
                     .seq(item.getSeq())
                     .hash(item.getHash())
@@ -64,6 +65,7 @@ public class ItemService {
 
         List<Item> items = itemRepository.findByOwnerAddress(address);
         for(Item item: items){
+            if(item.getDonation().getUser()==null) continue;
             ItemResponse itemResponse = ItemResponse.builder()
                     .seq(item.getSeq())
                     .hash(item.getHash())
@@ -88,6 +90,7 @@ public class ItemService {
 
         List<Item> items = itemRepository.findByOnSaleYn(1);
         for(Item item:items){
+            if(item.getDonation().getUser()==null) continue;
             ItemResponse itemResponse = ItemResponse.builder()
                     .seq(item.getSeq())
                     .hash(item.getHash())
