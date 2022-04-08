@@ -53,11 +53,7 @@ export default {
   created() {
     getItems().then((res) => {
       this.items = res.data;
-      console.log(this.items);
     });
-    // getItemsOnSale().then((res) => {
-    //   this.itemsOnSale = res.data;
-    // });
   },
   data() {
     return {

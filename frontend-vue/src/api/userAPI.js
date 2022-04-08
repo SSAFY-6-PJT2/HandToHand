@@ -6,12 +6,8 @@ import apiInstance from './index';
 
 const api = apiInstance();
 
-const defaultSuccess = (res) => {
-  console.log(res);
-};
-const defaultFail = (err) => {
-  console.log(err);
-};
+const defaultSuccess = (res) => {};
+const defaultFail = (err) => {};
 
 /**
  * 회원 추가
