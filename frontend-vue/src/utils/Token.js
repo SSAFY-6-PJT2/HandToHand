@@ -80,7 +80,6 @@ const tokenTransfer = async (fromAddr, privKey, toAddr, amount) => {
   );
 
   const response = await data.call();
-  console.log(response);
 
   const result = {
     receipt: receipt,

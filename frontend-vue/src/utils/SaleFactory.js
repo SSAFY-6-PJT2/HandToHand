@@ -59,9 +59,7 @@ const createSale = async (
     { from: admin_address },
   );
   // Set Approve
-  await setApproveForAll(fromAddr, privKey, SaleFactory_CA, true)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+  await setApproveForAll(fromAddr, privKey, SaleFactory_CA, true);
 
   const data = saleFactoryContractInstance.methods.createSale(
     fromAddr, // seller
@@ -128,9 +126,7 @@ const bid = async (fromAddr, privKey, tokenId, amount) => {
   });
 
   // Bid amount 이전에 따른 Approve
-  await approve(fromAddr, privKey, Sale_CA, amount)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+  await approve(fromAddr, privKey, Sale_CA, amount);
 
   const data = saleContractInstance.methods.bid(amount);
 

@@ -39,8 +39,6 @@ const getOwnerOf = async (tokenId) => {
  * @param {*} userAddr
  */
 const trasferNftTo = async (userAddr, tokenId) => {
-  console.log('trasferNftTo');
-
   const sendData = contract.methods.transferFrom(
     process.env.VUE_APP_ADMIN_ADDRESS,
     userAddr,
@@ -53,8 +51,6 @@ const trasferNftTo = async (userAddr, tokenId) => {
     process.env.VUE_APP_NFT_CA,
     sendData,
   );
-
-  console.log(result);
 };
 
 export { getBalanceOf, getOwnerOf, trasferNftTo };

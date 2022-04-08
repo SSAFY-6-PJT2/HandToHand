@@ -104,13 +104,9 @@ export default {
   methods: {
     ...mapActions(['vuexAddDonationHistory']),
     getUserBalance() {
-      getBalance(this.userAddress)
-        .then((res) => {
-          this.userBalance = res;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      getBalance(this.userAddress).then((res) => {
+        this.userBalance = res;
+      });
     },
     async donate() {
       console.log('donate!');
@@ -130,18 +126,16 @@ export default {
           process.env.VUE_APP_ADMIN_ADDRESS,
           this.amount,
         );
-        console.log(sendResult.data);
-        console.log(sendResult.receipt);
         // 기부 내역 저장
         await addDonationHistory(
           this.amount,
           sendResult.receipt.transactionHash,
           this.userAddress,
           (res) => {
-            console.log(res);
+            // console.log(res);
           },
           (err) => {
-            console.log(err);
+            // console.log(err);
           },
         );
         this.$router.push('/profile/donation-history');

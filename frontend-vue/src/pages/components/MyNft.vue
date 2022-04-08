@@ -34,7 +34,6 @@ export default {
     getUsersItems(this.userAddress).then((res) => {
       this.items = res.data;
       this.vuexUpdateTotalNft(res.data.length);
-      // console.log(this.items);
     });
   },
 };

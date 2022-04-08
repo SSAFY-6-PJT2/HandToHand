@@ -31,10 +31,9 @@ const addSale = async (
     startTime: startTime,
     tokenId: tokenId,
   };
-  await api
-    .post(`/sales/`, JSON.stringify(data))
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+  await api.post(`/sales/`, JSON.stringify(data));
+  // .then((res) => console.log(res))
+  // .catch((err) => console.log(err));
 };
 
 /**
@@ -43,10 +42,9 @@ const addSale = async (
  */
 
 const cancelSales = async (token_id) => {
-  await api
-    .patch(`/sales/${token_id}`)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+  await api.patch(`/sales/${token_id}`);
+  // .then((res) => console.log(res))
+  // .catch((err) => console.log(err));
 };
 
 /**
@@ -55,10 +53,9 @@ const cancelSales = async (token_id) => {
  */
 
 const getSale = async (token_id) => {
-  await api
-    .get(`/sales/${token_id}`)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+  await api.get(`/sales/${token_id}`);
+  // .then((res) => console.log(res))
+  // .catch((err) => console.log(err));
 };
 
 /**
@@ -67,10 +64,9 @@ const getSale = async (token_id) => {
  */
 
 const completeSale = async (token_id) => {
-  await api
-    .patch(`/sales/${token_id}/complete`)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+  await api.patch(`/sales/${token_id}/complete`);
+  // .then((res) => console.log(res))
+  // .catch((err) => console.log(err));
 };
 
 /**
@@ -83,10 +79,9 @@ const updateBuyer = async (token_id, buyer_address) => {
   const data = {
     buyer_address: buyer_address,
   };
-  await api
-    .patch(`/sales/${token_id}/purchase`, JSON.stringify(data))
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+  await api.patch(`/sales/${token_id}/purchase`, JSON.stringify(data));
+  // .then((res) => console.log(res))
+  // .catch((err) => console.log(err));
 };
 
 export { addSale, getSale, updateBuyer, cancelSales, completeSale };

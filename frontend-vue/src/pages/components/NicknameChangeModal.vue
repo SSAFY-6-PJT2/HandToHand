@@ -65,7 +65,6 @@ export default {
     async changeNickname() {
       const regexp = /[0-9a-zA-Z]{4,}/g;
       const isValid = regexp.test(this.inputNickname);
-      console.log(isValid);
       if (isValid) {
         this.showErr = false;
         await updateNickname(this.inputNickname, this.userAddress);

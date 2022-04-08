@@ -76,9 +76,7 @@ const NFTTransfer = async (fromAddr, privKey, toAddr, tokenId) => {
     { from: fromAddr },
   );
   // Set Approve
-  await setApproveForAll(fromAddr, privKey, process.env.VUE_APP_NFT_CA, true)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+  await setApproveForAll(fromAddr, privKey, process.env.VUE_APP_NFT_CA, true);
 
   const data = NFTContractInstance.methods.transferFrom(
     fromAddr,

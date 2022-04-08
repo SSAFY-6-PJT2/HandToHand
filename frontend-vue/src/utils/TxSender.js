@@ -56,7 +56,7 @@ export default async function sendTransaction(
       })
       .on('confirmation', async (confirmationNumber) => {
         if (confirmationNumber == 1) {
-          console.log('start');
+          // console.log('start');
 
           // API 요청이 필요한 경우를 위한 분기처리
           if (callApiList.includes(data._method.name)) {
@@ -72,7 +72,7 @@ export default async function sendTransaction(
             }
           }
         } else if (confirmationNumber == 3) {
-          console.log('confirm end!');
+          // console.log('confirm end!');
         }
       })
       .on('error', (error) => {

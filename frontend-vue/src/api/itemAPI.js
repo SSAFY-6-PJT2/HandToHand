@@ -6,12 +6,8 @@ import apiInstance from './index';
 
 const api = apiInstance();
 
-const defaultSuccess = (res) => {
-  console.log(res);
-};
-const defaultFail = (err) => {
-  console.log(err);
-};
+const defaultSuccess = (res) => {};
+const defaultFail = (err) => {};
 
 /*╔═════════════════════════════╗
 	║    NFT 작품 정보 CRUD API    ║
@@ -30,9 +26,7 @@ const getItems = async () => {
     .then((res) => {
       result = res;
     })
-    .catch((err) => {
-      console.log(err);
-    });
+    .catch((err) => {});
   return result;
 };
 
@@ -49,9 +43,7 @@ const getUsersItems = async (userAddr) => {
     .then((res) => {
       result = res;
     })
-    .catch((err) => {
-      console.log(err);
-    });
+    .catch((err) => {});
   return result;
 };
 
@@ -137,7 +129,6 @@ const getItem = async (
     .get(`/items/details/${token_id}`)
     .then((res) => {
       result = res.data;
-      // console.log(result);
     })
     .catch(fail);
   return result;

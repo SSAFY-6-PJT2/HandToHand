@@ -86,15 +86,15 @@ export default {
           setTimeout(() => {
             this.loadingMsg = '판매 등록 완료되었습니다.';
             this.showModal = false;
-            this.$router.go();
-          }, 6000);
+            this.$router.go(this.$router.currentRoute);
+          }, 8000);
         })
         .catch((err) => {
           this.loadingMsg = '잘못된 요청입니다.';
           this.loadingIsDone = true;
           setTimeout(() => {
             this.showModal = false;
-            this.$router.go();
+            this.$router.go(this.$router.currentRoute);
           }, 2000);
         });
     },
