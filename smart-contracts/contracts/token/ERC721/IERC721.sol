@@ -76,7 +76,7 @@ interface IERC721 is IERC165 {
         address from,
         address to,
         uint256 tokenId
-    ) external;
+    ) external returns (bool);
 
     /**
      * @dev Gives permission to `to` to transfer `tokenId` token to another account.
