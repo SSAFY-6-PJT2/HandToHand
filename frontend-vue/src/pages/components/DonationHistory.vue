@@ -161,9 +161,7 @@ export default {
       this.updateDonationHistories();
       this.loadingMsg = 'NFT 발급이 완료되었습니다.';
       this.loadingIsDone = true;
-      console.log(this);
       setTimeout(() => {
-        console.log(this);
         this.showModal = false;
         this.$router.push('/profile/my-nft');
       }, 2000);

@@ -110,15 +110,13 @@ export default {
           .then((res) => {
             this.checkWalletIsConnected();
             // 코인 전환 - 지갑에 접근해서 잔액 조회는 web3 사용해야 할듯
-            ethRequest('wallet_switchEthereumChain', [{ chainId: '0x79f5' }])
-              .then((res) => console.log)
-              .catch((err) => console.log);
+            ethRequest('wallet_switchEthereumChain', [{ chainId: '0x79f5' }]);
+            // .then((res) => console.log)
+            // .catch((err) => console.log);
             this.userAddress = getAddress();
-            console.log(this.userAddress);
             //
             ethRequest('eth_getBalance', [this.userAddress, 'latest']).then(
               (res) => {
-                console.log(res);
                 this.userBalance = parseInt(res.result, 16);
               },
             );

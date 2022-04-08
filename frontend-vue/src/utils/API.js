@@ -20,7 +20,6 @@ const callApiList = [
 ];
 
 const CallAPI = async (apiName, args, fromAddr, tokenId = null) => {
-  console.log(apiName, args);
   if (apiName == 'transferFrom') {
     /**
      * NFT 소유자 업데이트
@@ -29,7 +28,6 @@ const CallAPI = async (apiName, args, fromAddr, tokenId = null) => {
      */
     const newOwnerAddr = args[1];
     const token_id = +args[2];
-    console.log(token_id);
     updateNftOwner(newOwnerAddr, token_id);
   } else if (apiName == 'createSale') {
     /**

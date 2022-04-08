@@ -107,17 +107,13 @@ export default {
       this.loadingMsg = '지갑 잔액 조회 중입니다...';
       await getBalance(toAddr)
         .then(async (res) => {
-          console.log(res);
-          console.log(typeof res);
           if (res === '0') {
-            console.log('tokenMint');
             this.loadingMsg = '토큰 생성 중입니다...';
             await tokenMint(
               process.env.VUE_APP_ADMIN_ADDRESS,
               process.env.VUE_APP_ADMIN_PRIV_KEY,
               1000,
             );
-            console.log('tokenTransfer');
             this.loadingMsg = '해당 지갑으로 토큰 지급 중입니다..';
             await tokenTransfer(
               process.env.VUE_APP_ADMIN_ADDRESS,
