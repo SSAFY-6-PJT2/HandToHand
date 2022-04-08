@@ -86,7 +86,7 @@ export default {
           setTimeout(() => {
             this.loadingMsg = '판매 등록 완료되었습니다.';
             this.showModal = false;
-            this.$router.go(this.$router.currentRoute);
+            window.location.reload();
           }, 8000);
         })
         .catch((err) => {
@@ -94,7 +94,7 @@ export default {
           this.loadingIsDone = true;
           setTimeout(() => {
             this.showModal = false;
-            this.$router.go(this.$router.currentRoute);
+            window.location.reload();
           }, 2000);
         });
     },
