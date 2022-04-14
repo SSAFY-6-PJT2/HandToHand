@@ -61,7 +61,28 @@ const CallAPI = async (apiName, args, fromAddr, tokenId = null) => {
     const token_id = tokenId;
     const buyer_address = fromAddr;
     await updateBuyer(token_id, buyer_address);
-  } else if (apiName == 'purchase' || apiName == 'confirmItem') {
+  } else if (apiName == 'purchase') {
+    /**
+     * NFT 소유자 업데이트
+     * @param {*} newOwnerAddr
+     * @param {*} tokenId
+     */
+    const newOwnerAddr = fromAddr;
+    const token_id = tokenId;
+    await updateNftOwner(newOwnerAddr, token_id);
+    /**
+     * 구매자 정보 업데이트
+     * @param {String} token_id
+     * @param {String} buyer_address
+     */
+    const buyer_address = fromAddr;
+    await updateBuyer(token_id, buyer_address);
+    /**
+     * 판매 완료
+     * @param {String} token_id
+     */
+    await completeSale(token_id);
+  } else if (apiName == 'confirmItem') {
     /**
      * NFT 소유자 업데이트
      * @param {*} newOwnerAddr
