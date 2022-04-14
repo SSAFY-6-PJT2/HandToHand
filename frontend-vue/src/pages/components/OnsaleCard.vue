@@ -184,7 +184,7 @@ export default {
           setTimeout(() => {
             this.loadingMsg = '판매 취소 완료되었습니다.';
             this.showModal = false;
-            window.location.reload();
+            this.$emit('updateDetail');
           }, 8000);
         })
         .catch((err) => {
@@ -192,7 +192,7 @@ export default {
           this.loadingIsDone = true;
           setTimeout(() => {
             this.showModal = false;
-            window.location.reload();
+            this.$emit('updateDetail');
           }, 2000);
         });
     },
@@ -207,7 +207,7 @@ export default {
           setTimeout(() => {
             this.loadingMsg = '입찰 완료되었습니다.';
             this.showModal = false;
-            window.location.reload();
+            this.$emit('updateDetail');
           }, 8000);
         })
         .catch((err) => {
@@ -215,7 +215,7 @@ export default {
           this.loadingIsDone = true;
           setTimeout(() => {
             this.showModal = false;
-            window.location.reload();
+            this.$emit('updateDetail');
           }, 2000);
         });
     },
@@ -229,7 +229,7 @@ export default {
           setTimeout(() => {
             this.loadingMsg = '구매 완료되었습니다.';
             this.showModal = false;
-            window.location.reload();
+            this.$emit('updateDetail');
           }, 8000);
         })
         .catch((err) => {
@@ -237,7 +237,7 @@ export default {
           this.loadingIsDone = true;
           setTimeout(() => {
             this.showModal = false;
-            window.location.reload();
+            this.$emit('updateDetail');
           }, 2000);
         });
     },
@@ -264,7 +264,7 @@ export default {
           setTimeout(() => {
             this.loadingMsg = '구매 확정 완료되었습니다.';
             this.showModal = false;
-            window.location.reload();
+            this.$emit('updateDetail');
           }, 8000);
         })
         .catch((err) => {
@@ -272,7 +272,7 @@ export default {
           this.loadingIsDone = true;
           setTimeout(() => {
             this.showModal = false;
-            window.location.reload();
+            this.$emit('updateDetail');
           }, 2000);
         });
     },

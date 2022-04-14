@@ -14,8 +14,16 @@
             <h2 class="mb-0">{{ item.title }}</h2>
           </section>
           <p v-if="userNickname" class="mt-0">소유자: {{ userNickname }}</p>
-          <onsale-card v-if="item.onSaleYn" :item="item"></onsale-card>
-          <offsale-card v-else :item="item"></offsale-card>
+          <onsale-card
+            v-if="item.onSaleYn"
+            :item="item"
+            @updateDetail="updateDetail"
+          ></onsale-card>
+          <offsale-card
+            v-else
+            :item="item"
+            @updateDetail="updateDetail"
+          ></offsale-card>
         </div>
       </div>
       <div class="flexbox">
@@ -46,23 +54,28 @@ export default {
     ContributeCard,
     NftdetailCard,
   },
-  created() {
-    // token_id 를 이용해 NFT 정보 API 호출
-    getItem(this.token_id).then((res) => {
-      this.itemInfo = res;
-      this.donor = res.donor;
-      this.item = res.item;
-      getNickname(this.item.ownerAddress).then((res) => {
-        this.userNickname = res.data;
+  methods: {
+    updateDetail() {
+      // token_id 를 이용해 NFT 정보 API 호출
+      getItem(this.token_id).then((res) => {
+        this.itemInfo = res;
+        this.donor = res.donor;
+        this.item = res.item;
+        getNickname(this.item.ownerAddress).then((res) => {
+          this.userNickname = res.data;
+        });
       });
-    });
-    if (this.isLogin) {
-      this.userInfo = {
-        privKey: this.privKey,
-        userAddress: this.userAddress,
-        isLogin: this.isLogin,
-      };
-    }
+      if (this.isLogin) {
+        this.userInfo = {
+          privKey: this.privKey,
+          userAddress: this.userAddress,
+          isLogin: this.isLogin,
+        };
+      }
+    },
+  },
+  created() {
+    this.updateDetail();
   },
   data() {
     return {

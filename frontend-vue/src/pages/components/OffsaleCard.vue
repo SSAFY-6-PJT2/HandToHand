@@ -7,7 +7,7 @@
     <div v-if="isLogin">
       <!-- 사용자가 owner 일경우 -> 판매 등록 가능 -->
       <div v-if="userAddress === item.ownerAddress" class="contents">
-        <start-sale-form :item="item" />
+        <start-sale-form :item="item" @updateDetail="$emit('updateDetail')" />
       </div>
     </div>
   </section>
