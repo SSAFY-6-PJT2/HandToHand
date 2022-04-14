@@ -154,26 +154,29 @@ export default {
     ...mapGetters(['isLogin']),
   },
   created() {
-    const tokenId = this.item.tokenId;
-    getSaleInfo(tokenId).then((res) => (this.saleInfo = res));
-    getHighestBid(tokenId)
-      .then((res) => {
-        this.highestBid = res;
-      })
-      .catch((err) => {
-        this.highestBid = false;
-      });
-    getTimeLeft(this.item.tokenId)
-      .then((res) => {
-        this.timeLeft = res;
-        this.GetTimeLeft();
-      })
-      .catch((err) => (this.timeLeft = 0));
+    this.updateOnsaleCard();
   },
   mounted() {
     // this.GetTimeLeft();
   },
   methods: {
+    updateOnsaleCard() {
+      const tokenId = this.item.tokenId;
+      getSaleInfo(tokenId).then((res) => (this.saleInfo = res));
+      getHighestBid(tokenId)
+        .then((res) => {
+          this.highestBid = res;
+        })
+        .catch((err) => {
+          this.highestBid = false;
+        });
+      getTimeLeft(this.item.tokenId)
+        .then((res) => {
+          this.timeLeft = res;
+          this.GetTimeLeft();
+        })
+        .catch((err) => (this.timeLeft = 0));
+    },
     CancelSales() {
       this.showModal = true;
       this.loadingMsg = '판매 취소 중입니다..';
@@ -208,6 +211,7 @@ export default {
             this.loadingMsg = '입찰 완료되었습니다.';
             this.showModal = false;
             this.$emit('updateDetail');
+            this.updateOnsaleCard();
           }, 8000);
         })
         .catch((err) => {
