@@ -71,15 +71,15 @@
         <hr />
       </div>
       <div class="contents">
-        <div class="content">
-          <p>최고 입찰금액 :</p>
-          <p>{{ highestBid[1] }} HTH</p>
-        </div>
-        <div class="content">
-          <p>최고 입찰자 :</p>
-          <p>{{ highestBid[0] }}</p>
-        </div>
-        <div v-if="highestBid">
+        <div v-if="highestBid[1] !== '0'">
+          <div class="content">
+            <p>최고 입찰금액 :</p>
+            <p>{{ highestBid[1] }} HTH</p>
+          </div>
+          <div class="content">
+            <p>최고 입찰자 :</p>
+            <p>{{ highestBid[0] }}</p>
+          </div>
           <!-- 최고 입찰자 -->
           <div v-if="userAddress === highestBid[0]" class="button-box d-flex">
             <n-button
