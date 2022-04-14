@@ -5,7 +5,7 @@
 <template>
   <div>
     <!-- 기부 Form -->
-    <card class="mr-5" color="black" :width="24" :height="22" noFooterLine>
+    <card class="mr-5" color="black" :width="24" :height="24" noFooterLine>
       <template slot="header">
         <h3 class="card-title title-up">기부하기</h3>
         <div class="d-flex justify-content-between align-items-center">
@@ -40,6 +40,9 @@
           :disabled="true"
         >
         </fg-input>
+        <p v-show="errMsg" class="text-danger mb-0" style="font-size: 14px">
+          {{ errMsg }}
+        </p>
       </template>
       <template slot="footer" class="text-center">
         <n-button
@@ -99,6 +102,7 @@ export default {
       isValid: false,
       showModal: false,
       isLoading: false,
+      errMsg: '',
     };
   },
   methods: {
@@ -112,13 +116,20 @@ export default {
       console.log('donate!');
       // 로딩 시작
       this.isLoading = true;
+      console.log(+this.amount);
+      console.log(typeof +this.amount);
+      console.log(+this.userBalance);
+      console.log(typeof +this.userBalance);
+      console.log(this.userBalance >= this.amount);
+      console.log(+this.userBalance >= +this.amount);
 
       if (
         this.privKey &&
-        this.userBalance &&
-        this.amount &&
-        this.userBalance >= this.amount
+        +this.userBalance &&
+        +this.amount &&
+        +this.userBalance >= +this.amount
       ) {
+        this.errMsg = '';
         // 송금
         const sendResult = await tokenTransfer(
           this.userAddress,
@@ -140,8 +151,14 @@ export default {
         );
         this.$router.push('/profile/donation-history');
       } else {
+        this.isLoading = false;
         if (!this.amount) {
+          this.errMsg = '보낼 토큰의 양을 입력해주세요.';
           console.log('보낼 토큰의 양을 입력해주세요.');
+        } else if (isNaN(+this.amount)) {
+          this.errMsg = '보낼 토큰이 잘못 입력되었습니다.';
+        } else if (!(+this.userBalance >= +this.amount)) {
+          this.errMsg = '잔액이 부족합니다.';
         }
       }
     },
